@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "655820254825",
+    "project_id": "codingbryant-b3cb2",
+    "storage_bucket": "codingbryant-b3cb2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655820254825:android:51a6f5baa524f44498fcf8",
+        "android_client_info": {
+          "package_name": "com.codingbryant.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkq4QB5k-c-VIIoc20ebGgRzHV_8Qf3Ts"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
