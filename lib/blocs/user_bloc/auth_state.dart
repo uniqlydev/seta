@@ -8,15 +8,19 @@ abstract class AuthState extends Equatable{
 
 class AuthInitial extends AuthState {}
 
-class AuthSuccess extends AuthState {
-  final FireBaseUser user;
+class AuthLoading extends AuthState {}
 
-  AuthSuccess({required this.user});
+class AuthAuthenticated extends AuthState {
+  final User user;
+
+  AuthAuthenticated({required this.user});
 
   @override
   List<Object> get props => [user];
-
 }
+
+class Authunauthenticated extends AuthState {}
+
 
 class AuthFailure extends AuthState {
   late final String message;
