@@ -1,6 +1,6 @@
 part of 'auth_bloc.dart';
 
-abstract class AuthState {
+abstract class AuthState extends Equatable{
   const AuthState();
 
   List<Object> get props => [];
@@ -8,27 +8,23 @@ abstract class AuthState {
 
 class AuthInitial extends AuthState {}
 
-class AuthLoading extends AuthState {
-  final bool isLoading;
-
-  AuthLoading({required this.isLoading});
-}
-
 class AuthSuccess extends AuthState {
-  final String message;
-  final Usermodel user;
+  final FireBaseUser user;
 
-  const AuthSuccess({required this.message, required this.user});
+  AuthSuccess({required this.user});
 
   @override
-  List<Object> get props => [message, user];
+  List<Object> get props => [user];
+
 }
 
 class AuthFailure extends AuthState {
-  final String message;
+  late final String message;
 
-  const AuthFailure({required this.message});
+  AuthFailure({required this.message});
 
   @override
   List<Object> get props => [message];
 }
+
+
