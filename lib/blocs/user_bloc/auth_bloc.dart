@@ -18,7 +18,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
 
     Future<void> _onSignInRequested(AuthSignInRequested event, Emitter<AuthState> emit) async {
-      emit(AuthLoading());
 
       try {
         final User? user = await _authRepository.signInWithEmailandPassword(
@@ -37,7 +36,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
 
     Future<void> _onSignUpRequested(AuthSignUpRequested event, Emitter<AuthState> emit) async {
-      emit(AuthLoading());
 
       try {
         final User? user = await _authRepository.signUpWithEmailandPassword(
@@ -56,7 +54,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
 
     Future<void> _onSignOutRequested(AuthSignOutRequested event, Emitter<AuthState> emit) async {
-      emit(AuthLoading());
 
       try {
         await _authRepository.signOut();
@@ -69,7 +66,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
     if (event is AuthSignInRequested) {
-      yield AuthLoading();
 
       try {
         final User? user = await _authRepository.signInWithEmailandPassword(
@@ -86,7 +82,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         yield AuthFailure(message: e.toString());
       }
     }else if (event is AuthSignUpRequested) {
-      yield AuthLoading();
 
       try {
         final User? user = await _authRepository.signUpWithEmailandPassword(
@@ -103,7 +98,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         yield AuthFailure(message: e.toString());
       }
     }else if (event is AuthSignOutRequested) {
-      yield AuthLoading();
 
       try {
         await _authRepository.signOut();
