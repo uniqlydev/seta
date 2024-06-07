@@ -17,7 +17,7 @@ class RegisterPatientScreen extends StatelessWidget {
     List<String> genderOptions = ['Male', 'Female'];
     String? selectedGender;
 
-    return Scaffold(gi
+    return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
         child: SingleChildScrollView(

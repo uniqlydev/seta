@@ -37,20 +37,6 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp (
         title: "SetaPill",
-<<<<<<< HEAD
-        home: RegisterPatientScreen(),
-        // home: BlocBuilder<AuthBloc, AuthState>(
-        //   builder: (context, state) {
-        //     if (state is AuthInitial) {
-        //       return LoginScreen();
-        //     } else if (state is AuthAuthenticated) {
-        //       return const HomeScreen();
-        //     } else {
-        //       return const Scaffold(body: Center(child: CircularProgressIndicator()));
-        //     }
-        //   },
-        
-=======
         home: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
             if (state is AuthInitial) {
@@ -63,9 +49,8 @@ class MyApp extends StatelessWidget {
           },
         ),
         routes: {
-          '/register': (context) => const RegisterScreen(),
+          '/register': (context) => const RegisterPatientScreen(gi),
         },
->>>>>>> b6b5206c0d1704aaced04808fbc81c55a8b138a7
       ),
     );
   }
