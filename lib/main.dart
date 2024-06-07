@@ -2,6 +2,7 @@ import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:codingbryant/screens/home_screen.dart';
 import 'package:codingbryant/screens/login_screen.dart';
+import 'package:codingbryant/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,7 +43,10 @@ class MyApp extends StatelessWidget {
               return const Scaffold(body: Center(child: CircularProgressIndicator()));
             }
           },
-        )
+        ),
+        routes: {
+          '/register': (context) => const RegisterScreen(),
+        },
       ),
     );
   }
