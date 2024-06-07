@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/user_bloc/auth_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+  LoginScreen({Key? key});
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -30,81 +30,89 @@ class LoginScreen extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'SETA',
-                style: TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontSize: 60,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.deepPurple,
-                ),
-              ),
-              Form(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      width: 380,
-                      child: TextFormField(
-                        controller: _emailController,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Username',
-                        ),
-                      ),
+          return Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'SETA',
+                    style: TextStyle(
+                      fontFamily: 'RobotoMono',
+                      fontSize: 60,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.deepPurple,
                     ),
-                    const SizedBox(height: 20),
-                    Container(
-                      padding: const EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      width: 380,
-                      child: TextFormField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Password',
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        context.read<AuthBloc>().add(
-                          AuthSignInRequested(
-                            email: _emailController.text,
-                            password: _passwordController.text,
+                  ),
+                  Form(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal:30.0),
+                          child: Row(
+                            children: [
+                              Icon(Icons.person),
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _emailController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Username',
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        );
-                      },
-                      child: const Text('Login'),
+                        ),
+                        const SizedBox(height: 20),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                          child: Row(
+                            children: [
+                              Icon(Icons.lock),
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _passwordController,
+                                  obscureText: true,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Password',
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            context.read<AuthBloc>().add(
+                              AuthSignInRequested(
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                              ),
+                            );
+                          },
+                          child: const Text('Login'),
+                        ),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            // Go to screen register_screen.dart
+                            Navigator.pushNamed(context, '/register');
+                          },
+                          child: const Text("Don't have an account?"),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.black, backgroundColor: Colors.grey[300],
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Go to screen register_screen.dart
-                        Navigator.pushNamed(context, '/register');
-                      },
-                      child: const Text("Don't have an account?"),
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.black, backgroundColor: Colors.grey[300],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           );
         },
       ),
