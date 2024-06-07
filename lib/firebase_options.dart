@@ -85,4 +85,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'codingbryant-b3cb2.appspot.com',
     measurementId: 'G-VVLVRNP7E6',
   );
+
 }
