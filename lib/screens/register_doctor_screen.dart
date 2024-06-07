@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class RegisterPatientScreen extends StatelessWidget {
-  const RegisterPatientScreen({super.key});
+class RegisterDoctorScreen extends StatelessWidget {
+  const RegisterDoctorScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -86,14 +86,13 @@ class RegisterPatientScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: TextFormField(
-                        // Controller here
+                        // controller here
                         decoration: inputDecoration.copyWith(
-                          hintText: 'Username',
-                          prefixIcon: Icon(Icons.account_circle),
+                          hintText: 'License Number',
+                          prefixIcon: Icon(Icons.credit_card),
                         ),
                       ),
                     ),
-                    
                     const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -131,7 +130,7 @@ class RegisterPatientScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: TextFormField(
-                        // Controller here
+                        // controller here
                         decoration: inputDecoration.copyWith(
                           hintText: 'Confirm Password',
                           prefixIcon: Icon(Icons.lock_outline),
@@ -160,7 +159,6 @@ class RegisterPatientScreen extends StatelessWidget {
                               style: const TextStyle(
                                 color: Colors.blue,
                                 decoration: TextDecoration.underline,
-                                fontWeight: FontWeight.bold
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {

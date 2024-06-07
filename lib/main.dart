@@ -2,11 +2,8 @@ import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:codingbryant/screens/home_screen.dart';
 import 'package:codingbryant/screens/login_screen.dart';
-<<<<<<< HEAD
+import 'package:codingbryant/screens/register_doctor_screen.dart';
 import 'package:codingbryant/screens/register_patient_screen.dart';
-=======
-import 'package:codingbryant/screens/register_screen.dart';
->>>>>>> b6b5206c0d1704aaced04808fbc81c55a8b138a7
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +46,9 @@ class MyApp extends StatelessWidget {
           },
         ),
         routes: {
-          '/register': (context) => const RegisterPatientScreen(gi),
+          '/register-doctor': (context) => const RegisterDoctorScreen(),
+          '/login':(context) => LoginScreen(),
+          '/register-patient': (context) => const RegisterPatientScreen(),
         },
       ),
     );
