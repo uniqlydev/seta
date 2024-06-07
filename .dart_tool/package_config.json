@@ -38,6 +38,24 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "cloud_firestore",
+      "rootUri": "file:///Users/siemes/.pub-cache/hosted/pub.dev/cloud_firestore-4.17.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "cloud_firestore_platform_interface",
+      "rootUri": "file:///Users/siemes/.pub-cache/hosted/pub.dev/cloud_firestore_platform_interface-6.2.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "cloud_firestore_web",
+      "rootUri": "file:///Users/siemes/.pub-cache/hosted/pub.dev/cloud_firestore_web-3.12.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "collection",
       "rootUri": "file:///Users/siemes/.pub-cache/hosted/pub.dev/collection-1.18.0",
       "packageUri": "lib/",
@@ -272,7 +290,7 @@
       "languageVersion": "3.4"
     }
   ],
-  "generated": "2024-06-07T04:00:44.632673Z",
+  "generated": "2024-06-07T11:18:06.672841Z",
   "generator": "pub",
   "generatorVersion": "3.4.1",
   "flutterRoot": "file:///Users/siemes/development/flutter",
