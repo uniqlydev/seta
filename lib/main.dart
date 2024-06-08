@@ -1,5 +1,6 @@
 import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
+import 'package:codingbryant/screens/dashboard_doctor_screen.dart';
 import 'package:codingbryant/screens/home_screen.dart';
 import 'package:codingbryant/screens/login_screen.dart';
 import 'package:codingbryant/screens/register_doctor_screen.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp (
+        debugShowCheckedModeBanner: false, // Add this line to define the named parameter
         title: "SetaPill",
         home: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
@@ -49,6 +51,7 @@ class MyApp extends StatelessWidget {
           '/register-doctor': (context) => const RegisterDoctorScreen(),
           '/login':(context) => LoginScreen(),
           '/register-patient': (context) => const RegisterPatientScreen(),
+          '/dashboard-doctor': (context) => const DashboardDoctorScreen(),
         },
       ),
     );
