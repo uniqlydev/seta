@@ -1,12 +1,9 @@
-import 'dart:ffi';
-
 import 'package:bloc/bloc.dart';
 import 'package:codingbryant/models/FirebaseUser.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
