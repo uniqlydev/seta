@@ -22,7 +22,7 @@ class AuthSignUpRequested extends AuthEvent {
   final String username;
   final String firstName;
   final String lastName;
-  final Char type;
+  final String type;
   final String gender;
 
   AuthSignUpRequested({

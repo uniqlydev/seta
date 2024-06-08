@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp (
-        debugShowCheckedModeBanner: false, // Add this line to define the named parameter
+        debugShowCheckedModeBanner: false,
         title: "SetaPill",
         home: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
@@ -50,8 +50,8 @@ class MyApp extends StatelessWidget {
         routes: {
           '/register-doctor': (context) => const RegisterDoctorScreen(),
           '/login':(context) => LoginScreen(),
-          '/register-patient': (context) => const RegisterPatientScreen(),
           '/dashboard-doctor': (context) => const DashboardDoctorScreen(),
+          '/register-patient': (context) => RegisterPatientScreen(),
         },
       ),
     );
