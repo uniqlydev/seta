@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp (
+        debugShowCheckedModeBanner: false,
         title: "SetaPill",
         home: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/register-doctor': (context) => const RegisterDoctorScreen(),
           '/login':(context) => LoginScreen(),
-          '/register-patient': (context) => const RegisterPatientScreen(),
+          '/register-patient': (context) => RegisterPatientScreen(),
         },
       ),
     );
