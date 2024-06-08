@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart'; // Import the intl package for date formatting
 
-class DashboardDoctorScreen extends StatelessWidget {
-  const DashboardDoctorScreen({Key? key});
+import 'package:codingbryant/models/PatientModel.dart';
+class DashboardDoctorScreen extends StatefulWidget {
+  const DashboardDoctorScreen({Key? key}) : super(key: key);
+
+  @override
+  _DashboardDoctorScreenState createState() => _DashboardDoctorScreenState();
+}
+
+class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
+  // Initialize the patient list with some dummy data
+  List<Patient> patients = [
+    Patient(name: 'John Doe', diagnosis: 'Fever')
+  ];
 
   @override
   Widget build(BuildContext context) {
-    // Get the current date
-    DateTime now = DateTime.now();
-    
-    // Format the date
-    String formattedDate = DateFormat('MMM d yyyy').format(now);
-
     return Scaffold(
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Container for the header
           Container(
-            height: MediaQuery.of(context).size.height * 2 / 9, // Adjusted height to 2/10
+            height: MediaQuery.of(context).size.height * 2 / 9,
             width: double.infinity,
             color: Colors.blue,
             child: const Align(
@@ -31,7 +34,6 @@ class DashboardDoctorScreen extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        // controller to change the name to the user logged in
                         SizedBox(width: 10),
                         Text(
                           'Hello, Dr. Bryant!',
@@ -44,13 +46,13 @@ class DashboardDoctorScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 0), // Adjusted height to bring down the text
+                    SizedBox(height: 0),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(width: 5), // Adjust as needed
+                        SizedBox(width: 5),
                         Padding(
-                          padding: EdgeInsets.only(top: 0, left: 7, right: 10), // Adjusted padding
+                          padding: EdgeInsets.only(top: 0, left: 7, right: 10),
                           child: Text(
                             "Let's see our agenda",
                             style: TextStyle(
@@ -67,9 +69,7 @@ class DashboardDoctorScreen extends StatelessWidget {
               ),
             ),
           ),
-          // Container for the date
-          const SizedBox(height: 35), // Adjusted height to 20 (from 10)
-          
+          SizedBox(height:30),
           // Row for the boxed icons
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -94,7 +94,7 @@ class DashboardDoctorScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: const Column(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
@@ -135,7 +135,7 @@ class DashboardDoctorScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: const Column(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
@@ -158,10 +158,9 @@ class DashboardDoctorScreen extends StatelessWidget {
               ),
             ],
           ),
-          // Placeholder for additional content
-          const SizedBox(height: 20), // Adjusted height to 20 (from 10)
-          const Padding(
-            padding: EdgeInsets.fromLTRB(35.0, 12, 0.0, 10.0),
+          const SizedBox(height: 10), // Adjusted height
+          Padding(
+            padding: EdgeInsets.fromLTRB(35.0, 0, 0.0, 5.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -176,118 +175,67 @@ class DashboardDoctorScreen extends StatelessWidget {
               ],
             ),
           ),
-       
-    //list of   patients
-       Column(
-  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  children: [
-    InkWell(
-      onTap: () {
-        // Handle onTap for "Patient Info"
-        // Navigate to the page for viewing patient info
-      },
-      child: Container(
-        width: 370,
-        height: 90,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.7),
-              spreadRadius: 2,
-              blurRadius: 7,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: const Row(
-          children: [
-            SizedBox(width: 20),
-            Icon(
-              Icons.personal_injury_rounded,
-              size: 50,
-              color: Colors.redAccent,
-            ),
-            SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Brendan Pecson',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+          // ListView to display patient information dynamically
+          Expanded(
+            child: ListView.builder(
+              itemCount: patients.length,
+              itemBuilder: (context, index) {
+                final patient = patients[index];
+                return InkWell(
+                  onTap: () {
+                    // Handle onTap for "Patient Info"
+                    // Navigate to the page for viewing patient info
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 8),
+                    width: 390,
+                    height: 90,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.7),
+                          spreadRadius: 2,
+                          blurRadius: 7,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.personal_injury_rounded,
+                          size: 50,
+                          color: Colors.redAccent,
+                        ),
+                        SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              patient.name,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              'Diagnosis: ${patient.diagnosis}',
+                              style: TextStyle(
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Text(
-                  'Diagnosis: Love Sick',
-                  style: TextStyle(
-                    color: Colors.black54,
-                  ),
-                ),
-              ],
+                );
+              },
             ),
-          ],
-        ),
-      ),
-    ),
-    const SizedBox(height: 20),
-    InkWell(
-      onTap: () {
-        // Handle onTap for "Patient Info"
-        // Navigate to the page for viewing patient info
-      },
-      child: Container(
-        width: 370,
-        height: 90,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.7),
-              spreadRadius: 2,
-              blurRadius: 7,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: const Row(
-          children: [
-            SizedBox(width: 20),
-            Icon(
-              Icons.personal_injury_rounded,
-              size: 50,
-              color: Colors.redAccent,
-            ),
-            SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Brendan Pecson',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'Diagnosis: Love Sick',
-                  style: TextStyle(
-                    color: Colors.black54,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    ),
-  ],
-),
+          ),
         ],
       ),
     );
