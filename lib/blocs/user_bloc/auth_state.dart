@@ -11,12 +11,14 @@ class AuthInitial extends AuthState {}
 
 class AuthAuthenticated extends AuthState {
   final User user;
+  final String userType;
 
-  AuthAuthenticated({required this.user});
+  AuthAuthenticated({required this.user, required this.userType});
 
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [user, userType];
 }
+
 
 class Authunauthenticated extends AuthState {}
 
@@ -29,5 +31,6 @@ class AuthFailure extends AuthState {
   @override
   List<Object> get props => [message];
 }
+
 
 

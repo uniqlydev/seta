@@ -1,19 +1,17 @@
-import 'dart:ffi';
-
 import 'package:bloc/bloc.dart';
 import 'package:codingbryant/models/FirebaseUser.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final AuthRepository _authRepository;
+
 
   AuthBloc({required AuthRepository authRepository})
     : _authRepository = authRepository,
@@ -23,16 +21,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         on<AuthSignOutRequested>(_onSignOutRequested);
       }
 
-    Future<void> _onSignInRequested(AuthSignInRequested event, Emitter<AuthState> emit) async {
 
+    Future<void> _onSignInRequested(AuthSignInRequested event, Emitter<AuthState> emit) async {
       try {
-        final User? user = await _authRepository.signInWithEmailandPassword(
-          email: event.email,
+        final User? user = await _authRepository.signInWithUsernameAndPassword(
+          username: event.username,
           password: event.password
         );
 
         if (user != null) {
-          emit(AuthAuthenticated(user: user));
+          // Get UUID
+          final userType = await _authRepository.getUserType(user.uid);
+          emit(AuthAuthenticated(user: user, userType: userType!));
+
         } else {
           emit(Authunauthenticated());
         }
@@ -50,7 +51,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           password: event.password,
         );
 
-        final FireBaseUser _user = FireBaseUser(
+        final FireBaseUser user0 = FireBaseUser(
           uid: user!.uid,
           email: event.email,
           username: event.username,
@@ -60,15 +61,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           user_type: event.type.toString(),
         );
 
-        emit(AuthAuthenticated(user: user));
+        emit(AuthAuthenticated(user: user, userType: user0.user_type));
 
         await _firestore.collection('users').doc(user.uid).set({
           'email': user.email,
           'uid': user.uid,
-          'username': _user.email,
-          'first_name': _user.first_name,
-          'last_name': _user.last_name,
-          'gender': _user.gender,
+          'username': user0.username,
+          'first_name': user0.first_name,
+          'last_name': user0.last_name,
+          'gender': user0.gender,
+          'user_type': user0.user_type,
           'created_At': FieldValue.serverTimestamp(),
         });
 
@@ -88,18 +90,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     }
 
-  @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
     if (event is AuthSignInRequested) {
 
       try {
-        final User? user = await _authRepository.signInWithEmailandPassword(
-          email: event.email,
+        final User? user = await _authRepository.signInWithUsernameAndPassword(
+          username: event.username,
           password: event.password
         );
 
         if (user != null) {
-          yield AuthAuthenticated(user: user);
+
+          final usertType = await _authRepository.getUserType(user.uid);
+          yield AuthAuthenticated(user: user, userType: usertType!);
         } else {
           yield Authunauthenticated();
         }
@@ -134,7 +137,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           'created_At': FieldValue.serverTimestamp(),
         });
 
-        yield AuthAuthenticated(user: user);
+        yield AuthAuthenticated(user: user, userType: firebaseUser.user_type);
       } catch (e) {
         yield AuthFailure(message: e.toString());
       }
@@ -148,4 +151,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     }
   }
+
+
+  Future<String?> getUserType(String uid) async {
+    try {
+      final userDoc = await _firestore.collection('users').doc(uid).get();
+      if (userDoc.exists) {
+        return userDoc['userType'];
+      } else {
+        return null;
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  
+
+
+
 }
