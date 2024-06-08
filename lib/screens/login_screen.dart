@@ -89,7 +89,7 @@ class LoginScreen extends StatelessWidget {
                           onPressed: () {
                             context.read<AuthBloc>().add(
                               AuthSignInRequested(
-                                email: _emailController.text,
+                                username: _emailController.text,
                                 password: _passwordController.text,
                               ),
                             );
@@ -102,10 +102,10 @@ class LoginScreen extends StatelessWidget {
                             // Go to screen register_screen.dart
                             Navigator.pushNamed(context, '/register-patient');
                           },
-                          child: const Text("Don't have an account?"),
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.black, backgroundColor: Colors.grey[300],
                           ),
+                          child: const Text("Don't have an account?"),
                         ),
                       ],
                     ),

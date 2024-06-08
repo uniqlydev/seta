@@ -40,7 +40,11 @@ class MyApp extends StatelessWidget {
             if (state is AuthInitial) {
               return LoginScreen();
             } else if (state is AuthAuthenticated) {
-              return const HomeScreen();
+              if (state.userType == 'd') {
+                return HomeScreen(); // Replace with right pages
+              } else {
+                return HomeScreen(); // Replace with right pages
+              }
             } else {
               return const Scaffold(body: Center(child: CircularProgressIndicator()));
             }
