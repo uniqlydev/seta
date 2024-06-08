@@ -1,5 +1,6 @@
 import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
+import 'package:codingbryant/screens/dashboard_doctor_screen.dart';
 import 'package:codingbryant/screens/home_screen.dart';
 import 'package:codingbryant/screens/login_screen.dart';
 import 'package:codingbryant/screens/register_doctor_screen.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/register-doctor': (context) => const RegisterDoctorScreen(),
           '/login':(context) => LoginScreen(),
+          '/dashboard-doctor': (context) => const DashboardDoctorScreen(),
           '/register-patient': (context) => RegisterPatientScreen(),
         },
       ),
