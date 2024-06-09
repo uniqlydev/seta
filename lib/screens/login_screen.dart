@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:codingbryant/screens/home_screen.dart';
+import 'package:codingbryant/screens/landing_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/user_bloc/auth_bloc.dart';
 
@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
+                builder: (context) =>  LandingPage(),
               ),
             );
           } else if (state is AuthFailure) {
@@ -41,7 +41,7 @@ class LoginScreen extends StatelessWidget {
                       fontFamily: 'RobotoMono',
                       fontSize: 60,
                       fontWeight: FontWeight.w800,
-                      color: Colors.deepPurple,
+                      color: Colors.blue,
                     ),
                   ),
                   Form(

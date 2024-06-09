@@ -31,7 +31,7 @@ class RegisterPatientScreen extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'RobotoMono',
                   fontSize: 60,
-                  color: Color(0xFF683F7B),
+                  color: Colors.blue,
                   fontWeight: FontWeight.w800,
                 ),
               ), // Space between SETA and the new text
@@ -158,7 +158,7 @@ class RegisterPatientScreen extends StatelessWidget {
                             TextSpan(
                               text: 'Log In',
                               style: const TextStyle(
-                                color: Colors.blue,
+                                color: Colors.blueGrey,
                                 decoration: TextDecoration.underline,
                                 fontWeight: FontWeight.bold
                               ),

@@ -11,6 +11,7 @@ class ProfileScreen extends StatelessWidget {
         child: Text(
           'Profile Screen',
           style: TextStyle(fontSize: 24),
+          
         ),
       ),
     );

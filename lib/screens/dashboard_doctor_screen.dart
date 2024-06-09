@@ -30,7 +30,7 @@ class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
     ProfileScreen(),
   ];
 
-  
+
  void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -97,7 +97,7 @@ class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 20), // Adjusted height
+            const SizedBox(height: 25), // Adjusted height
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
