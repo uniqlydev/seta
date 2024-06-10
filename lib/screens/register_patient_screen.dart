@@ -1,5 +1,4 @@
 import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
-import 'package:codingbryant/screens/home_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,22 +29,7 @@ class RegisterPatientScreen extends StatelessWidget {
 
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is AuthAuthenticated) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
-              ),
-            );
-          } else if (state is AuthFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-              ),
-            );
-          }
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           return Center(
             child: SingleChildScrollView(
