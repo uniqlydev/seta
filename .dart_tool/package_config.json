@@ -152,6 +152,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "intl",
+      "rootUri": "file:///Users/brendancastillo/.pub-cache/hosted/pub.dev/intl-0.19.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "leak_tracker",
       "rootUri": "file:///Users/brendancastillo/.pub-cache/hosted/pub.dev/leak_tracker-10.0.4",
       "packageUri": "lib/",
@@ -290,7 +296,7 @@
       "languageVersion": "3.4"
     }
   ],
-  "generated": "2024-06-10T09:52:12.423268Z",
+  "generated": "2024-06-10T10:11:26.908979Z",
   "generator": "pub",
   "generatorVersion": "3.4.0",
   "flutterRoot": "file:///Users/brendancastillo/development/flutter",
