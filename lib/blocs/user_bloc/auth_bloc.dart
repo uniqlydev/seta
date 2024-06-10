@@ -31,7 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         if (user != null) {
           // Get UUID
-          final userType = await _authRepository.getUserType(user.uid);
+          final userType = await getUserType(user.uid);
           emit(AuthAuthenticated(user: user, userType: userType!));
 
         } else {
@@ -157,7 +157,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final userDoc = await _firestore.collection('users').doc(uid).get();
       if (userDoc.exists) {
-        return userDoc['userType'];
+        return userDoc['user_type'];
       } else {
         return null;
       }
@@ -165,9 +165,5 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       rethrow;
     }
   }
-
-  
-
-
 
 }

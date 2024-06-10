@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
             if (state is AuthInitial) {
               return LoginScreen();
             } else if (state is AuthAuthenticated) {
-              if (state.userType == 'd') {
+              if (state.userType == 'D') {
                 return HomeScreen(); // Replace with right pages
               } else {
                 return HomeScreen(); // Replace with right pages
