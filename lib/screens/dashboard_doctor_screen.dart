@@ -144,8 +144,7 @@ class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    // Handle onTap for "Prescribe"
-                    // Navigate to the page for prescribing medication
+                     Navigator.pushNamed(context, '/prescription-form'); 
                   },
                   child: Container(
                     width: 130,

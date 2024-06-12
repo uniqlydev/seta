@@ -30,17 +30,25 @@ class LandingPage extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  ExplicitAnimations(),
-                  SizedBox(height: 15),
+                  Positioned(
+                    top: 0,
+                    child: ExplicitAnimations(),
+                  ),
                   Positioned(
                     bottom: 30,
-                    child: Text(
-                      'SETA',
-                      style: TextStyle(
-                        fontSize: 100,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.blue, // Set text color to blue
-                        shadows: [Shadow(blurRadius: 5, color: Colors.blueGrey)], // Add drop shadow
+                    child: Container(
+                       // Set the width to match the text's width
+                      child: Text(
+                        'SETA',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 100,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.blue, // Set text color to blue
+                          shadows: [
+                            Shadow(blurRadius: 5, color: Colors.blueGrey)
+                          ], // Add drop shadow
+                        ),
                       ),
                     ),
                   ),
@@ -160,14 +168,17 @@ class _ExplicitAnimationsState extends State<ExplicitAnimations>
 
   @override
   Widget build(BuildContext context) {
-    return AlignTransition(
-      alignment: _alignAnimation,
-      child: RotationTransition(
-        turns: _rotationAnimation,
-        child: const Icon(
-          Icons.local_hospital,
-          color: Colors.redAccent,
-          size: 50,
+    return SizedBox(
+      width: 260, // Match the width of the text 'SETA'
+      child: AlignTransition(
+        alignment: _alignAnimation,
+        child: RotationTransition(
+          turns: _rotationAnimation,
+          child: const Icon(
+            Icons.local_hospital,
+            color: Colors.redAccent,
+            size: 50,
+          ),
         ),
       ),
     );
