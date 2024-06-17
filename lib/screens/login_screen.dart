@@ -86,7 +86,7 @@ class LoginScreen extends StatelessWidget {
                             // Go to screen register_screen.dart
                             // Navigator.pushNamed(context, '/register-patient'); UNCOMMENT THIS LINE
                             // TEMPORARY COMMENT TO GO TO DOCTOR DASHBOARD
-                            Navigator.pushNamed(context, '/dashboard-doctor');
+                            Navigator.pushNamed(context, '/register-patient');
                           },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.black, backgroundColor: Colors.grey[300],
