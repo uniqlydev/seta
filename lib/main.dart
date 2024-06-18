@@ -1,7 +1,6 @@
 import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:codingbryant/screens/dashboard_doctor_screen.dart';
-import 'package:codingbryant/screens/home_screen.dart';
 import 'package:codingbryant/screens/login_screen.dart';
 import 'package:codingbryant/screens/register_doctor_screen.dart';
 import 'package:codingbryant/screens/register_patient_screen.dart';
@@ -42,9 +41,11 @@ class MyApp extends StatelessWidget {
               return LoginScreen();
             } else if (state is AuthAuthenticated) {
               if (state.userType == 'D') {
-                return HomeScreen(); // Replace with right pages
-              } else {
-                return HomeScreen(); // Replace with right pages
+                return DashboardDoctorScreen(); // Replace with right pages
+              }else if (state.userType == 'P') {
+                return Scaffold(body: Text("If this shows then gg"),); // Replace with right pages
+              }else {
+                return const Scaffold(body: Text("if this is showing, something went wrong. Please contact the developer."));
               }
             } else {
               return const Scaffold(body: Center(child: CircularProgressIndicator()));

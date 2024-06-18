@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:codingbryant/screens/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/user_bloc/auth_bloc.dart';
 
@@ -13,22 +12,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is AuthAuthenticated) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
-              ),
-            );
-          } else if (state is AuthFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-              ),
-            );
-          }
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           return Center(
             child: SingleChildScrollView(
@@ -102,7 +86,7 @@ class LoginScreen extends StatelessWidget {
                             // Go to screen register_screen.dart
                             // Navigator.pushNamed(context, '/register-patient'); UNCOMMENT THIS LINE
                             // TEMPORARY COMMENT TO GO TO DOCTOR DASHBOARD
-                            Navigator.pushNamed(context, '/dashboard-doctor');
+                            Navigator.pushNamed(context, '/register-patient');
                           },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.black, backgroundColor: Colors.grey[300],
