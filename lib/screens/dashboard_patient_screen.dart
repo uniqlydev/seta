@@ -129,10 +129,10 @@ class DashboardPatientScreenContent extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => MedicationDetailsScreen()),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PatientPrescriptionDetails()),
+                    );
                   },
                   child: MedicationCard(
                     medicationName: 'MEDICATION NAME',
@@ -142,10 +142,10 @@ class DashboardPatientScreenContent extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => MedicationDetailsScreen()),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PatientPrescriptionDetails()),
+                    );
                   },
                   child: MedicationCard(
                     medicationName: 'MEDICATION NAME',
@@ -168,10 +168,10 @@ class DashboardPatientScreenContent extends StatelessWidget {
                 SizedBox(height: 8),
                 GestureDetector(
                   onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => MedicationDetailsScreen()),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PatientPrescriptionDetails()),
+                    );
                   },
                   child: MedicationCard(
                     medicationName: 'MEDICATION NAME',
