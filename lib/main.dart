@@ -3,8 +3,8 @@ import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:codingbryant/screens/dashboard_doctor_screen.dart';
 import 'package:codingbryant/screens/landing_page.dart';
 import 'package:codingbryant/screens/dashboard_patient_screen.dart';
-import 'package:codingbryant/screens/landing_page.dart';
 import 'package:codingbryant/screens/login_screen.dart';
+import 'package:codingbryant/screens/patient_prescription_details.dart';
 import 'package:codingbryant/screens/prescription_screen.dart';
 import 'package:codingbryant/screens/register_doctor_screen.dart';
 import 'package:codingbryant/screens/register_patient_screen.dart';
@@ -44,8 +44,6 @@ class MyApp extends StatelessWidget {
             if (state is AuthInitial) {
               return LandingPage();
             } else if (state is AuthAuthenticated) {
-
-              return LandingPage(); // Change with if 
               if (state.userType == 'D') {
                 return DashboardDoctorScreen(); // Replace with right pages
               }else if (state.userType == 'P') {
@@ -59,12 +57,11 @@ class MyApp extends StatelessWidget {
           },
         ),
         routes: {
-          '/register-doctor': (context) => const RegisterDoctorScreen(),
+          '/register-doctor': (context) => RegisterDoctorScreen(),
           '/login':(context) => LoginScreen(),
-          '/register-patient': (context) => const RegisterPatientScreen(),
           '/dashboard-doctor': (context) => const DashboardDoctorScreen(),
-          '/prescription-form': (context) => const PrescriptionScreen(),
-          '/dashboard-doctor': (context) => DashboardDoctorScreen(),
+          '/prescription-form': (context) => PrescriptionScreen(),
+          '/prescription-confirm': (context) => const PatientPrescriptionDetails(),
           '/dashboard-patient' : (context) => DashboardPatientScreen(),
           '/register-patient': (context) => RegisterPatientScreen(),
         },

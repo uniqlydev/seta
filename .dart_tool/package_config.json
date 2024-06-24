@@ -224,6 +224,18 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "qr",
+      "rootUri": "file:///Users/brendancastillo/.pub-cache/hosted/pub.dev/qr-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
+    },
+    {
+      "name": "qr_flutter",
+      "rootUri": "file:///Users/brendancastillo/.pub-cache/hosted/pub.dev/qr_flutter-4.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "simple_animations",
       "rootUri": "file:///Users/brendancastillo/.pub-cache/hosted/pub.dev/simple_animations-5.0.2",
       "packageUri": "lib/",
@@ -302,7 +314,7 @@
       "languageVersion": "3.4"
     }
   ],
-  "generated": "2024-06-24T16:17:36.387504Z",
+  "generated": "2024-06-24T17:07:32.531645Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///Users/brendancastillo/development/flutter",

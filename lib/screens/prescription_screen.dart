@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
 class PrescriptionScreen extends StatelessWidget {
-  const PrescriptionScreen({super.key});
+  PrescriptionScreen({super.key});
+
+  final TextEditingController _drugClassController = TextEditingController();
+  final TextEditingController _medicationController = TextEditingController();
+  final TextEditingController _dosageController = TextEditingController();
+  final TextEditingController _instructionController = TextEditingController();
+  final TextEditingController _doctorRemarksController = TextEditingController();
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -12,29 +21,123 @@ class PrescriptionScreen extends StatelessWidget {
           style: TextStyle(color: Colors.white), // Set the color of the text to white
         ),
         backgroundColor: Colors.blue, // Set the color of the AppBar
+      ),body: Scaffold(
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Prescription',
+                  style: TextStyle(
+                    fontFamily: 'RobotoMono',
+                    fontSize: 60,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.blue,
+                  ),
+                ),
+                Form(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal:30.0),
+                        child: Row(
+                          children: [
+                            Icon(Icons.person),
+                            Expanded(
+                              child: TextFormField(
+                                controller: _drugClassController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Drug Class',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal:30.0),
+                        child: Row(
+                          children: [
+                            Icon(Icons.person),
+                            Expanded(
+                              child: TextFormField(
+                                controller: _medicationController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Medication',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal:30.0),
+                        child: Row(
+                          children: [
+                            Icon(Icons.person),
+                            Expanded(
+                              child: TextFormField(
+                                controller: _dosageController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Dosage',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal:30.0),
+                        child: Row(
+                          children: [
+                            Icon(Icons.person),
+                            Expanded(
+                              child: TextFormField(
+                                controller: _instructionController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Instruction',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal:30.0),
+                        child: Row(
+                          children: [
+                            Icon(Icons.person),
+                            Expanded(
+                              child: TextFormField(
+                                controller: _doctorRemarksController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Doctor Remarks',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal:30.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Add code to save the prescription
+                            Navigator.pushNamed(context, '/prescription-confirm');
+                          },
+                          child: const Text('Save Prescription'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-      body: const Center(
-        child: Text('Prescription Content Here'),
-      ),
-    );
-  }
-}
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const PrescriptionScreen(),
     );
   }
 }

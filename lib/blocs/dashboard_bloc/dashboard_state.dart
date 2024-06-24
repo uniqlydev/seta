@@ -11,11 +11,12 @@ final class DashboardInitial extends DashboardState {}
 
 final class DashboardLoading extends DashboardState {}
 
-final class DashboardLoaded extends DashboardState {
-  final List<FireBaseUser> patients;
 
-  const DashboardLoaded({required this.patients});
+// final class DashboardLoaded extends DashboardState {
+//   final List<FireBaseUser> patients;
 
-  @override
-  List<Object> get props => [patients];
-}
+//   const DashboardLoaded({required this.patients});
+
+//   @override
+//   List<Object> get props => [patients];
+// }

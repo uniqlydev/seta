@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-<<<<<<< landing-page
 import 'package:codingbryant/screens/landing_page.dart';
-=======
->>>>>>> development
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/user_bloc/auth_bloc.dart';
 
@@ -16,15 +13,19 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
-<<<<<<< landing-page
         listener: (context, state) {
           if (state is AuthAuthenticated) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>  LandingPage(),
-              ),
-            );
+            if (state.userType == 'D') {
+              Navigator.pushNamed(context, '/dashboard-doctor');
+            } else if (state.userType == 'P') {
+              Navigator.pushNamed(context, '/dashboard-patient');
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Something went wrong. Please contact the developer.'),
+                ),
+              );
+            }
           } else if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -33,9 +34,6 @@ class LoginScreen extends StatelessWidget {
             );
           }
         },
-=======
-        listener: (context, state) {},
->>>>>>> development
         builder: (context, state) {
           return Center(
             child: SingleChildScrollView(
@@ -109,7 +107,7 @@ class LoginScreen extends StatelessWidget {
                             // Go to screen register_screen.dart
                             // Navigator.pushNamed(context, '/register-patient'); UNCOMMENT THIS LINE
                             // TEMPORARY COMMENT TO GO TO DOCTOR DASHBOARD
-                            Navigator.pushNamed(context, '/register-patient');
+                            Navigator.pushNamed(context, '/landing-page');
                           },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.black, backgroundColor: Colors.grey[300],

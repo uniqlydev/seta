@@ -6,7 +6,6 @@ class DoctorModel {
   final String username;
   final String firstName;
   final String lastName;
-  final String licenseNumber;
   final String userType = 'D';
   final List<PatientModel> patients = List<PatientModel>.empty(growable: true);
 
@@ -16,6 +15,5 @@ class DoctorModel {
     required this.username,
     required this.firstName,
     required this.lastName,
-    required this.licenseNumber,
   });
 }

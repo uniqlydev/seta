@@ -29,31 +29,6 @@ class RegisterPatientScreen extends StatelessWidget {
     );
 
     return Scaffold(
-<<<<<<< landing-page
-      backgroundColor: Colors.white,
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20), // Adjust the height as needed
-              const Text(
-                'SETA',
-                style: TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontSize: 60,
-                  color: Colors.blue,
-                  fontWeight: FontWeight.w800,
-                ),
-              ), // Space between SETA and the new text
-              const Text(
-                'Join SETA today',
-                style: TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontSize: 16,
-                  color: Colors.grey,
-                ),
-=======
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthFailure) {
@@ -61,7 +36,6 @@ class RegisterPatientScreen extends StatelessWidget {
               SnackBar(
                 content: Text(state.message),
                 backgroundColor: Colors.red,
->>>>>>> development
               ),
             );
           }else if (state is AuthAuthenticated) {
@@ -185,33 +159,6 @@ class RegisterPatientScreen extends StatelessWidget {
                             obscureText: true,
                           ),
                         ),
-<<<<<<< landing-page
-                        obscureText: true,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
-                      ),
-                      child: const Text('Sign Up'),
-                    ),
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: RichText(
-                        text: TextSpan(
-                          text: 'Already have an account? ',
-                          style: const TextStyle(color: Colors.black),
-                          children: [
-                            TextSpan(
-                              text: 'Log In',
-                              style: const TextStyle(
-                                color: Colors.blueGrey,
-                                decoration: TextDecoration.underline,
-                                fontWeight: FontWeight.bold
-=======
                         const SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -235,7 +182,6 @@ class RegisterPatientScreen extends StatelessWidget {
                                 lastName: _lastNameController.text,
                                 phoneNumber: _phoneNumberController.text,
                                 gender: _genderController.text,
->>>>>>> development
                               ),
                             );
                           },
