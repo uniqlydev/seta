@@ -48,8 +48,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             userType = 'P';
           }
 
+          if (userType == 'D') {
+            // Retreive subcollection of patients
+            final patients = await _firestore.collection('doctors').doc(user.uid).collection('patients').get();
+            // Convert to list<Strings>
 
-          emit(AuthAuthenticated(user: user, userType: userType!, firstName: userName));
+            emit(AuthAuthenticated(user: user, userType: userType!, firstName: userName, patients: patients.docs.map((e) => e.data()['name'] as String).toList()));
+          }
 
         } else {
           emit(Authunauthenticated());
@@ -87,7 +92,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           'created_At': FieldValue.serverTimestamp(),
         });
 
-        emit (AuthAuthenticated(user: user, userType: doctor.userType, firstName: event.username));
+        // Get subcollection
+        final patients = await _firestore.collection('doctors').doc(user.uid).collection('patients').get();
+
+        emit(AuthAuthenticated(user: user, userType: doctor.userType, firstName: doctor.firstName, patients: patients.docs.map((e) => e.data()['name'] as String).toList()));
 
       } catch (e) {
         emit(AuthFailure(message: e.toString()));
@@ -124,7 +132,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             'created_At': FieldValue.serverTimestamp(),
           });
 
-          emit(AuthAuthenticated(user: user, userType: patient.userType, firstName: patient.username));
+          emit(AuthAuthenticated(user: user, userType: patient.userType, firstName: patient.username, patients: const []));
   
         } catch (e) {
           emit(AuthFailure(message: e.toString()));
@@ -153,7 +161,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (user != null) {
 
           final usertType = await _authRepository.getUserType(user.uid);
-          yield AuthAuthenticated(user: user, userType: usertType!, firstName: event.username);
+
+          if (usertType == 'D') {
+            final doctor = await _firestore.collection('doctors').doc(user.uid).get();
+            // Get subcollection of patients
+            final patients = await _firestore.collection('doctors').doc(user.uid).collection('patients').get();
+
+            yield AuthAuthenticated(user: user, userType: usertType!, firstName: doctor['first_name'], patients: patients.docs.map((e) => e.data()['name'] as String).toList());
+          } else if (usertType == 'P') {
+            final patient = await _firestore.collection('patients').doc(user.uid).get();
+            yield AuthAuthenticated(user: user, userType: usertType!, firstName: patient['username'], patients: const []);
+          }
         } else {
           yield Authunauthenticated();
         }
@@ -186,7 +204,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           'created_At': FieldValue.serverTimestamp(),
         });
 
-        yield AuthAuthenticated(user: user, userType: doctor.userType, firstName: doctor.firstName);
+        // Get subcollection patients
+        final patients = await _firestore.collection('doctors').doc(user.uid).collection('patients').get();
+
+        yield AuthAuthenticated(user: user, userType: doctor.userType, firstName: doctor.firstName,patients: patients.docs.map((e) => e.data()['name'] as String).toList());
       } catch (e) {
         yield AuthFailure(message: e.toString());
       }
@@ -219,7 +240,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             'created_At': FieldValue.serverTimestamp(),
           });
   
-          yield AuthAuthenticated(user: user, userType: patient.userType, firstName: patient.username);
+          yield AuthAuthenticated(user: user, userType: patient.userType, firstName: patient.username, patients: const []);
         } catch (e) {
           yield AuthFailure(message: e.toString());
         }

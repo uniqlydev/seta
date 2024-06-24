@@ -14,8 +14,9 @@ class AuthAuthenticated extends AuthState {
   final User user;
   final String userType;
   final String firstName;
+  final List<String> patients;
 
-  const AuthAuthenticated({required this.user, required this.userType, required this.firstName});
+  const AuthAuthenticated({required this.user, required this.userType, required this.firstName, required this.patients});
 
   @override
   List<Object> get props => [user, userType];

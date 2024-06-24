@@ -1,4 +1,6 @@
 import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
+import 'package:codingbryant/models/patient_model.dart';
+import 'package:codingbryant/screens/patient_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'nav_bar.dart';
@@ -18,6 +20,9 @@ class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
       _selectedIndex = index;
     });
   }
+
+  late final List<String> patients;
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +61,9 @@ class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
                               ],
                             ),
                             const SizedBox(height: 0),
-                            Row(
+                            const Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children: [
                                 SizedBox(width: 5),
                                 Padding(
                                   padding: EdgeInsets.only(top: 0, left: 7, right: 10),
@@ -101,9 +106,9 @@ class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
                               ),
                             ],
                           ),
-                          child: Column(
+                          child: const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               Icon(
                                 Icons.medication_rounded,
                                 size: 60,
@@ -141,9 +146,9 @@ class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
                               ),
                             ],
                           ),
-                          child: Column(
+                          child: const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               Icon(
                                 Icons.medical_services_rounded,
                                 size: 60,
@@ -177,8 +182,9 @@ class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: PatientListView(patients: state.patients),
                   ),
                 ],
               ),
@@ -186,7 +192,7 @@ class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
           } else if (state is AuthFailure) {
             return Center(child: Text('Error: ${state.message}'));
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),
