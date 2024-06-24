@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+<<<<<<< landing-page
+import 'package:codingbryant/screens/landing_page.dart';
+=======
+>>>>>>> development
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/user_bloc/auth_bloc.dart';
 
@@ -12,7 +16,26 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
+<<<<<<< landing-page
+        listener: (context, state) {
+          if (state is AuthAuthenticated) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>  LandingPage(),
+              ),
+            );
+          } else if (state is AuthFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+              ),
+            );
+          }
+        },
+=======
         listener: (context, state) {},
+>>>>>>> development
         builder: (context, state) {
           return Center(
             child: SingleChildScrollView(
@@ -25,7 +48,7 @@ class LoginScreen extends StatelessWidget {
                       fontFamily: 'RobotoMono',
                       fontSize: 60,
                       fontWeight: FontWeight.w800,
-                      color: Colors.deepPurple,
+                      color: Colors.blue,
                     ),
                   ),
                   Form(
