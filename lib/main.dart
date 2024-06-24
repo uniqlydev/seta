@@ -1,8 +1,10 @@
 import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:codingbryant/screens/dashboard_doctor_screen.dart';
+import 'package:codingbryant/screens/landing_page.dart';
 import 'package:codingbryant/screens/dashboard_patient_screen.dart';
 import 'package:codingbryant/screens/login_screen.dart';
+import 'package:codingbryant/screens/prescription_screen.dart';
 import 'package:codingbryant/screens/register_doctor_screen.dart';
 import 'package:codingbryant/screens/register_patient_screen.dart';
 import 'package:flutter/material.dart';
@@ -39,8 +41,10 @@ class MyApp extends StatelessWidget {
         home: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
             if (state is AuthInitial) {
-              return LoginScreen();
+              return LandingPage();
             } else if (state is AuthAuthenticated) {
+
+              return LandingPage(); // Change with if 
               if (state.userType == 'D') {
                 return DashboardDoctorScreen(); // Replace with right pages
               }else if (state.userType == 'P') {
@@ -56,6 +60,9 @@ class MyApp extends StatelessWidget {
         routes: {
           '/register-doctor': (context) => const RegisterDoctorScreen(),
           '/login':(context) => LoginScreen(),
+          '/register-patient': (context) => const RegisterPatientScreen(),
+          '/dashboard-doctor': (context) => const DashboardDoctorScreen(),
+          '/prescription-form': (context) => const PrescriptionScreen(),
           '/dashboard-doctor': (context) => DashboardDoctorScreen(),
           '/dashboard-patient' : (context) => DashboardPatientScreen(),
           '/register-patient': (context) => RegisterPatientScreen(),
