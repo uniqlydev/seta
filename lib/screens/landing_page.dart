@@ -37,7 +37,7 @@ class LandingPage extends StatelessWidget {
                   Positioned(
                     bottom: 30,
                     child: Container(
-                       // Set the width to match the text's width
+                      // Set the width to match the text's width
                       child: Text(
                         'SETA',
                         textAlign: TextAlign.center,
@@ -56,7 +56,7 @@ class LandingPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 50),
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
@@ -73,10 +73,10 @@ class LandingPage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     elevation: 5, // Add elevation
                     shadowColor: Colors.black, // Add shadow color
-                    backgroundColor: Colors.blue, // Set background color to blue
+                    backgroundColor: Colors.greenAccent, // Set background color for patient
                   ),
                 ),
-                SizedBox(width: 20),
+                SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/register-doctor');
@@ -91,7 +91,7 @@ class LandingPage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     elevation: 5, // Add elevation
                     shadowColor: Colors.black, // Add shadow color
-                    backgroundColor: Colors.blue, // Set background color to blue
+                    backgroundColor: Colors.redAccent, // Set background color for doctor
                   ),
                 ),
               ],

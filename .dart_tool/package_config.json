@@ -225,7 +225,7 @@
     },
     {
       "name": "simple_animations",
-      "rootUri": "file:///Users/siemes/.pub-cache/hosted/pub.dev/simple_animations-5.0.2",
+      "rootUri": "file:///Users/brendancastillo/.pub-cache/hosted/pub.dev/simple_animations-5.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
@@ -302,11 +302,7 @@
       "languageVersion": "3.4"
     }
   ],
-<<<<<<< landing-page
-  "generated": "2024-06-09T05:13:28.189669Z",
-=======
-  "generated": "2024-06-24T14:58:57.866772Z",
->>>>>>> development
+  "generated": "2024-06-24T16:17:36.387504Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///Users/brendancastillo/development/flutter",
