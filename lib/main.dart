@@ -2,6 +2,7 @@ import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:codingbryant/screens/dashboard_doctor_screen.dart';
 import 'package:codingbryant/screens/landing_page.dart';
+import 'package:codingbryant/screens/dashboard_patient_screen.dart';
 import 'package:codingbryant/screens/login_screen.dart';
 import 'package:codingbryant/screens/prescription_screen.dart';
 import 'package:codingbryant/screens/register_doctor_screen.dart';
@@ -35,14 +36,22 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp (
-        debugShowCheckedModeBanner: false, // Add this line to define the named parameter
+        debugShowCheckedModeBanner: false,
         title: "SetaPill",
         home: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
             if (state is AuthInitial) {
               return LandingPage();
             } else if (state is AuthAuthenticated) {
-              return LandingPage();
+
+              return LandingPage(); // Change with if 
+              if (state.userType == 'D') {
+                return DashboardDoctorScreen(); // Replace with right pages
+              }else if (state.userType == 'P') {
+                return DashboardPatientScreen(); // Replace with right pages
+              }else {
+                return const Scaffold(body: Text("if this is showing, something went wrong. Please contact the developer."));
+              }
             } else {
               return const Scaffold(body: Center(child: CircularProgressIndicator()));
             }
@@ -54,6 +63,9 @@ class MyApp extends StatelessWidget {
           '/register-patient': (context) => const RegisterPatientScreen(),
           '/dashboard-doctor': (context) => const DashboardDoctorScreen(),
           '/prescription-form': (context) => const PrescriptionScreen(),
+          '/dashboard-doctor': (context) => DashboardDoctorScreen(),
+          '/dashboard-patient' : (context) => DashboardPatientScreen(),
+          '/register-patient': (context) => RegisterPatientScreen(),
         },
       ),
     );

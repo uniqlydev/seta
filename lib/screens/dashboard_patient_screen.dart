@@ -5,6 +5,7 @@ import 'package:codingbryant/screens/profile_screen.dart';
 import 'nav_bar.dart';
 
 class DashboardPatientScreen extends StatefulWidget {
+
   @override
   _DashboardPatientScreenState createState() => _DashboardPatientScreenState();
 }
