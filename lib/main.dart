@@ -2,6 +2,7 @@ import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:codingbryant/screens/dashboard_doctor_screen.dart';
 import 'package:codingbryant/screens/dashboard_patient_screen.dart';
+import 'package:codingbryant/screens/landing_page.dart';
 import 'package:codingbryant/screens/login_screen.dart';
 import 'package:codingbryant/screens/register_doctor_screen.dart';
 import 'package:codingbryant/screens/register_patient_screen.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
         home: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
             if (state is AuthInitial) {
-              return LoginScreen();
+              return LandingPage();
             } else if (state is AuthAuthenticated) {
               if (state.userType == 'D') {
                 return DashboardDoctorScreen(); // Replace with right pages
