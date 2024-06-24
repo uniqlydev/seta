@@ -1,6 +1,7 @@
 import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:codingbryant/screens/dashboard_doctor_screen.dart';
+import 'package:codingbryant/screens/dashboard_patient_screen.dart';
 import 'package:codingbryant/screens/login_screen.dart';
 import 'package:codingbryant/screens/register_doctor_screen.dart';
 import 'package:codingbryant/screens/register_patient_screen.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
               if (state.userType == 'D') {
                 return DashboardDoctorScreen(); // Replace with right pages
               }else if (state.userType == 'P') {
-                return Scaffold(body: Text("If this shows then gg"),); // Replace with right pages
+                return DashboardPatientScreen(); // Replace with right pages
               }else {
                 return const Scaffold(body: Text("if this is showing, something went wrong. Please contact the developer."));
               }
@@ -55,7 +56,8 @@ class MyApp extends StatelessWidget {
         routes: {
           '/register-doctor': (context) => const RegisterDoctorScreen(),
           '/login':(context) => LoginScreen(),
-          '/dashboard-doctor': (context) => const DashboardDoctorScreen(),
+          '/dashboard-doctor': (context) => DashboardDoctorScreen(),
+          '/dashboard-patient' : (context) => DashboardPatientScreen(),
           '/register-patient': (context) => RegisterPatientScreen(),
         },
       ),

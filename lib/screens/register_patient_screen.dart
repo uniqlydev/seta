@@ -13,6 +13,7 @@ class RegisterPatientScreen extends StatelessWidget {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
 
   List<String> genderOptions = ['Male', 'Female'];
   String? selectedGender;
@@ -29,7 +30,20 @@ class RegisterPatientScreen extends StatelessWidget {
 
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is AuthFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }else if (state is AuthAuthenticated) {
+            if (state.userType == 'P') {
+              Navigator.pushNamed(context, '/dashboard-patient');
+            }
+          }
+        },
         builder: (context, state) {
           return Center(
             child: SingleChildScrollView(
@@ -98,6 +112,17 @@ class RegisterPatientScreen extends StatelessWidget {
                             ),
                           ),
                         ),
+                         const SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                          child: TextFormField(
+                            controller: _phoneNumberController,
+                            decoration: inputDecoration.copyWith(
+                              hintText: 'Phone Number',
+                              prefixIcon: const Icon(Icons.phone),
+                            ),
+                          ),
+                        ),
                         const SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -149,14 +174,14 @@ class RegisterPatientScreen extends StatelessWidget {
                         ElevatedButton(
                           onPressed: () {
                             context.read<AuthBloc>().add(
-                              AuthSignUpRequested(
+                              AuthSignUpRequestPatient(
                                 email: _emailController.text,
                                 password: _passwordController.text,
                                 username: _usernameController.text,
                                 firstName: _firstNameController.text,
                                 lastName: _lastNameController.text,
+                                phoneNumber: _phoneNumberController.text,
                                 gender: _genderController.text,
-                                type: 'P',
                               ),
                             );
                           },

@@ -296,10 +296,10 @@
       "languageVersion": "3.4"
     }
   ],
-  "generated": "2024-06-10T10:11:26.908979Z",
+  "generated": "2024-06-24T14:58:57.866772Z",
   "generator": "pub",
-  "generatorVersion": "3.4.0",
+  "generatorVersion": "3.4.3",
   "flutterRoot": "file:///Users/brendancastillo/development/flutter",
-  "flutterVersion": "3.22.0",
+  "flutterVersion": "3.22.2",
   "pubCache": "file:///Users/brendancastillo/.pub-cache"
 }
