@@ -50,7 +50,7 @@ class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
                               children: [
                                 const SizedBox(width: 10),
                                 Text(
-                                  'Hello, Dr. ${state.firstName ?? 'Doctor'}!',
+                                  'Hello, Dr. ${state.firstName}!',
                                   style: const TextStyle(
                                     fontFamily: 'RobotoMono',
                                     fontSize: 32,

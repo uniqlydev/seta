@@ -1,143 +1,95 @@
+import 'package:codingbryant/blocs/prescription_bloc/prescription_bloc.dart';
+import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
+import 'package:codingbryant/repositories/auth_repository.dart';
+import 'package:codingbryant/repositories/prescribe_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PrescriptionScreen extends StatelessWidget {
   PrescriptionScreen({super.key});
 
-  final TextEditingController _drugClassController = TextEditingController();
-  final TextEditingController _medicationController = TextEditingController();
-  final TextEditingController _dosageController = TextEditingController();
-  final TextEditingController _instructionController = TextEditingController();
-  final TextEditingController _doctorRemarksController = TextEditingController();
-
+  final TextEditingController _drugClass = TextEditingController();
+  final TextEditingController _medicationClass = TextEditingController();
+  final TextEditingController _dosage = TextEditingController();
+  final TextEditingController _instructions = TextEditingController();
+  final TextEditingController _doctorRemarksClass = TextEditingController();
 
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Prescription',
-          style: TextStyle(color: Colors.white), // Set the color of the text to white
-        ),
-        backgroundColor: Colors.blue, // Set the color of the AppBar
-      ),body: Scaffold(
-        body: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Prescription',
-                  style: TextStyle(
-                    fontFamily: 'RobotoMono',
-                    fontSize: 60,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.blue,
-                  ),
-                ),
-                Form(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal:30.0),
-                        child: Row(
-                          children: [
-                            Icon(Icons.person),
-                            Expanded(
-                              child: TextFormField(
-                                controller: _drugClassController,
-                                decoration: const InputDecoration(
-                                  labelText: 'Drug Class',
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal:30.0),
-                        child: Row(
-                          children: [
-                            Icon(Icons.person),
-                            Expanded(
-                              child: TextFormField(
-                                controller: _medicationController,
-                                decoration: const InputDecoration(
-                                  labelText: 'Medication',
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal:30.0),
-                        child: Row(
-                          children: [
-                            Icon(Icons.person),
-                            Expanded(
-                              child: TextFormField(
-                                controller: _dosageController,
-                                decoration: const InputDecoration(
-                                  labelText: 'Dosage',
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal:30.0),
-                        child: Row(
-                          children: [
-                            Icon(Icons.person),
-                            Expanded(
-                              child: TextFormField(
-                                controller: _instructionController,
-                                decoration: const InputDecoration(
-                                  labelText: 'Instruction',
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal:30.0),
-                        child: Row(
-                          children: [
-                            Icon(Icons.person),
-                            Expanded(
-                              child: TextFormField(
-                                controller: _doctorRemarksController,
-                                decoration: const InputDecoration(
-                                  labelText: 'Doctor Remarks',
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal:30.0),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Add code to save the prescription
-                            Navigator.pushNamed(context, '/prescription-confirm');
-                          },
-                          child: const Text('Save Prescription'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => PrescriptionBloc(prescriptionRepository: PrescribeRepository()),
           ),
+          BlocProvider(
+            create: (context) => AuthBloc(authRepository: AuthRepository()),
+          )
+        ],
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Prescription'),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: _drugClass,
+                  decoration: const InputDecoration(
+                    labelText: 'Drug Class',
+                  ),
+                ),
+                TextField(
+                  controller: _medicationClass,
+                  decoration: const InputDecoration(
+                    labelText: 'Medication',
+                  ),
+                ),
+                TextField(
+                  controller: _dosage,
+                  decoration: const InputDecoration(
+                    labelText: 'Dosage',
+                  ),
+                ),
+                TextField(
+                  controller: _instructions,
+                  decoration: const InputDecoration(
+                    labelText: 'Instructions',
+                  ),
+                ),
+                TextField(
+                  controller: _doctorRemarksClass,
+                  decoration: const InputDecoration(
+                    labelText: 'Doctor Remarks',
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () {
+                    BlocProvider.of<PrescriptionBloc>(context).add(
+                      PrescriptionCreate(
+                        doctorId: '1',
+                        patientId: '1',
+                        prescription: '1',
+                        id: '1',
+                        medication: _medicationClass.text,
+                        dosage: double.parse(_dosage.text),
+                        drugClass: _drugClass.text,
+                        instructions: _instructions.text,
+                      ),
+                    );
+                  },
+                  child: const Text('Create Prescription'),
+                )
+              ]
+            )
+          )
         ),
       ),
     );
   }
+
 }
