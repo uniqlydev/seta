@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:codingbryant/screens/landing_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/user_bloc/auth_bloc.dart';
 
@@ -16,13 +15,13 @@ class LoginScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is AuthAuthenticated) {
             if (state.userType == 'D') {
-              Navigator.pushNamed(context, '/dashboard-doctor');
+              Navigator.of(context).pushNamedAndRemoveUntil('/dashboard-doctor', (Route<dynamic> route) => false);
             } else if (state.userType == 'P') {
-              Navigator.pushNamed(context, '/dashboard-patient');
+              Navigator.of(context).pushNamedAndRemoveUntil('/dashboard-patient', (Route<dynamic> route) => false);
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Something went wrong. Please contact the developer.'),
+                const SnackBar(
+                  content: Text('Something went wrong. Please contact the developer.'),
                 ),
               );
             }
@@ -57,8 +56,8 @@ class LoginScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal:30.0),
                           child: Row(
                             children: [
-                              Icon(Icons.person),
-                              SizedBox(width: 10),
+                              const Icon(Icons.person),
+                              const SizedBox(width: 10),
                               Expanded(
                                 child: TextFormField(
                                   controller: _emailController,
@@ -75,8 +74,8 @@ class LoginScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 30.0),
                           child: Row(
                             children: [
-                              Icon(Icons.lock),
-                              SizedBox(width: 10),
+                              const Icon(Icons.lock),
+                              const SizedBox(width: 10),
                               Expanded(
                                 child: TextFormField(
                                   controller: _passwordController,

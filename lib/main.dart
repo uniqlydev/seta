@@ -1,5 +1,7 @@
+import 'package:codingbryant/blocs/prescription_bloc/prescription_bloc.dart';
 import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
+import 'package:codingbryant/repositories/prescribe_repository.dart';
 import 'package:codingbryant/screens/dashboard_doctor_screen.dart';
 import 'package:codingbryant/screens/landing_page.dart';
 import 'package:codingbryant/screens/dashboard_patient_screen.dart';
@@ -34,6 +36,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => AuthBloc(authRepository: AuthRepository()),
+        ),
+        BlocProvider(
+          create: (context) => PrescriptionBloc(prescriptionRepository: PrescribeRepository()),
         ),
       ],
       child: MaterialApp (

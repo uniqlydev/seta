@@ -36,7 +36,7 @@ class RegisterDoctorScreen extends StatelessWidget {
             );
           } else if (state is AuthAuthenticated) {
             if (state.userType == 'D') {
-              Navigator.pushNamed(context, '/dashboard-doctor');
+              Navigator.of(context).pushNamedAndRemoveUntil('/dashboard-doctor', (Route<dynamic> route) => false);
             }
           }
         },
@@ -167,7 +167,7 @@ class RegisterDoctorScreen extends StatelessWidget {
                                   ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      Navigator.pushNamed(context, '/login');
+                                        Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
                                     },
                                 ),
                               ],

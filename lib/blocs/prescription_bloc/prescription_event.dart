@@ -10,8 +10,6 @@ abstract class PrescriptionEvent extends Equatable {
 class PrescriptionCreate extends PrescriptionEvent {
   final String doctorId;
   final String patientId;
-  final String prescription;
-  final String id;
   final String medication;
   final double dosage;
   final String drugClass;
@@ -20,8 +18,6 @@ class PrescriptionCreate extends PrescriptionEvent {
   PrescriptionCreate({
     required this.doctorId,
     required this.patientId,
-    required this.prescription,
-    required this.id,
     required this.medication,
     required this.dosage,
     required this.drugClass,
@@ -29,7 +25,7 @@ class PrescriptionCreate extends PrescriptionEvent {
   });
 
   @override
-  List<Object> get props => [patientId, doctorId, prescription];
+  List<Object> get props => [patientId, doctorId];
 }
 
 

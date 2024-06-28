@@ -40,7 +40,7 @@ class RegisterPatientScreen extends StatelessWidget {
             );
           }else if (state is AuthAuthenticated) {
             if (state.userType == 'P') {
-              Navigator.pushNamed(context, '/dashboard-patient');
+              Navigator.of(context).pushNamedAndRemoveUntil('/dashboard-patient', (Route<dynamic> route) => false);
             }
           }
         },
@@ -207,7 +207,7 @@ class RegisterPatientScreen extends StatelessWidget {
                                   ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      Navigator.pushNamed(context, '/login');
+                                        Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
                                     },
                                 ),
                               ],
