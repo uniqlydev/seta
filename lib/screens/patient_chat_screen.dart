@@ -1,6 +1,6 @@
 import 'package:codingbryant/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
-import 'dashboard_patient_screen.dart';
+import 'patient/dashboard_patient_screen.dart';
 import 'nav_bar.dart';
 
 class ChatScreen extends StatefulWidget {

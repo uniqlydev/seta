@@ -1,9 +1,9 @@
 import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/models/patient_model.dart';
-import 'package:codingbryant/screens/patient_list.dart';
+import 'package:codingbryant/screens/doctor/patient_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'nav_bar.dart';
+import '../nav_bar.dart';
 
 class DashboardDoctorScreen extends StatefulWidget {
   const DashboardDoctorScreen({Key? key}) : super(key: key);

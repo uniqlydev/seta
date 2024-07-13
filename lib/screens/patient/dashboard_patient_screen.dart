@@ -1,8 +1,8 @@
-import 'package:codingbryant/screens/patient_prescription_details.dart';
+import 'package:codingbryant/screens/patient/patient_prescription_details.dart';
 import 'package:flutter/material.dart';
 import 'package:codingbryant/screens/patient_chat_screen.dart';
 import 'package:codingbryant/screens/profile_screen.dart';
-import 'nav_bar.dart';
+import '../nav_bar.dart';
 
 class DashboardPatientScreen extends StatefulWidget {
 
