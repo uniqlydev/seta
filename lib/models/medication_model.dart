@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class MedicationModel {
   final String id;
   final String dosage;
@@ -12,4 +14,15 @@ class MedicationModel {
     required this.drugClass,
     required this.sideEffect,
   });
+
+  factory MedicationModel.fromFirestore(DocumentSnapshot doc) {
+    Map data = doc.data() as Map<String, dynamic>;
+    return MedicationModel(
+      id: doc.id,
+      dosage: data['dosage'],
+      drug: data['drug'],
+      drugClass: data['drugClass'],
+      sideEffect: data['sideEffect'],
+    );
+  }
 }
