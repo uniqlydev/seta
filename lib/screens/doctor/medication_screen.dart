@@ -13,6 +13,7 @@ class MedicationScreen extends StatefulWidget {
 
 class _MedicationScreenState extends State<MedicationScreen> {
   late List<MedicationModel> medications = [];
+  late List<MedicationModel> filteredMedications = [];
 
   @override
   void initState() {
@@ -32,10 +33,21 @@ class _MedicationScreenState extends State<MedicationScreen> {
 
       setState(() {
         medications = fetchedMedications;
+        filteredMedications =
+            medications; // Initialize filtered list with all medications
       });
     } catch (e) {
       print('Error fetching medications: $e');
     }
+  }
+
+  void _filterMedications(String query) {
+    setState(() {
+      filteredMedications = medications
+          .where((medication) =>
+              medication.drug.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    });
   }
 
   @override
@@ -66,13 +78,25 @@ class _MedicationScreenState extends State<MedicationScreen> {
                       ),
                       centerTitle: true,
                     ),
+                    actions: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.search),
+                        onPressed: () {
+                          showSearch(
+                            context: context,
+                            delegate:
+                                MedicationSearchDelegate(filteredMedications),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ];
               },
               body: ListView.builder(
-                itemCount: medications.length,
+                itemCount: filteredMedications.length,
                 itemBuilder: (context, index) {
-                  MedicationModel medication = medications[index];
+                  MedicationModel medication = filteredMedications[index];
                   return ListTile(
                     title: Text(medication.drug),
                     subtitle: Text(medication.dosage),
@@ -121,6 +145,111 @@ class _MedicationScreenState extends State<MedicationScreen> {
           }
         },
       ),
+    );
+  }
+}
+
+class MedicationSearchDelegate extends SearchDelegate<MedicationModel> {
+  final List<MedicationModel> medications;
+
+  MedicationSearchDelegate(this.medications);
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<MedicationModel> results = medications
+        .where((medication) =>
+            medication.drug.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    return ListView.builder(
+      itemCount: results.length,
+      itemBuilder: (context, index) {
+        MedicationModel medication = results[index];
+        return ListTile(
+          title: Text(medication.drug),
+          subtitle: Text(medication.dosage),
+          onTap: () {
+            _showMedicationDetails(context, medication);
+          },
+        );
+      },
+    );
+  }
+
+  void _showMedicationDetails(
+      BuildContext context, MedicationModel medication) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(medication.drug),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Frequency: ${medication.drugClass}'),
+              Text('Dosage: ${medication.sideEffect}'),
+            ],
+          ),
+          contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0),
+          contentTextStyle: const TextStyle(
+            fontSize: 16.0,
+            color: Colors.black,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<MedicationModel> suggestions = medications
+        .where((medication) =>
+            medication.drug.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    return ListView.builder(
+      itemCount: suggestions.length,
+      itemBuilder: (context, index) {
+        MedicationModel medication = suggestions[index];
+        return ListTile(
+          title: Text(medication.drug),
+          subtitle: Text(medication.dosage),
+          onTap: () {
+            close(context, medication);
+          },
+        );
+      },
     );
   }
 }
