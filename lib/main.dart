@@ -4,6 +4,7 @@ import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:codingbryant/repositories/prescribe_repository.dart';
 import 'package:codingbryant/screens/doctor/dashboard_doctor_screen.dart';
 import 'package:codingbryant/screens/doctor/medication_screen.dart';
+import 'package:codingbryant/screens/doctor/doctor_inbox_screen.dart'; // Ensure this import is here
 import 'package:codingbryant/screens/landing_page.dart';
 import 'package:codingbryant/screens/patient/dashboard_patient_screen.dart';
 import 'package:codingbryant/screens/login_screen.dart';
@@ -29,7 +30,6 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -51,9 +51,9 @@ class MyApp extends StatelessWidget {
               return LandingPage();
             } else if (state is AuthAuthenticated) {
               if (state.userType == 'D') {
-                return DashboardDoctorScreen(); // Replace with right pages
+                return DashboardDoctorScreen();
               } else if (state.userType == 'P') {
-                return DashboardPatientScreen(); // Replace with right pages
+                return DashboardPatientScreen();
               } else {
                 return const Scaffold(
                     body: Text(
@@ -75,6 +75,7 @@ class MyApp extends StatelessWidget {
           '/dashboard-patient': (context) => DashboardPatientScreen(),
           '/register-patient': (context) => RegisterPatientScreen(),
           '/medication-screen': (context) => const MedicationScreen(),
+          '/inbox-doctor': (context) =>  DoctorInboxScreen(), // Ensure this is correct
         },
       ),
     );
