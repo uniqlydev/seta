@@ -54,6 +54,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             // Convert to list<Strings>
 
             emit(AuthAuthenticated(user: user, userType: userType!, firstName: userName, patients: patients.docs.map((e) => e.data()['name'] as String).toList()));
+          }else if (userType == 'P') {
+            emit(AuthAuthenticated(user: user, userType: userType!, firstName: userName, patients: const []));
           }
 
         } else {
