@@ -1,6 +1,4 @@
-import 'package:codingbryant/models/patient_model.dart';
 import 'package:flutter/material.dart';
-
 
 class PatientListView extends StatelessWidget {
   final List<String> patients;
