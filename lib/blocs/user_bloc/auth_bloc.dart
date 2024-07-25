@@ -78,19 +78,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               userType: userType!,
               firstName: userName,
               patients: uniquePatientIdsList));
-          
-          }else if (userType == 'P') {
-            emit(AuthAuthenticated(user: user, userType: userType!, firstName: userName, patients: const []));
-          }
-
-          // Convert the Set to a list if necessary
-          List<String> uniquePatientIdsList = uniquePatientIds.toList();
-
+        } else if (userType == 'P') {
           emit(AuthAuthenticated(
               user: user,
               userType: userType!,
               firstName: userName,
-              patients: uniquePatientIdsList));
+              patients: const []));
+        } else {
+          emit(Authunauthenticated());
         }
       } else {
         emit(Authunauthenticated());
