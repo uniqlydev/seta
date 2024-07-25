@@ -1,14 +1,14 @@
 import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
-import 'package:codingbryant/models/patient_model.dart';
 import 'package:codingbryant/screens/doctor/patient_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../nav_bar.dart';
 
 class DashboardDoctorScreen extends StatefulWidget {
-  const DashboardDoctorScreen({Key? key}) : super(key: key);
+  const DashboardDoctorScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _DashboardDoctorScreenState createState() => _DashboardDoctorScreenState();
 }
 
@@ -22,7 +22,6 @@ class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
   }
 
   late final List<String> patients;
-
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +65,8 @@ class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
                               children: [
                                 SizedBox(width: 5),
                                 Padding(
-                                  padding: EdgeInsets.only(top: 0, left: 7, right: 10),
+                                  padding: EdgeInsets.only(
+                                      top: 0, left: 7, right: 10),
                                   child: Text(
                                     "Let's see our agenda",
                                     style: TextStyle(
@@ -89,7 +89,7 @@ class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                          // Handle onTap for "Medication"
+                          Navigator.pushNamed(context, '/medication-screen');
                         },
                         child: Container(
                           width: 130,
