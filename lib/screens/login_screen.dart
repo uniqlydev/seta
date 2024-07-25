@@ -104,8 +104,6 @@ class LoginScreen extends StatelessWidget {
                         ElevatedButton(
                           onPressed: () {
                             // Go to screen register_screen.dart
-                            // Navigator.pushNamed(context, '/register-patient'); UNCOMMENT THIS LINE
-                            // TEMPORARY COMMENT TO GO TO DOCTOR DASHBOARD
                             Navigator.pushNamed(context, '/landing-page');
                           },
                           style: ElevatedButton.styleFrom(
