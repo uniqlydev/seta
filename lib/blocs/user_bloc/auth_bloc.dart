@@ -51,9 +51,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (userType == 'D') {
           // Retreive subcollection of patients
           final patients = await _firestore
-              .collection('doctors')
-              .doc(user.uid)
-              .collection('patients')
+              .collection('prescriptions')
+              .where('doctorId', isEqualTo: user.uid)
               .get();
           // Initialize a Set to store unique patient IDs
           Set<String> uniquePatientIds = {};
