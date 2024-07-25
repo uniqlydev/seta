@@ -1,10 +1,11 @@
+import 'package:codingbryant/models/patient_model.dart';
 import 'package:flutter/material.dart';
-import 'package:codingbryant/models/PatientModel.dart';
+
 
 class PatientListView extends StatelessWidget {
-  final List<Patient> patients;
+  final List<String> patients;
 
-  const PatientListView({Key? key, required this.patients}) : super(key: key);
+  const PatientListView({super.key, required this.patients});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,6 @@ class PatientListView extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: patients.length,
       itemBuilder: (context, index) {
-        final patient = patients[index];
         return InkWell(
           onTap: () {
             // Handle onTap for "Patient Info"
@@ -51,15 +51,15 @@ class PatientListView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      patient.name,
+                      patients[index],
                       style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(
-                      'Diagnosis: ${patient.diagnosis}',
-                      style: const TextStyle(
+                    const Text(
+                      'Diagnosis: Place holder text',
+                      style: TextStyle(
                         color: Colors.black54,
                       ),
                     ),

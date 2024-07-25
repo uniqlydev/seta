@@ -1,13 +1,15 @@
+import 'package:codingbryant/blocs/prescription_bloc/prescription_bloc.dart';
 import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
-import 'package:codingbryant/screens/dashboard_doctor_screen.dart';
+import 'package:codingbryant/repositories/prescribe_repository.dart';
+import 'package:codingbryant/screens/doctor/dashboard_doctor_screen.dart';
 import 'package:codingbryant/screens/landing_page.dart';
-import 'package:codingbryant/screens/dashboard_patient_screen.dart';
-import 'package:codingbryant/screens/landing_page.dart';
+import 'package:codingbryant/screens/patient/dashboard_patient_screen.dart';
 import 'package:codingbryant/screens/login_screen.dart';
-import 'package:codingbryant/screens/prescription_screen.dart';
-import 'package:codingbryant/screens/register_doctor_screen.dart';
-import 'package:codingbryant/screens/register_patient_screen.dart';
+import 'package:codingbryant/screens/patient/patient_prescription_details.dart';
+import 'package:codingbryant/screens/doctor/prescription_screen.dart';
+import 'package:codingbryant/screens/doctor/register_doctor_screen.dart';
+import 'package:codingbryant/screens/patient/register_patient_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,6 +37,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AuthBloc(authRepository: AuthRepository()),
         ),
+        BlocProvider(
+          create: (context) => PrescriptionBloc(prescriptionRepository: PrescribeRepository()),
+        ),
       ],
       child: MaterialApp (
         debugShowCheckedModeBanner: false,
@@ -44,8 +49,6 @@ class MyApp extends StatelessWidget {
             if (state is AuthInitial) {
               return LandingPage();
             } else if (state is AuthAuthenticated) {
-
-              return LandingPage(); // Change with if 
               if (state.userType == 'D') {
                 return DashboardDoctorScreen(); // Replace with right pages
               }else if (state.userType == 'P') {
@@ -59,12 +62,11 @@ class MyApp extends StatelessWidget {
           },
         ),
         routes: {
-          '/register-doctor': (context) => const RegisterDoctorScreen(),
+          '/register-doctor': (context) => RegisterDoctorScreen(),
           '/login':(context) => LoginScreen(),
-          '/register-patient': (context) => const RegisterPatientScreen(),
           '/dashboard-doctor': (context) => const DashboardDoctorScreen(),
-          '/prescription-form': (context) => const PrescriptionScreen(),
-          '/dashboard-doctor': (context) => DashboardDoctorScreen(),
+          '/prescription-form': (context) => PrescriptionScreen(),
+          '/prescription-confirm': (context) => const PatientPrescriptionDetails(),
           '/dashboard-patient' : (context) => DashboardPatientScreen(),
           '/register-patient': (context) => RegisterPatientScreen(),
         },

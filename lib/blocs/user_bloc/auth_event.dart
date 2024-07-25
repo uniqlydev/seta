@@ -22,7 +22,6 @@ class AuthSignUpRequestedDoctor extends AuthEvent {
   final String username;
   final String firstName; 
   final String lastName; 
-  final String licenseNumber;
 
   AuthSignUpRequestedDoctor({
     required this.email,
@@ -30,13 +29,12 @@ class AuthSignUpRequestedDoctor extends AuthEvent {
     required this.username,
     required this.firstName,
     required this.lastName,
-    required this.licenseNumber
   });
 
 
 
   @override
-  List<Object> get props => [email, password, username, firstName, lastName, licenseNumber];
+  List<Object> get props => [email, password, username, firstName, lastName];
 }
 
 class AuthSignUpRequestPatient extends AuthEvent {

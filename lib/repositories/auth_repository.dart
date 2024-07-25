@@ -39,21 +39,34 @@ class AuthRepository {
   Future<User?> signInWithUsernameAndPassword({required String username, required String password}) async {
     try {
       // Fetch the user document from Firestore based on the provided username
-      final userQuery = await _firestore
-          .collection('users')
+      // check if user is a doctor or patient
+      final doctorQuery = await _firestore
+          .collection('doctors')
           .where('username', isEqualTo: username)
           .limit(1)
           .get();
 
-      if (userQuery.docs.isNotEmpty) {
+      final patientQuery = await _firestore
+          .collection('patients')
+          .where('username', isEqualTo: username)
+          .limit(1)
+          .get();
+
+
+      if (doctorQuery.docs.isNotEmpty) {
         // If user with provided username exists, sign in with their email and password
-        final userDoc = userQuery.docs.first;
-        final email = userDoc['email'];
+        final doctorDoc = doctorQuery.docs.first;
+        final email = doctorDoc['email'];
+        final UserCredential userCredential = await _firebaseAuth
+            .signInWithEmailAndPassword(email: email, password: password);
+        return userCredential.user;
+      } else if (patientQuery.docs.isNotEmpty) {
+        final patientDoc = patientQuery.docs.first;
+        final email = patientDoc['email'];
         final UserCredential userCredential = await _firebaseAuth
             .signInWithEmailAndPassword(email: email, password: password);
         return userCredential.user;
       } else {
-        // If user with provided username doesn't exist, return null
         return null;
       }
     } catch (e) {
