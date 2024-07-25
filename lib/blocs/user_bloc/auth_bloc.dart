@@ -51,7 +51,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           if (userType == 'D') {
             // Retreive subcollection of patients
             final patients = await _firestore.collection('doctors').doc(user.uid).collection('patients').get();
-            // Convert to list<Strings>
 
             emit(AuthAuthenticated(user: user, userType: userType!, firstName: userName, patients: patients.docs.map((e) => e.data()['name'] as String).toList()));
           }else if (userType == 'P') {
