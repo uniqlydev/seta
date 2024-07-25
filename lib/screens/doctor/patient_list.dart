@@ -1,9 +1,10 @@
+import 'package:codingbryant/screens/doctor/patient_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class PatientListView extends StatelessWidget {
   final List<String> patients;
 
-  const PatientListView({super.key, required this.patients});
+  const PatientListView({Key? key, required this.patients}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +15,13 @@ class PatientListView extends StatelessWidget {
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
-            // Handle onTap for "Patient Info"
-            // Navigate to the page for viewing patient info
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    PatientDetailsScreen(patientName: patients[index]),
+              ),
+            );
           },
           child: Container(
             margin: const EdgeInsets.symmetric(vertical: 8),
