@@ -37,10 +37,8 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
         'instructions': event.instructions,
       });
 
-      print("Prescription Created Successfully");
       emit(const PrescriptionSuccess(message: 'Prescription Created Successfully'));
     } catch (e) {
-      print("Failed to create prescription: $e");
       emit(const PrescriptionFailure(message: 'Failed to create prescription'));
     }
   }
