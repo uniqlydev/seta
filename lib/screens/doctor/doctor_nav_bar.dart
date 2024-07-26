@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 
-class NavBar extends StatelessWidget {
+class DoctorNavBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
 
-
-
-  const NavBar({
-    Key? key,
+  const DoctorNavBar({
+    super.key,
     required this.currentIndex,
     required this.onTap,
-  }) : super(key: key);
-
-  
+  });
 
   @override
   Widget build(BuildContext context) {
-    
     return BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
@@ -34,7 +29,20 @@ class NavBar extends StatelessWidget {
       ],
       currentIndex: currentIndex,
       selectedItemColor: Colors.blue,
-      onTap: onTap,
+      onTap: (index) {
+        if (index == 1) {
+          Navigator.pushReplacementNamed(context, '/inbox-doctor');
+          Colors.blue;
+        } else if (index == 0) {
+          Navigator.pushReplacementNamed(context, '/dashboard-doctor');
+          Colors.blue;
+        } else if (index == 2) {
+          Navigator.pushReplacementNamed(context, '/doctor-profile-screen');
+          Colors.blue;
+        } else {
+          onTap(index);
+        }
+      },
     );
   }
 }

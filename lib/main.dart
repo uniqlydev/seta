@@ -3,6 +3,7 @@ import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:codingbryant/repositories/prescribe_repository.dart';
 import 'package:codingbryant/screens/doctor/dashboard_doctor_screen.dart';
+import 'package:codingbryant/screens/doctor/doctor_profile_screen.dart';
 import 'package:codingbryant/screens/doctor/medication_screen.dart';
 import 'package:codingbryant/screens/doctor/patient_details_screen.dart';
 import 'package:codingbryant/screens/landing_page.dart';
@@ -67,6 +68,7 @@ class MyApp extends StatelessWidget {
           },
         ),
         routes: {
+          '/landing-page': (context) => LandingPage(),
           '/register-doctor': (context) => RegisterDoctorScreen(),
           '/login': (context) => LoginScreen(),
           '/dashboard-doctor': (context) => const DashboardDoctorScreen(),
@@ -79,6 +81,7 @@ class MyApp extends StatelessWidget {
           '/patient-details-screen': (context) => PatientDetailsScreen(
                 patientName: '',
               ),
+          '/doctor-profile-screen': (context) => DoctorProfileScreen(),
         },
       ),
     );
