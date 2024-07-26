@@ -99,6 +99,7 @@ class PatientDetailsScreen extends StatelessWidget {
                         ];
                       },
                       body: SingleChildScrollView(
+                        padding: const EdgeInsets.all(16.0), // Padding around the entire content
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -245,7 +246,7 @@ class PatientDetailsScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 50), // Spacing between patient details and prescriptions
+                            const SizedBox(height: 20), // Spacing between patient details and prescriptions
                             // Display prescriptions
                             const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -303,24 +304,19 @@ class PatientDetailsScreen extends StatelessWidget {
                                             color: Colors.white,
                                           ),
                                         ),
-                                        const SizedBox(height: 10),
+                                        const SizedBox(height: 8),
                                         Text(
-                                          'Dosage: $prescriptionDosageString mg',
-                                          style: const TextStyle(
+                                          'Dosage: ${prescriptionDosageString} mg',
+                                          style: TextStyle(
+                                            fontSize: 16,
                                             color: Colors.white,
                                           ),
                                         ),
-                                        const SizedBox(height: 10),
-                                        Text(
-                                          'Instructions: ${prescription['instructions']}',
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 10),
+                                        const SizedBox(height: 4),
                                         Text(
                                           'Diagnosis: $prescriptionDiagnosis',
-                                          style: const TextStyle(
+                                          style: TextStyle(
+                                            fontSize: 16,
                                             color: Colors.white,
                                           ),
                                         ),
@@ -341,7 +337,33 @@ class PatientDetailsScreen extends StatelessWidget {
           } else if (state is AuthFailure) {
             return Center(child: Text('Error: ${state.message}'));
           } else {
-            return const Center(child: CircularProgressIndicator());
+            // Handle unauthenticated or other states
+            return Padding(
+              padding: const EdgeInsets.all(16.0), // Padding for the entire screen
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'You need to be logged in to view patient details.',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Navigate to login screen or authentication page
+                        Navigator.of(context).pushReplacementNamed('/login');
+                      },
+                      child: const Text('Login'),
+                    ),
+                  ],
+                ),
+              ),
+            );
           }
         },
       ),
