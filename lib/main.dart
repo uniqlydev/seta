@@ -68,6 +68,7 @@ class MyApp extends StatelessWidget {
           },
         ),
         routes: {
+          '/landing-page': (context) => LandingPage(),
           '/register-doctor': (context) => RegisterDoctorScreen(),
           '/login': (context) => LoginScreen(),
           '/dashboard-doctor': (context) => const DashboardDoctorScreen(),
