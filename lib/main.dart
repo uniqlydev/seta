@@ -12,6 +12,7 @@ import 'package:codingbryant/screens/login_screen.dart';
 import 'package:codingbryant/screens/patient/patient_prescription_details.dart';
 import 'package:codingbryant/screens/doctor/prescription_screen.dart';
 import 'package:codingbryant/screens/doctor/register_doctor_screen.dart';
+import 'package:codingbryant/screens/patient/patient_profile_screen.dart';
 import 'package:codingbryant/screens/patient/register_patient_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -82,6 +83,7 @@ class MyApp extends StatelessWidget {
                 patientName: '',
               ),
           '/doctor-profile-screen': (context) => DoctorProfileScreen(),
+          '/patient-profile-screen': (context) => PatientProfileScreen(),
         },
       ),
     );
