@@ -4,6 +4,7 @@ import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:codingbryant/repositories/prescribe_repository.dart';
 import 'package:codingbryant/screens/doctor/dashboard_doctor_screen.dart';
 import 'package:codingbryant/screens/doctor/medication_screen.dart';
+import 'package:codingbryant/screens/doctor/patient_details_screen.dart';
 import 'package:codingbryant/screens/landing_page.dart';
 import 'package:codingbryant/screens/patient/dashboard_patient_screen.dart';
 import 'package:codingbryant/screens/login_screen.dart';
@@ -75,6 +76,9 @@ class MyApp extends StatelessWidget {
           '/dashboard-patient': (context) => DashboardPatientScreen(),
           '/register-patient': (context) => RegisterPatientScreen(),
           '/medication-screen': (context) => const MedicationScreen(),
+          '/patient-details-screen': (context) => PatientDetailsScreen(
+                patientName: '',
+              ),
         },
       ),
     );
