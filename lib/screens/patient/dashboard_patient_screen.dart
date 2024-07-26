@@ -1,11 +1,11 @@
+import 'package:codingbryant/screens/patient/patient_nav_bar.dart';
 import 'package:codingbryant/screens/patient/patient_prescription_details.dart';
 import 'package:flutter/material.dart';
 import 'package:codingbryant/screens/patient_chat_screen.dart';
 import 'package:codingbryant/screens/profile_screen.dart';
-import '../nav_bar.dart';
+import '../doctor/doctor_nav_bar.dart';
 
 class DashboardPatientScreen extends StatefulWidget {
-
   @override
   _DashboardPatientScreenState createState() => _DashboardPatientScreenState();
 }
@@ -36,7 +36,7 @@ class _DashboardPatientScreenState extends State<DashboardPatientScreen> {
         index: _selectedIndex,
         children: _widgetOptions,
       ),
-      bottomNavigationBar: NavBar(
+      bottomNavigationBar: PatientNavBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
@@ -119,7 +119,8 @@ class DashboardPatientScreenContent extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => PatientPrescriptionDetails()),
+                      MaterialPageRoute(
+                          builder: (context) => PatientPrescriptionDetails()),
                     );
                   },
                   child: MedicationCard(
@@ -132,7 +133,8 @@ class DashboardPatientScreenContent extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => PatientPrescriptionDetails()),
+                      MaterialPageRoute(
+                          builder: (context) => PatientPrescriptionDetails()),
                     );
                   },
                   child: MedicationCard(
@@ -145,7 +147,8 @@ class DashboardPatientScreenContent extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => PatientPrescriptionDetails()),
+                      MaterialPageRoute(
+                          builder: (context) => PatientPrescriptionDetails()),
                     );
                   },
                   child: MedicationCard(
@@ -171,7 +174,8 @@ class DashboardPatientScreenContent extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => PatientPrescriptionDetails()),
+                      MaterialPageRoute(
+                          builder: (context) => PatientPrescriptionDetails()),
                     );
                   },
                   child: MedicationCard(
@@ -245,12 +249,10 @@ class _MedicationCardState extends State<MedicationCard> {
                     color: Colors.white,
                   ),
                 ),
-                Text(
-                  widget.time,
-                  style: TextStyle(
-                    color: Colors.white,
-                  )
-                ),
+                Text(widget.time,
+                    style: TextStyle(
+                      color: Colors.white,
+                    )),
               ],
             ),
             Spacer(),
@@ -272,4 +274,3 @@ class _MedicationCardState extends State<MedicationCard> {
     );
   }
 }
-

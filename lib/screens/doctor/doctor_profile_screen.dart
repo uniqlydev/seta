@@ -1,4 +1,4 @@
-import 'package:codingbryant/screens/nav_bar.dart';
+import 'package:codingbryant/screens/doctor/doctor_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart'; // Ensure this import matches your project structure
@@ -123,7 +123,7 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
           }
         },
       ),
-      bottomNavigationBar: NavBar(
+      bottomNavigationBar: DoctorNavBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
