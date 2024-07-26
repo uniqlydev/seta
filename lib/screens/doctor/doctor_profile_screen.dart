@@ -1,3 +1,4 @@
+import 'package:codingbryant/screens/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart'; // Ensure this import matches your project structure
@@ -10,6 +11,14 @@ class DoctorProfileScreen extends StatefulWidget {
 }
 
 class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
+  int _selectedIndex = 2;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,41 +114,6 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
                     ),
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.all(20.0),
-                  color: Colors.grey[200],
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // TODO: No functionality for the MVP. To be added in future builds.
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue, // Background color
-                          ),
-                          child: const Text('Customer Support'),
-                        ),
-                      ),
-                      const SizedBox(width: 10), // Spacing between buttons
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            context
-                                .read<AuthBloc>()
-                                .add(AuthSignOutRequested());
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Colors.redAccent, // Background color
-                          ),
-                          child: const Text('Sign Out'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ],
             );
           } else if (state is AuthFailure) {
@@ -148,6 +122,10 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
             return const Center(child: CircularProgressIndicator());
           }
         },
+      ),
+      bottomNavigationBar: NavBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
       ),
     );
   }

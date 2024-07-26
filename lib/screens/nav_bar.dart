@@ -31,13 +31,13 @@ class NavBar extends StatelessWidget {
       selectedItemColor: Colors.blue,
       onTap: (index) {
         if (index == 1) {
-          Navigator.pushNamed(context, '/inbox-doctor');
+          Navigator.pushReplacementNamed(context, '/inbox-doctor');
           Colors.blue;
         } else if (index == 0) {
-          Navigator.pushNamed(context, '/dashboard-doctor');
+          Navigator.pushReplacementNamed(context, '/dashboard-doctor');
           Colors.blue;
         } else if (index == 2) {
-          Navigator.pushNamed(context, '/doctor-profile-screen');
+          Navigator.pushReplacementNamed(context, '/doctor-profile-screen');
           Colors.blue;
         } else {
           onTap(index);
