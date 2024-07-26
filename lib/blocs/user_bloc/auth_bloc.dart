@@ -38,7 +38,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         // Get first name if doctor, username if patient
 
         String userName =
-            doctor.exists ? doctor['first_name'] : patient['username'];
+            doctor.exists ? doctor['first_name'] : patient['first_name'];
+
+        String lastName =
+            doctor.exists ? doctor['last_name'] : patient['last_name'];
 
         String? userType;
 
@@ -47,6 +50,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         } else if (patient.exists) {
           userType = 'P';
         }
+
+        String email = doctor.exists ? doctor['email'] : patient['email'];
 
         if (userType == 'D') {
           // Retreive subcollection of patients
@@ -71,14 +76,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
           emit(AuthAuthenticated(
               user: user,
+              email: email,
               userType: userType!,
               firstName: userName,
+              lastName: lastName,
               patients: uniquePatientIdsList));
         } else if (userType == 'P') {
           emit(AuthAuthenticated(
               user: user,
+              email: email,
               userType: userType!,
               firstName: userName,
+              lastName: lastName,
               patients: const []));
         } else {
           emit(Authunauthenticated());
@@ -141,8 +150,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       emit(AuthAuthenticated(
           user: user,
+          email: doctor.email,
           userType: doctor.userType,
           firstName: doctor.firstName,
+          lastName: doctor.lastName,
           patients: uniquePatientIdsList));
     } catch (e) {
       emit(AuthFailure(message: e.toString()));
@@ -180,8 +191,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       emit(AuthAuthenticated(
           user: user,
+          email: patient.email,
           userType: patient.userType,
           firstName: patient.username,
+          lastName: patient.lastName,
           patients: const []));
     } catch (e) {
       emit(AuthFailure(message: e.toString()));
@@ -233,16 +246,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
             yield AuthAuthenticated(
                 user: user,
+                email: doctor['email'],
                 userType: usertType!,
                 firstName: doctor['first_name'],
+                lastName: doctor['last_name'],
                 patients: uniquePatientIdsList);
           } else if (usertType == 'P') {
             final patient =
                 await _firestore.collection('patients').doc(user.uid).get();
             yield AuthAuthenticated(
                 user: user,
+                email: patient['email'],
                 userType: usertType!,
-                firstName: patient['username'],
+                firstName: patient['first_name'],
+                lastName: patient['last_name'],
                 patients: const []);
           }
         } else {
@@ -297,8 +314,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         yield AuthAuthenticated(
             user: user,
+            email: doctor.email,
             userType: doctor.userType,
             firstName: doctor.firstName,
+            lastName: doctor.lastName,
             patients: uniquePatientIdsList);
       } catch (e) {
         yield AuthFailure(message: e.toString());
@@ -331,8 +350,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         yield AuthAuthenticated(
             user: user,
+            email: patient.email,
             userType: patient.userType,
-            firstName: patient.username,
+            firstName: patient.firstName,
+            lastName: patient.lastName,
             patients: const []);
       } catch (e) {
         yield AuthFailure(message: e.toString());
