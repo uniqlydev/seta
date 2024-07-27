@@ -64,7 +64,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         // Convert DateTime into a Date Format
         String birthday = DateFormat('yyyy-MM-dd').format(birthdayDate);
 
-        int height = doctor.exists ? 0.0 : patient['height'];
+        String height = doctor.exists ? 0.0 : patient['height'];
 
         String weight = doctor.exists ? '' : patient['weight'];
 

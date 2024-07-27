@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codingbryant/screens/patient/patient_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,6 +38,54 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
     });
   }
 
+  void _saveProfile(String vUserid) async {
+    // Collect data from text controllers
+    final phoneNumber = _phoneController.text;
+    final email = _emailController.text;
+    final birthday = _birthdayController.text;
+    final weight = _weightController.text;
+    final height = _heightController.text;
+    final bloodType = _selectedBloodType;
+
+    // Get the current user's ID from the AuthBloc or any other source
+    final userId = vUserid;
+
+    // convert birthday String to DateTime
+    final birthdayDate = DateTime.parse(birthday);
+
+    // Convert birthdayDate to Timestamp
+    final birthdayTimestamp = Timestamp.fromDate(birthdayDate);
+
+    try {
+      // Reference to the user's document in Firestore
+      final userDocRef =
+          FirebaseFirestore.instance.collection('patients').doc(userId);
+
+      // Update the user's document with new data
+      await userDocRef.update({
+        'phone_number': phoneNumber,
+        'email': email,
+        'birthday': birthdayTimestamp,
+        'weight': weight,
+        'height': height,
+        'blood_type': bloodType,
+      });
+
+      // Show a success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Profile updated successfully!')),
+      );
+    } catch (e) {
+      // Show an error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update profile: $e')),
+      );
+    }
+
+    // Toggle editing mode after saving
+    _toggleEditing();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,17 +108,16 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
+                SizedBox(
                   height: MediaQuery.of(context).size.height * 1 / 9,
                   width: double.infinity,
-                  child: Stack(
+                  child: const Stack(
                     alignment: Alignment.center,
                     children: [
                       Align(
                         alignment: Alignment.bottomLeft,
                         child: Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+                          padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -262,7 +310,17 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                           const SizedBox(height: 20),
                           Center(
                             child: ElevatedButton(
-                              onPressed: _toggleEditing,
+                              onPressed: () {
+                                if (_isEditing) {
+                                  final userId = (context.read<AuthBloc>().state
+                                          as AuthAuthenticated)
+                                      .user
+                                      .uid;
+                                  _saveProfile(userId);
+                                } else {
+                                  _toggleEditing();
+                                }
+                              },
                               style: ElevatedButton.styleFrom(
                                 foregroundColor: Colors.white,
                                 backgroundColor: Colors.blue, // Text color

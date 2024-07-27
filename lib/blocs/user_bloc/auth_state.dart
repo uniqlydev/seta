@@ -17,7 +17,7 @@ class AuthAuthenticated extends AuthState {
   final String lastName;
   final String? phoneNumber;
   final String? birthday;
-  final int? height;
+  final String? height;
   final String? weight;
   final String? bloodType;
   final List<String> patients;
