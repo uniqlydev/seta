@@ -3,6 +3,7 @@ import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:codingbryant/repositories/prescribe_repository.dart';
 import 'package:codingbryant/screens/doctor/dashboard_doctor_screen.dart';
+import 'package:codingbryant/screens/doctor/doctor_chat_list_screen.dart';
 import 'package:codingbryant/screens/doctor/doctor_inbox_screen.dart';
 import 'package:codingbryant/screens/doctor/doctor_profile_screen.dart';
 import 'package:codingbryant/screens/doctor/medication_screen.dart';
@@ -78,6 +79,7 @@ class MyApp extends StatelessWidget {
           '/doctor-profile-screen': (context) => const DoctorProfileScreen(),
           '/patient-profile-screen': (context) => const PatientProfileScreen(),
           '/inbox-doctor': (context) => const DoctorInboxScreen(),
+          '/list-doctor' : (context) => DoctorChatListScreen(),
         },
       ),
     );
