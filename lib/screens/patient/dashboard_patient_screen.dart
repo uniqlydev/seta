@@ -1,12 +1,12 @@
 import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/screens/chat_screen.dart';
-import 'package:codingbryant/screens/patient/widgets/medication_card.dart';
+import 'package:codingbryant/screens/nav_bar.dart';
 import 'package:codingbryant/screens/patient/patient_prescription_details.dart';
+import 'package:codingbryant/screens/patient/widgets/medication_card.dart';
 import 'package:codingbryant/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import '../nav_bar.dart';
 
 class DashboardPatientScreen extends StatefulWidget {
   @override
@@ -54,10 +54,11 @@ class _DashboardPatientScreenContent extends StatelessWidget {
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           if (state is AuthAuthenticatedPatient) {
+            final medications = state.prescriptions;
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min, // Ensure Column takes only necessary space
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
                     height: MediaQuery.of(context).size.height * 2 / 9,
@@ -113,63 +114,13 @@ class _DashboardPatientScreenContent extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: const EdgeInsets.fromLTRB(20.0, 0, 0.0, 0.0),
                           child: Text(
-                          DateFormat('MMMM d').format(DateTime.now()),
-                          style: const TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                          ))
-                        ),
-                        const SizedBox(height: 8),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const PatientPrescriptionDetails()),
-                            );
-                          },
-                          child: const MedicationCard(
-                            medicationName: 'MEDICATION NAME',
-                            time: '8:00AM | 2 CAPSULES',
-                            isTaken: false,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const PatientPrescriptionDetails()),
-                            );
-                          },
-                          child: const MedicationCard(
-                            medicationName: 'MEDICATION NAME',
-                            time: '8:00AM | 2 CAPSULES',
-                            isTaken: false,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const PatientPrescriptionDetails()),
-                            );
-                          },
-                          child: const MedicationCard(
-                            medicationName: 'MEDICATION NAME',
-                            time: '8:00AM | 2 CAPSULES',
-                            isTaken: false,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(20.0, 0, 0.0, 0.0),
-                          child: Text(
-                            'Tomorrow',
-                            style: TextStyle(
+                            DateFormat('MMMM d').format(DateTime.now()),
+                            style: const TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
                               color: Colors.black54,
@@ -177,17 +128,27 @@ class _DashboardPatientScreenContent extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const PatientPrescriptionDetails()),
-                            );
-                          },
-                          child: const MedicationCard(
-                            medicationName: 'MEDICATION NAME',
-                            time: '8:00AM | 2 CAPSULES',
-                            isTaken: false,
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: medications.length,
+                            itemBuilder: (context, index) {
+                              final medication = medications[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const PatientPrescriptionDetails()),
+                                  );
+                                },
+                                child: MedicationCard(
+                                  medicationName: medication.medication,
+                                  time: '${medication.instructions} | ${medication.dosage} CAPSULES',
+                                  isTaken: false,
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ],
