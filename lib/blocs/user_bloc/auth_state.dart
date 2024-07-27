@@ -15,6 +15,13 @@ class AuthAuthenticatedDoctor extends AuthState {
   final String userType;
   final String firstName;
   final String lastName;
+  final String? phoneNumber;
+  final String? birthday;
+  final String? height;
+  final String? weight;
+  final String? bloodType;
+  final String? clinicName;
+  final String? clinicHours;
   final List<String> patients;
 
   const AuthAuthenticatedDoctor(
@@ -23,6 +30,13 @@ class AuthAuthenticatedDoctor extends AuthState {
       required this.userType,
       required this.firstName,
       required this.lastName,
+      this.phoneNumber,
+      this.birthday,
+      this.height,
+      this.weight,
+      this.bloodType,
+      this.clinicName,
+      this.clinicHours,
       required this.patients});
 
   @override

@@ -1,12 +1,20 @@
+<<<<<<< HEAD
 import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/screens/chat_screen.dart';
 import 'package:codingbryant/screens/nav_bar.dart';
+=======
+import 'package:codingbryant/screens/patient/patient_nav_bar.dart';
+>>>>>>> development
 import 'package:codingbryant/screens/patient/patient_prescription_details.dart';
 import 'package:codingbryant/screens/patient/widgets/medication_card.dart';
 import 'package:codingbryant/screens/profile_screen.dart';
+<<<<<<< HEAD
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+=======
+import '../doctor/doctor_nav_bar.dart';
+>>>>>>> development
 
 class DashboardPatientScreen extends StatefulWidget {
   @override
@@ -39,7 +47,7 @@ class _DashboardPatientScreenState extends State<DashboardPatientScreen> {
         index: _selectedIndex,
         children: _widgetOptions,
       ),
-      bottomNavigationBar: NavBar(
+      bottomNavigationBar: PatientNavBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
@@ -156,6 +164,7 @@ class _DashboardPatientScreenContent extends StatelessWidget {
                   ),
                 ],
               ),
+<<<<<<< HEAD
             );
           } else if (state is AuthFailure) {
             Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
@@ -164,6 +173,183 @@ class _DashboardPatientScreenContent extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
         },
+=======
+            ),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20.0, 0, 0.0, 0.0),
+                  child: Text(
+                    'Today, June 19',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PatientPrescriptionDetails()),
+                    );
+                  },
+                  child: MedicationCard(
+                    medicationName: 'MEDICATION NAME',
+                    time: '8:00AM | 2 CAPSULES',
+                    isTaken: false,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PatientPrescriptionDetails()),
+                    );
+                  },
+                  child: MedicationCard(
+                    medicationName: 'MEDICATION NAME',
+                    time: '8:00AM | 2 CAPSULES',
+                    isTaken: false,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PatientPrescriptionDetails()),
+                    );
+                  },
+                  child: MedicationCard(
+                    medicationName: 'MEDICATION NAME',
+                    time: '8:00AM | 2 CAPSULES',
+                    isTaken: false,
+                  ),
+                ),
+                SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20.0, 0, 0.0, 0.0),
+                  child: Text(
+                    'Tomorrow',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PatientPrescriptionDetails()),
+                    );
+                  },
+                  child: MedicationCard(
+                    medicationName: 'MEDICATION NAME',
+                    time: '8:00AM | 2 CAPSULES',
+                    isTaken: false,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class MedicationCard extends StatefulWidget {
+  final String medicationName;
+  final String time;
+  final bool isTaken;
+
+  const MedicationCard({
+    Key? key,
+    required this.medicationName,
+    required this.time,
+    required this.isTaken,
+  }) : super(key: key);
+
+  @override
+  _MedicationCardState createState() => _MedicationCardState();
+}
+
+class _MedicationCardState extends State<MedicationCard> {
+  bool _isTaken = false;
+
+  @override
+  void initState() {
+    _isTaken = widget.isTaken;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.blue,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Container(
+              width: 5,
+              height: 60,
+              color: _isTaken ? Color(0xFFBEE3BA) : Colors.red,
+            ),
+            SizedBox(width: 10),
+            Icon(
+              Icons.medication,
+              size: 40,
+              color: Colors.white,
+            ),
+            SizedBox(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.medicationName,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(widget.time,
+                    style: TextStyle(
+                      color: Colors.white,
+                    )),
+              ],
+            ),
+            Spacer(),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _isTaken = !_isTaken;
+                });
+              },
+              child: Icon(
+                _isTaken ? Icons.check_circle : Icons.check_circle_outline,
+                color: _isTaken ? Color(0xFFBEE3BA) : Colors.white,
+                size: 30,
+              ),
+            ),
+          ],
+        ),
+>>>>>>> development
       ),
     );
   }

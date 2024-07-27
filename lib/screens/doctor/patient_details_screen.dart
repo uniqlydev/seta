@@ -42,6 +42,11 @@ class PatientDetailsScreen extends StatelessWidget {
                 String phoneNumber =
                     patientData['phone_number'] ?? 'Phone number not available';
                 String email = patientData['email'] ?? 'Email not available';
+                String age = 'Age here'; // Placeholder
+                String diagnosis = 'Diagnosis here'; // Placeholder
+                String dateOfLastCheckUp = 'Last Check-Up'; // Placeholder
+                String height = 'Height here'; // Placeholder
+                String weight = 'Weight here'; // Placeholder
 
                 // Fetch prescriptions for the patient
                 return FutureBuilder<QuerySnapshot>(
@@ -77,13 +82,18 @@ class PatientDetailsScreen extends StatelessWidget {
                             snap: false,
                             backgroundColor: Colors.blue,
                             expandedHeight:
-                                MediaQuery.of(context).size.height * 2 / 9,
+                                MediaQuery.of(context).size.height * 1 / 9, // Decreased height
                             flexibleSpace: FlexibleSpaceBar(
                               title: Text(
+<<<<<<< HEAD
                                 patientName,
                                 style: const TextStyle(
+=======
+                                'Patient Details',
+                                style: TextStyle(
+>>>>>>> development
                                   fontFamily: 'RobotoMono',
-                                  fontSize: 32,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.w900,
                                   color: Colors.white,
                                 ),
@@ -94,63 +104,159 @@ class PatientDetailsScreen extends StatelessWidget {
                         ];
                       },
                       body: SingleChildScrollView(
+                        padding: const EdgeInsets.all(16.0), // Padding around the entire content
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+<<<<<<< HEAD
                             const Padding(
                               padding: EdgeInsets.all(16.0),
+=======
+                            const SizedBox(height: 20), // Added spacing
+                            // Patient name
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+>>>>>>> development
                               child: Text(
-                                'Patient Details Section',
-                                style: TextStyle(
+                                ' $patientName',
+                                style: const TextStyle(
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.w800,
                                   fontSize: 24,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 8),
-                              padding: const EdgeInsets.all(16),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.grey,
-                                    spreadRadius: 2,
-                                    blurRadius: 7,
-                                    offset: Offset(0, 3),
-                                  ),
-                                ],
+                            const SizedBox(height: 10), // Spacing between name and diagnosis
+                            // Diagnosis
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Text(
+                                'Diagnosis: $diagnosis',
+                                style: const TextStyle(
+                                  color: Colors.black87,
+                                  fontSize: 18,
+                                ),
                               ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            ),
+                            const SizedBox(height: 20), // Spacing between diagnosis and details
+                            // Display patient details in two columns
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Row(
                                 children: [
-                                  Text(
-                                    'Patient Name: $patientName',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.calendar_today, color: Colors.red),
+                                            const SizedBox(width: 10),
+                                            Expanded(
+                                              child: Text(
+                                                dateOfLastCheckUp,
+                                                style: const TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.height, color: Colors.red),
+                                            const SizedBox(width: 10),
+                                            Expanded(
+                                              child: Text(
+                                                height,
+                                                style: const TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.monitor_weight, color: Colors.red),
+                                            const SizedBox(width: 10),
+                                            Expanded(
+                                              child: Text(
+                                                weight,
+                                                style: const TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  const SizedBox(height: 10),
-                                  Text(
-                                    'Phone Number: $phoneNumber',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Text(
-                                    'Email: $email',
-                                    style: const TextStyle(
-                                      color: Colors.black,
+                                  const SizedBox(width: 20), // Spacing between columns
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.phone, color: Colors.red),
+                                            const SizedBox(width: 10),
+                                            Expanded(
+                                              child: Text(
+                                                phoneNumber,
+                                                style: const TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.email, color: Colors.red),
+                                            const SizedBox(width: 10),
+                                            Expanded(
+                                              child: Text(
+                                                email,
+                                                style: const TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.cake, color: Colors.red),
+                                            const SizedBox(width: 10),
+                                            Expanded(
+                                              child: Text(
+                                                age,
+                                                style: const TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 20),
+                            const SizedBox(height: 20), // Spacing between patient details and prescriptions
                             // Display prescriptions
                             const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -159,10 +265,12 @@ class PatientDetailsScreen extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
+                                  color: Colors.black54
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 5), // Increased spacing above prescriptions
+                            // Display each prescription in a centered container
                             ListView.builder(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
@@ -176,20 +284,56 @@ class PatientDetailsScreen extends StatelessWidget {
                                 String prescriptionDosageString =
                                     prescriptionDosage.toStringAsFixed(
                                         2); // Format dosage to 2 decimal places
-                                // Customize how you display prescription details
-                                return ListTile(
-                                    title: Text(
-                                        'Medicine Name: ${prescription['medication']}'),
-                                    subtitle: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                String prescriptionDiagnosis =
+                                    prescription['diagnosis'] ?? 'Diagnosis not available';
+                                return Center(
+                                  child: Container(
+                                    margin: const EdgeInsets.symmetric(vertical: 8),
+                                    padding: const EdgeInsets.all(16),
+                                    width: MediaQuery.of(context).size.width * 0.9, // Adjust width as needed
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.grey,
+                                          spreadRadius: 1,
+                                          blurRadius: 5,
+                                          offset: Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                            'Dosage: $prescriptionDosageString mg'),
+                                          'Medication: ${prescription['medication']}',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
                                         Text(
-                                            'Instructions: ${prescription['instructions']}'),
+                                          'Dosage: ${prescriptionDosageString} mg',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          'Diagnosis: $prescriptionDiagnosis',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                       ],
-                                    ));
+                                    ),
+                                  ),
+                                );
                               },
                             ),
                           ],
@@ -203,7 +347,33 @@ class PatientDetailsScreen extends StatelessWidget {
           } else if (state is AuthFailure) {
             return Center(child: Text('Error: ${state.message}'));
           } else {
-            return const Center(child: CircularProgressIndicator());
+            // Handle unauthenticated or other states
+            return Padding(
+              padding: const EdgeInsets.all(16.0), // Padding for the entire screen
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'You need to be logged in to view patient details.',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Navigate to login screen or authentication page
+                        Navigator.of(context).pushReplacementNamed('/login');
+                      },
+                      child: const Text('Login'),
+                    ),
+                  ],
+                ),
+              ),
+            );
           }
         },
       ),

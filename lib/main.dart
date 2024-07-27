@@ -12,6 +12,7 @@ import 'package:codingbryant/screens/login_screen.dart';
 import 'package:codingbryant/screens/patient/patient_prescription_details.dart';
 import 'package:codingbryant/screens/doctor/prescription_screen.dart';
 import 'package:codingbryant/screens/doctor/register_doctor_screen.dart';
+import 'package:codingbryant/screens/patient/patient_profile_screen.dart';
 import 'package:codingbryant/screens/patient/register_patient_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -31,7 +32,6 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -51,12 +51,28 @@ class MyApp extends StatelessWidget {
           builder: (context, state) {
             if (state is AuthInitial) {
               return LandingPage();
+<<<<<<< HEAD
             } else if (state is AuthAuthenticatedDoctor) {
                 return DashboardDoctorScreen(); // Replace with right pagess
             } else if (state is AuthAuthenticatedPatient ) {
               return DashboardPatientScreen();
             }else {
               return const Scaffold( body: Center(child: CircularProgressIndicator()));
+=======
+            } else if (state is AuthAuthenticated) {
+              if (state.userType == 'D') {
+                return DashboardDoctorScreen();
+              } else if (state.userType == 'P') {
+                return DashboardPatientScreen();
+              } else {
+                return const Scaffold(
+                    body: Text(
+                        "if this is showing, something went wrong. Please contact the developer."));
+              }
+            } else {
+              return const Scaffold(
+                  body: Center(child: CircularProgressIndicator()));
+>>>>>>> development
             }
           },
         ),
@@ -75,6 +91,7 @@ class MyApp extends StatelessWidget {
                 patientName: '',
               ),
           '/doctor-profile-screen': (context) => DoctorProfileScreen(),
+          '/patient-profile-screen': (context) => PatientProfileScreen(),
         },
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:codingbryant/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'doctor/dashboard_doctor_screen.dart';
-import 'nav_bar.dart';
+import 'doctor/doctor_nav_bar.dart';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -34,7 +34,7 @@ class _ChatScreenState extends State<ChatScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-              // Add back button action here
+            // Add back button action here
             Navigator.pop(context);
           },
         ),
@@ -92,7 +92,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: NavBar(
+      bottomNavigationBar: DoctorNavBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),

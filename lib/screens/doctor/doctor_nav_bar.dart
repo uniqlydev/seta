@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class NavBar extends StatelessWidget {
+class DoctorNavBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
 
-  const NavBar({
+  const DoctorNavBar({
     super.key,
     required this.currentIndex,
     required this.onTap,

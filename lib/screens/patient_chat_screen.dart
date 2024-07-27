@@ -1,7 +1,8 @@
+import 'package:codingbryant/screens/patient/patient_nav_bar.dart';
 import 'package:codingbryant/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'patient/dashboard_patient_screen.dart';
-import 'nav_bar.dart';
+import 'doctor/doctor_nav_bar.dart';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -82,7 +83,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: NavBar(
+      bottomNavigationBar: PatientNavBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
