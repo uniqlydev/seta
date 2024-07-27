@@ -115,7 +115,7 @@ class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
                               ),
                               SizedBox(height: 10),
                               Text(
-                                'Medication',
+                                'MiMS',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.white,
