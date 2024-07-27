@@ -8,7 +8,6 @@ class DashboardDoctorScreen extends StatefulWidget {
   const DashboardDoctorScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _DashboardDoctorScreenState createState() => _DashboardDoctorScreenState();
 }
 
@@ -199,6 +198,7 @@ class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
       bottomNavigationBar: DoctorNavBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
+        
       ),
     );
   }
