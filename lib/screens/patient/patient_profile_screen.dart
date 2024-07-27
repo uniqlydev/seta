@@ -23,6 +23,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
   final TextEditingController _birthdayController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _bloodTypeController = TextEditingController();
 
   void _onItemTapped(int index) {
     setState(() {
@@ -40,16 +41,20 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Patient Profile', style: TextStyle(color: Colors.white)),
+        title: const Text('Patient Profile',
+            style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blue,
       ),
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           if (state is AuthAuthenticated) {
             // Initialize controllers with current data
-            // _phoneController.text = state.phoneNumber;
-            // _emailController.text = state.email;
-            // _birthdayController.text = state.birthday;
+            _phoneController.text = state.phoneNumber as String;
+            _emailController.text = state.email;
+            _birthdayController.text = state.birthday as String;
+            _weightController.text = state.weight as String;
+            _heightController.text = state.height.toString();
+            _bloodTypeController.text = state.bloodType as String;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +68,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                       Align(
                         alignment: Alignment.bottomLeft,
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+                          padding:
+                              const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -157,7 +163,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                                   controller: _weightController,
                                   enabled: _isEditing,
                                   decoration: InputDecoration(
-                                    icon: const Icon(Icons.line_weight, color: Colors.blue),
+                                    icon: const Icon(Icons.line_weight,
+                                        color: Colors.blue),
                                     labelText: 'Weight',
                                     border: const OutlineInputBorder(),
                                     suffixIcon: DropdownButton<String>(
@@ -171,7 +178,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                                             }
                                           : null,
                                       items: <String>['KG', 'LBS']
-                                          .map<DropdownMenuItem<String>>((String value) {
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
                                         return DropdownMenuItem<String>(
                                           value: value,
                                           child: Text(value),
@@ -187,7 +195,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                                   controller: _heightController,
                                   enabled: _isEditing,
                                   decoration: InputDecoration(
-                                    icon: const Icon(Icons.height, color: Colors.blue),
+                                    icon: const Icon(Icons.height,
+                                        color: Colors.blue),
                                     labelText: 'Height',
                                     border: const OutlineInputBorder(),
                                     suffixIcon: DropdownButton<String>(
@@ -201,7 +210,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                                             }
                                           : null,
                                       items: <String>['CM', 'FT']
-                                          .map<DropdownMenuItem<String>>((String value) {
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
                                         return DropdownMenuItem<String>(
                                           value: value,
                                           child: Text(value),
@@ -217,7 +227,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                           TextFormField(
                             enabled: _isEditing,
                             decoration: InputDecoration(
-                              icon: const Icon(Icons.bloodtype, color: Colors.blue),
+                              icon: const Icon(Icons.bloodtype,
+                                  color: Colors.blue),
                               labelText: 'Blood Type',
                               border: const OutlineInputBorder(),
                               suffixIcon: DropdownButton<String>(
@@ -253,7 +264,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                             child: ElevatedButton(
                               onPressed: _toggleEditing,
                               style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.white, backgroundColor: Colors.blue, // Text color
+                                foregroundColor: Colors.white,
+                                backgroundColor: Colors.blue, // Text color
                                 shadowColor: Colors.black,
                                 elevation: 5,
                                 shape: RoundedRectangleBorder(
@@ -264,7 +276,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                                   vertical: 12,
                                 ),
                               ),
-                              child: Text(_isEditing ? 'Save Profile' : 'Edit Profile'),
+                              child: Text(
+                                  _isEditing ? 'Save Profile' : 'Edit Profile'),
                             ),
                           ),
                         ],

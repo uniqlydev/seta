@@ -15,6 +15,11 @@ class AuthAuthenticated extends AuthState {
   final String userType;
   final String firstName;
   final String lastName;
+  final String? phoneNumber;
+  final String? birthday;
+  final int? height;
+  final String? weight;
+  final String? bloodType;
   final List<String> patients;
 
   const AuthAuthenticated(
@@ -23,6 +28,11 @@ class AuthAuthenticated extends AuthState {
       required this.userType,
       required this.firstName,
       required this.lastName,
+      this.phoneNumber,
+      this.birthday,
+      this.height,
+      this.weight,
+      this.bloodType,
       required this.patients});
 
   @override
