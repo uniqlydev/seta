@@ -36,12 +36,13 @@ class _DoctorInboxScreenState extends State<DoctorInboxScreen> {
     if (user != null) {
       try {
         QuerySnapshot snapshot = await FirebaseFirestore.instance
-            .collection('prescriptions')
-            .where('doctorId', isEqualTo: user.uid)
+            .collection('doctors')
+            .doc(user.uid)
+            .collection('patients')
             .get();
 
         List<String> fetchedPatientUsernames = snapshot.docs
-            .map((doc) => doc['patientId'] as String)
+            .map((doc) => doc.id)
             .toList();
 
         setState(() {
@@ -82,7 +83,7 @@ class _DoctorInboxScreenState extends State<DoctorInboxScreen> {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('patients')
-          .where('username', whereIn: patientUsernames)
+          .where('uid', whereIn: patientUsernames)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {

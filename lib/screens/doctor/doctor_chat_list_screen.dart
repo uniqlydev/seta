@@ -34,12 +34,13 @@ class _DoctorChatListScreenState extends State<DoctorChatListScreen> {
     if (user != null) {
       try {
         QuerySnapshot snapshot = await FirebaseFirestore.instance
-            .collection('prescriptions')
-            .where('doctorId', isEqualTo: user.uid)
+            .collection('doctors')
+            .doc(user.uid)
+            .collection('patients')
             .get();
 
         List<String> fetchedPatientUsernames = snapshot.docs
-            .map((doc) => doc['patientId'] as String)
+            .map((doc) => doc.id)
             .toList();
 
         setState(() {
@@ -76,7 +77,10 @@ class _DoctorChatListScreenState extends State<DoctorChatListScreen> {
       return const Center(child: CircularProgressIndicator());
     }
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('patients').where('username', whereIn: patientUsernames).snapshots(),
+      stream: FirebaseFirestore.instance
+      .collection('patients')
+      .where(FieldPath.documentId, whereIn: patientUsernames)
+      .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return const Center(child: Text('Error fetching patients.'));
