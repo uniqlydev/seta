@@ -96,15 +96,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
       ),
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          if (state is AuthAuthenticated) {
+          if (state is AuthAuthenticatedPatient) {
             // Initialize controllers with current data
-            _phoneController.text = state.phoneNumber as String;
-            _emailController.text = state.email;
-            _birthdayController.text = state.birthday as String;
-            _weightController.text = state.weight as String;
-            _heightController.text = state.height.toString();
-            _bloodTypeController.text = state.bloodType as String;
-
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -313,7 +306,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                               onPressed: () {
                                 if (_isEditing) {
                                   final userId = (context.read<AuthBloc>().state
-                                          as AuthAuthenticated)
+                                          as AuthAuthenticatedPatient)
                                       .user
                                       .uid;
                                   _saveProfile(userId);

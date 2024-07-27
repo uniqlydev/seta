@@ -1,3 +1,4 @@
+import 'package:codingbryant/screens/explicit_animation.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -62,6 +63,11 @@ class LandingPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamed(context, '/register-patient');
                   },
+                  style: ElevatedButton.styleFrom(
+                    elevation: 5, // Add elevation
+                    shadowColor: Colors.black, // Add shadow color
+                    backgroundColor: Colors.green, // Set background color for patient
+                  ),
                   child: const Text(
                     'Register as Patient',
                     style: TextStyle(
@@ -69,28 +75,23 @@ class LandingPage extends StatelessWidget {
                       color: Colors.white, // Set text color to white
                     ),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    elevation: 5, // Add elevation
-                    shadowColor: Colors.black, // Add shadow color
-                    backgroundColor: Colors.green, // Set background color for patient
-                  ),
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/register-doctor');
                   },
+                  style: ElevatedButton.styleFrom(
+                    elevation: 5, // Add elevation
+                    shadowColor: Colors.black, // Add shadow color
+                    backgroundColor: Colors.redAccent, // Set background color for doctor
+                  ),
                   child: const Text(
                     'Register as Physician',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white, // Set text color to white
                     ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    elevation: 5, // Add elevation
-                    shadowColor: Colors.black, // Add shadow color
-                    backgroundColor: Colors.redAccent, // Set background color for doctor
                   ),
                 ),
               ],
@@ -100,17 +101,17 @@ class LandingPage extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(context, '/login');
               },
+              style: ElevatedButton.styleFrom(
+                elevation: 5, // Add elevation
+                shadowColor: Colors.black, // Add shadow color
+                backgroundColor: Colors.blue, // Set background color to blue
+              ),
               child: const Text(
                 'Login',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white, // Set text color to white
                 ),
-              ),
-              style: ElevatedButton.styleFrom(
-                elevation: 5, // Add elevation
-                shadowColor: Colors.black, // Add shadow color
-                backgroundColor: Colors.blue, // Set background color to blue
               ),
             ),
           ],
@@ -120,66 +121,3 @@ class LandingPage extends StatelessWidget {
   }
 }
 
-class ExplicitAnimations extends StatefulWidget {
-  const ExplicitAnimations({Key? key}) : super(key: key);
-
-  @override
-  State<ExplicitAnimations> createState() => _ExplicitAnimationsState();
-}
-
-class _ExplicitAnimationsState extends State<ExplicitAnimations>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late final Animation<AlignmentGeometry> _alignAnimation;
-  late final Animation<double> _rotationAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 5), // Slow down the animation (5 seconds)
-      vsync: this,
-    )..repeat(reverse: true);
-
-    _alignAnimation = Tween<AlignmentGeometry>(
-      begin: Alignment.topLeft,
-      end: Alignment.topRight,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeInOutCubic,
-      ),
-    );
-
-    _rotationAnimation = Tween<double>(begin: 0, end: 2).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeInOutCubic,
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 260, // Match the width of the text 'SETA'
-      child: AlignTransition(
-        alignment: _alignAnimation,
-        child: RotationTransition(
-          turns: _rotationAnimation,
-          child: const Icon(
-            Icons.local_hospital,
-            color: Colors.redAccent,
-            size: 50,
-          ),
-        ),
-      ),
-    );
-  }
-}

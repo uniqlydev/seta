@@ -3,6 +3,7 @@ import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:codingbryant/repositories/prescribe_repository.dart';
 import 'package:codingbryant/screens/doctor/dashboard_doctor_screen.dart';
+import 'package:codingbryant/screens/doctor/doctor_inbox_screen.dart';
 import 'package:codingbryant/screens/doctor/doctor_profile_screen.dart';
 import 'package:codingbryant/screens/doctor/medication_screen.dart';
 import 'package:codingbryant/screens/doctor/patient_details_screen.dart';
@@ -51,28 +52,12 @@ class MyApp extends StatelessWidget {
           builder: (context, state) {
             if (state is AuthInitial) {
               return LandingPage();
-<<<<<<< HEAD
             } else if (state is AuthAuthenticatedDoctor) {
-                return DashboardDoctorScreen(); // Replace with right pagess
+                return const DashboardDoctorScreen(); // Replace with right pagess
             } else if (state is AuthAuthenticatedPatient ) {
               return DashboardPatientScreen();
             }else {
               return const Scaffold( body: Center(child: CircularProgressIndicator()));
-=======
-            } else if (state is AuthAuthenticated) {
-              if (state.userType == 'D') {
-                return DashboardDoctorScreen();
-              } else if (state.userType == 'P') {
-                return DashboardPatientScreen();
-              } else {
-                return const Scaffold(
-                    body: Text(
-                        "if this is showing, something went wrong. Please contact the developer."));
-              }
-            } else {
-              return const Scaffold(
-                  body: Center(child: CircularProgressIndicator()));
->>>>>>> development
             }
           },
         ),
@@ -87,11 +72,12 @@ class MyApp extends StatelessWidget {
           '/dashboard-patient': (context) => DashboardPatientScreen(),
           '/register-patient': (context) => RegisterPatientScreen(),
           '/medication-screen': (context) => const MedicationScreen(),
-          '/patient-details-screen': (context) => PatientDetailsScreen(
+          '/patient-details-screen': (context) => const PatientDetailsScreen(
                 patientName: '',
               ),
-          '/doctor-profile-screen': (context) => DoctorProfileScreen(),
-          '/patient-profile-screen': (context) => PatientProfileScreen(),
+          '/doctor-profile-screen': (context) => const DoctorProfileScreen(),
+          '/patient-profile-screen': (context) => const PatientProfileScreen(),
+          '/inbox-doctor': (context) => const DoctorInboxScreen(),
         },
       ),
     );

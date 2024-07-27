@@ -71,15 +71,7 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
       ),
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-<<<<<<< HEAD
           if (state is AuthAuthenticatedDoctor) {
-=======
-          if (state is AuthAuthenticated) {
-            // Initialize controllers with current data
-            _clinicNameController.text = state.clinicName ?? '';
-            _clinicHoursController.text = state.clinicHours ?? '';
-
->>>>>>> development
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -203,7 +195,7 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
                               onPressed: () {
                                 if (_isEditing) {
                                   final userId = (context.read<AuthBloc>().state
-                                          as AuthAuthenticated)
+                                          as AuthAuthenticatedDoctor)
                                       .user
                                       .uid;
                                   _saveProfile(userId);
