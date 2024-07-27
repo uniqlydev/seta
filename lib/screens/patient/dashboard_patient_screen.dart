@@ -92,8 +92,7 @@ class _DashboardPatientScreenContent extends StatelessWidget {
                               children: [
                                 SizedBox(width: 5),
                                 Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 0, left: 7, right: 10),
+                                  padding: EdgeInsets.only(top: 0, left: 7, right: 10),
                                   child: Text(
                                     "Don't forget to take today's medications.",
                                     style: TextStyle(
@@ -128,29 +127,41 @@ class _DashboardPatientScreenContent extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.5,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: medications.length,
-                            itemBuilder: (context, index) {
-                              final medication = medications[index];
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const PatientPrescriptionDetails()),
-                                  );
-                                },
-                                child: MedicationCard(
-                                  medicationName: medication.medication,
-                                  time: '${medication.instructions} | ${medication.dosage} CAPSULES',
-                                  isTaken: false,
+                        medications.isEmpty
+                            ? Center(
+                                child: Text(
+                                  "No Medication To Take",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black54,
+                                  ),
                                 ),
-                              );
-                            },
-                          ),
-                        ),
+                              )
+                            : SizedBox(
+                                height: MediaQuery.of(context).size.height * 0.5,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: medications.length,
+                                  itemBuilder: (context, index) {
+                                    final medication = medications[index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const PatientPrescriptionDetails(),
+                                          ),
+                                        );
+                                      },
+                                      child: MedicationCard(
+                                        medicationName: medication.medication,
+                                        time: '${medication.instructions} | ${medication.dosage} CAPSULES',
+                                        isTaken: false,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
                       ],
                     ),
                   ),
