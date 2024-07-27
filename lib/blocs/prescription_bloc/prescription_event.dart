@@ -14,6 +14,11 @@ class PrescriptionCreate extends PrescriptionEvent {
   final double dosage;
   final String drugClass;
   final String instructions;
+  final String diagnosis;
+  final String time1;
+  final String time2;
+  final String time3;
+
 
   const PrescriptionCreate({
     required this.doctorId,
@@ -21,7 +26,11 @@ class PrescriptionCreate extends PrescriptionEvent {
     required this.medication,
     required this.dosage,
     required this.drugClass,
-    required this.instructions, required String diagnosis, required String time1, required String time2, required String time3,
+    required this.instructions, 
+    required this.diagnosis,
+    required this.time1,
+    required this.time2,
+    required this.time3,
   });
 
   @override

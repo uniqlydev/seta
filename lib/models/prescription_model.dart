@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class PrescriptionModel {
   final String id; 
   final String drugClass;

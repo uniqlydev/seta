@@ -128,7 +128,7 @@ class _DashboardPatientScreenContent extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         medications.isEmpty
-                            ? Center(
+                            ? const Center(
                                 child: Text(
                                   "No Medication To Take",
                                   style: TextStyle(

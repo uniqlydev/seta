@@ -79,7 +79,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
         child: Row(
           children: [
-            Icon(Icons.timer, color: Colors.blue), // Changed to red
+            const Icon(Icons.timer, color: Colors.blue), // Changed to red
             const SizedBox(width: 10),
             Expanded(
               child: GestureDetector(
@@ -136,8 +136,8 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                 snap: false,
                 backgroundColor: Colors.blue,
                 expandedHeight: MediaQuery.of(context).size.height * 1 / 12,
-                flexibleSpace: FlexibleSpaceBar(
-                  title: const Text(
+                flexibleSpace: const FlexibleSpaceBar(
+                  title: Text(
                     'Prescription',
                     style: TextStyle(
                       fontFamily: 'RobotoMono',
@@ -160,7 +160,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
                               children: [
-                                Icon(Icons.local_hospital, color: Colors.blue), // Changed to red
+                                const Icon(Icons.local_hospital, color: Colors.blue), // Changed to red
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: TextFormField(
@@ -178,7 +178,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
                               children: [
-                                Icon(Icons.medical_services, color: Colors.blue), // Changed to red
+                                const Icon(Icons.medical_services, color: Colors.blue), // Changed to red
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: DropdownButtonFormField<String>(
@@ -207,7 +207,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
                               children: [
-                                Icon(Icons.medical_services_outlined, color: Colors.blue), // Changed to red
+                                const Icon(Icons.medical_services_outlined, color: Colors.blue), // Changed to red
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: TextFormField(
@@ -225,7 +225,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
                               children: [
-                                Icon(Icons.numbers, color: Colors.blue), // Changed to red
+                                const Icon(Icons.numbers, color: Colors.blue), // Changed to red
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: TextFormField(
@@ -244,7 +244,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
                               children: [
-                                Icon(Icons.schedule, color: Colors.blue), // Changed to red
+                                const Icon(Icons.schedule, color: Colors.blue), // Changed to red
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: DropdownButtonFormField<String>(
@@ -274,7 +274,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
                               children: [
-                                Icon(Icons.note, color: Colors.blue), // Changed to red
+                                const Icon(Icons.note, color: Colors.blue), // Changed to red
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: TextFormField(
@@ -292,7 +292,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
                               children: [
-                                Icon(Icons.person, color: Colors.blue), // Changed to red
+                                const Icon(Icons.person, color: Colors.blue), // Changed to red
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: TextFormField(
@@ -318,7 +318,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                                   style: ElevatedButton.styleFrom(
                                     foregroundColor: Colors.white,
                                     backgroundColor: Colors.red,
-                                    minimumSize: Size(150, 45),
+                                    minimumSize: const Size(150, 45),
                                   ),
                                   child: const Text('Cancel'),
                                 ),
@@ -341,7 +341,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                                   style: ElevatedButton.styleFrom(
                                     foregroundColor: Colors.white,
                                     backgroundColor: Colors.blue,
-                                    minimumSize: Size(150, 45),
+                                    minimumSize: const Size(150, 45),
                                   ),
                                   child: const Text('Create'),
                                 ),

@@ -42,17 +42,28 @@ class PatientDetailsScreen extends StatelessWidget {
                 String phoneNumber =
                     patientData['phone_number'] ?? 'Phone number not available';
                 String email = patientData['email'] ?? 'Email not available';
-                String age = patientData['bday']; // Placeholder
+
+                // Get age based on birthdate
+                // Convert agenum to string
+                String age = '24';
                 String diagnosis = 'Diagnosis here'; // Placeholder
-                String dateOfLastCheckUp = 'Last Check-Up'; // Placeholder
-                String height = patientData['height']; // Placeholder
-                String weight = patientData['weight']; // Placeholder
+                String dateOfLastCheckUp = 'Data not found'; // Placeholder
+                String height = patientData['height'].toString(); // Placeholder
+                String weight = patientData['weight'].toString(); // Placeholder
+
+
+                String patientUid = snapshot.data!.docs.first.id;
+
+                print('Patient UID: $patientUid');
+
+                
 
                 // Fetch prescriptions for the patient
                 return FutureBuilder<QuerySnapshot>(
                   future: FirebaseFirestore.instance
+                      .collection('patients')
+                      .doc(patientUid)
                       .collection('prescriptions')
-                      .where('patientId', isEqualTo: patientName)
                       .get(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> prescriptionsSnapshot) {
