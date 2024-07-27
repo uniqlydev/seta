@@ -170,7 +170,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         'username': doctor.username,
         'first_name': doctor.firstName,
         'last_name': doctor.lastName,
-        'Patients': doctor.patients,
         'created_At': FieldValue.serverTimestamp(),
       });
 
@@ -209,6 +208,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onSignUpRequestedPatient(
       AuthSignUpRequestPatient event, Emitter<AuthState> emit) async {
+ 
     try {
       final User? user = await _authRepository.signUpWithEmailandPassword(
         email: event.email,
@@ -222,7 +222,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           firstName: event.firstName,
           lastName: event.lastName,
           phoneNumber: event.phoneNumber,
-          gender: event.gender);
+          gender: event.gender,
+          weight: event.weight,
+          height: event.height,
+          bday: event.bday
+          );
 
       // send to firestore
       await _firestore.collection('patients').doc(user.uid).set({
@@ -232,17 +236,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         'first_name': patient.firstName,
         'last_name': patient.lastName,
         'phone_number': patient.phoneNumber,
-        'prescriptions': patient.prescriptions,
+        'bday': patient.bday,
+        'weight': patient.weight,
+        'height': patient.height,
         'created_At': FieldValue.serverTimestamp(),
       });
 
-      emit(AuthAuthenticatedDoctor(
+
+      emit(AuthAuthenticatedPatient(
           user: user,
           email: patient.email,
-          userType: patient.userType,
-          firstName: patient.username,
+          firstName: patient.firstName,
           lastName: patient.lastName,
-          patients: const []));
+          prescriptions: const []));
     } catch (e) {
       emit(AuthFailure(message: e.toString()));
     }
@@ -388,6 +394,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             firstName: event.firstName,
             lastName: event.lastName,
             phoneNumber: event.phoneNumber,
+            weight: event.weight,
+            height: event.height,
+            bday: event.bday,
             gender: event.gender);
 
         // send to firestore
@@ -398,7 +407,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           'last_name': patient.lastName,
           'phone_number': patient.phoneNumber,
           'gender': patient.gender,
-          'prescriptions': patient.prescriptions,
+          'weight': patient.weight,
+          'height': patient.height,
+          'bday': patient.bday,
           'created_At': FieldValue.serverTimestamp(),
         });
 

@@ -19,7 +19,7 @@ class PatientDetailsScreen extends StatelessWidget {
             return FutureBuilder<QuerySnapshot>(
               future: FirebaseFirestore.instance
                   .collection('patients')
-                  .where('username', isEqualTo: patientName)
+                  .where('first_name', isEqualTo: patientName)
                   .get(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -42,11 +42,11 @@ class PatientDetailsScreen extends StatelessWidget {
                 String phoneNumber =
                     patientData['phone_number'] ?? 'Phone number not available';
                 String email = patientData['email'] ?? 'Email not available';
-                String age = 'Age here'; // Placeholder
+                String age = patientData['bday']; // Placeholder
                 String diagnosis = 'Diagnosis here'; // Placeholder
                 String dateOfLastCheckUp = 'Last Check-Up'; // Placeholder
-                String height = 'Height here'; // Placeholder
-                String weight = 'Weight here'; // Placeholder
+                String height = patientData['height']; // Placeholder
+                String weight = patientData['weight']; // Placeholder
 
                 // Fetch prescriptions for the patient
                 return FutureBuilder<QuerySnapshot>(
@@ -83,7 +83,7 @@ class PatientDetailsScreen extends StatelessWidget {
                             backgroundColor: Colors.blue,
                             expandedHeight:
                                 MediaQuery.of(context).size.height * 1 / 9, // Decreased height
-                            flexibleSpace: FlexibleSpaceBar(
+                            flexibleSpace: const FlexibleSpaceBar(
                               title: Text(
                                 'Patient Details',
                                 style: TextStyle(
@@ -298,7 +298,7 @@ class PatientDetailsScreen extends StatelessWidget {
                                       children: [
                                         Text(
                                           'Medication: ${prescription['medication']}',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white,
@@ -306,8 +306,8 @@ class PatientDetailsScreen extends StatelessWidget {
                                         ),
                                         const SizedBox(height: 8),
                                         Text(
-                                          'Dosage: ${prescriptionDosageString} mg',
-                                          style: TextStyle(
+                                          'Dosage: $prescriptionDosageString mg',
+                                          style: const TextStyle(
                                             fontSize: 16,
                                             color: Colors.white,
                                           ),
@@ -315,7 +315,7 @@ class PatientDetailsScreen extends StatelessWidget {
                                         const SizedBox(height: 4),
                                         Text(
                                           'Diagnosis: $prescriptionDiagnosis',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 16,
                                             color: Colors.white,
                                           ),
@@ -344,7 +344,7 @@ class PatientDetailsScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       'You need to be logged in to view patient details.',
                       style: TextStyle(
                         fontSize: 18,
