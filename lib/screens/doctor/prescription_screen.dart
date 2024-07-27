@@ -3,19 +3,101 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PrescriptionScreen extends StatelessWidget {
+class PrescriptionScreen extends StatefulWidget {
   PrescriptionScreen({super.key});
 
-  final TextEditingController _drugClass = TextEditingController();
+  @override
+  _PrescriptionScreenState createState() => _PrescriptionScreenState();
+}
+
+class _PrescriptionScreenState extends State<PrescriptionScreen> {
   final TextEditingController _medicationClass = TextEditingController();
   final TextEditingController _dosage = TextEditingController();
-  final TextEditingController _instructions = TextEditingController();
   final TextEditingController _doctorRemarksClass = TextEditingController();
   final TextEditingController _patientId = TextEditingController();
 
   final String doctorUID = FirebaseAuth.instance.currentUser!.uid;
 
-  final List<String> time_choices = ['Morning', 'Afternoon', 'Evening', 'Night'];
+  final List<String> drugClasses = [
+    'Antihistamine',
+    'Antidepressant',
+    'Antibiotic',
+    'Analgesic',
+    'Antipyretic',
+    'Antiseptic',
+    'Antiviral',
+    'Anti-inflammatory',
+    'Bronchodilator',
+    'Diuretic'
+  ];
+
+  final List<String> timeChoices = ['OD', 'BID', 'TID'];
+  String selectedDrugClass = 'Antihistamine';
+  String selectedRegimen = 'OD';
+
+  final List<TimeOfDay?> _selectedTimes = [null, null, null];
+
+  @override
+  void dispose() {
+    _medicationClass.dispose();
+    _dosage.dispose();
+    _doctorRemarksClass.dispose();
+    _patientId.dispose();
+    super.dispose();
+  }
+
+  Future<void> _selectTime(BuildContext context, int index) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null && picked != _selectedTimes[index]) {
+      setState(() {
+        _selectedTimes[index] = picked;
+      });
+    }
+  }
+
+  List<Widget> _buildTimeFields() {
+    int numberOfFields = 0;
+    switch (selectedRegimen) {
+      case 'OD':
+        numberOfFields = 1;
+        break;
+      case 'BID':
+        numberOfFields = 2;
+        break;
+      case 'TID':
+        numberOfFields = 3;
+        break;
+    }
+
+    return List.generate(numberOfFields, (index) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+        child: Row(
+          children: [
+            const Icon(Icons.timer),
+            const SizedBox(width: 10),
+            Expanded(
+              child: GestureDetector(
+                onTap: () => _selectTime(context, index),
+                child: AbsorbPointer(
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: _selectedTimes[index] == null
+                          ? 'Select Time'
+                          : _selectedTimes[index]!.format(context),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +112,12 @@ class PrescriptionScreen extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.message)),
             );
-            _drugClass.clear();
             _medicationClass.clear();
             _dosage.clear();
-            _instructions.clear();
             _doctorRemarksClass.clear();
-            // Navigate to dashboard
-            Navigator.of(context).pushNamedAndRemoveUntil('/dashboard-doctor', (Route<dynamic> route) => false);
+            _selectedTimes.fillRange(0, _selectedTimes.length, null);
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                '/dashboard-doctor', (Route<dynamic> route) => false);
           } else if (state is PrescriptionFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.message)),
@@ -69,8 +150,19 @@ class PrescriptionScreen extends StatelessWidget {
                               const Icon(Icons.medical_services),
                               const SizedBox(width: 10),
                               Expanded(
-                                child: TextFormField(
-                                  controller: _drugClass,
+                                child: DropdownButtonFormField<String>(
+                                  value: selectedDrugClass,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedDrugClass = value!;
+                                    });
+                                  },
+                                  items: drugClasses.map((String choice) {
+                                    return DropdownMenuItem<String>(
+                                      value: choice,
+                                      child: Text(choice),
+                                    );
+                                  }).toList(),
                                   decoration: const InputDecoration(
                                     labelText: 'Drug Class',
                                   ),
@@ -110,6 +202,7 @@ class PrescriptionScreen extends StatelessWidget {
                                   decoration: const InputDecoration(
                                     labelText: 'Dosage',
                                   ),
+                                  keyboardType: TextInputType.number,
                                 ),
                               ),
                             ],
@@ -120,11 +213,22 @@ class PrescriptionScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 30.0),
                           child: Row(
                             children: [
-                              const Icon(Icons.timer),
+                              const Icon(Icons.schedule),
                               const SizedBox(width: 10),
                               Expanded(
-                                child: TextFormField(
-                                  controller: _instructions,
+                                child: DropdownButtonFormField<String>(
+                                  value: selectedRegimen,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedRegimen = value!;
+                                    });
+                                  },
+                                  items: timeChoices.map((String choice) {
+                                    return DropdownMenuItem<String>(
+                                      value: choice,
+                                      child: Text(choice),
+                                    );
+                                  }).toList(),
                                   decoration: const InputDecoration(
                                     labelText: 'Dosage Regimen',
                                   ),
@@ -134,6 +238,7 @@ class PrescriptionScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 20),
+                        ..._buildTimeFields(),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 30.0),
                           child: Row(
@@ -170,20 +275,50 @@ class PrescriptionScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: () {
-                            context.read<PrescriptionBloc>().add(
-                              PrescriptionCreate(
-                                doctorId: doctorUID,
-                                patientId: _patientId.text, // Make sure to use a valid patientId
-                                medication: _medicationClass.text,
-                                dosage: double.parse(_dosage.text),
-                                drugClass: _drugClass.text,
-                                instructions: _instructions.text,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red, // Set the background color to red
                               ),
-                            );
-                          },
-                          child: const Text('Create Prescription'),
+                              child: const Text(
+                                'Cancel',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            const SizedBox(width: 20),
+                            ElevatedButton(
+                              onPressed: () {
+                                final times = _selectedTimes
+                                    .take(timeChoices.indexOf(selectedRegimen) + 1)
+                                    .where((time) => time != null)
+                                    .map((time) => time!.format(context))
+                                    .toList();
+                                context.read<PrescriptionBloc>().add(
+                                      PrescriptionCreate(
+                                        doctorId: doctorUID,
+                                        patientId: _patientId.text,
+                                        medication: _medicationClass.text,
+                                        dosage: double.parse(_dosage.text),
+                                        drugClass: selectedDrugClass,
+                                        instructions:
+                                            '$selectedRegimen at ${times.join(', ')}',
+                                      ),
+                                    );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue, // Set the background color to blue
+                              ),
+                              child: const Text(
+                                'Create Prescription',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
