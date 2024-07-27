@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:codingbryant/models/doctor_model.dart';
 import 'package:codingbryant/models/patient_model.dart';
+import 'package:codingbryant/models/prescription_model.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -77,26 +78,43 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         if (userType == 'D') {
           // Retreive subcollection of patients
-          final patients = await _firestore
-              .collection('prescriptions')
-              .where('doctorId', isEqualTo: user.uid)
-              .get();
+          print(user.uid);
+
+          // Print every sub collection under doctors
+          final patientsList = await _firestore
+              .collection('doctors')
+              .doc(user.uid)
+              .collection('patients');
+
+          
           // Initialize a Set to store unique patient IDs
           Set<String> uniquePatientIds = {};
 
-          // Iterate through the query snapshot
-          for (var document in patients.docs) {
-            // Get the patientId from each document
-            String patientId = document.data()['patientId'];
+          final querySnapshot = await patientsList.get();
 
-            // Add patientId to the Set (Sets automatically handle duplicates)
-            uniquePatientIds.add(patientId);
+          // Loop through the documents
+          for (var doc in querySnapshot.docs) {
+            uniquePatientIds.add(doc.id);
+          }
+
+    
+
+          // Iterate through and retrieve the username
+          List<String> first_names = [];
+
+
+
+          for (var id in uniquePatientIds) {
+
+            var pdf = await _firestore.collection('patients').doc(id).get();
+
+            first_names.add(pdf['first_name']);
           }
 
           // Convert the Set to a list if necessary
-          List<String> uniquePatientIdsList = uniquePatientIds.toList();
+          List<String> uniquePatientIdsList = first_names.toList();
 
-          emit(AuthAuthenticated(
+          emit(AuthAuthenticatedDoctor(
               user: user,
               email: email,
               userType: userType!,
@@ -106,18 +124,49 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               clinicHours: clinicHours,
               patients: uniquePatientIdsList));
         } else if (userType == 'P') {
-          emit(AuthAuthenticated(
+
+          // Retrieve the patient's prescriptions
+
+          final prescriptions = await _firestore
+              .collection('patients')
+              .doc(user.uid)
+              .collection('prescriptions')
+              .get();
+
+          List<PrescriptionModel> prescriptionList = [];
+
+          for (var doc in prescriptions.docs) {
+            prescriptionList.add(PrescriptionModel(
+              id: doc.id,
+              drugClass: doc['drugClass'],
+              medication: doc['medication'],
+              dosage: doc['dosage'],
+              instructions: doc['instructions'],
+            ));
+          }
+
+          // Print all
+          prescriptionList.forEach((element) {
+            print(element.id);
+            print(element.dosage);
+          });
+
+
+          emit(AuthAuthenticatedPatient(
               user: user,
               email: email,
-              userType: userType!,
               firstName: userName,
               lastName: lastName,
+<<<<<<< HEAD
+              prescriptions: prescriptionList));
+=======
               phoneNumber: phoneNumber,
               birthday: birthday,
               height: height,
               weight: weight,
               bloodType: bloodType,
               patients: const []));
+>>>>>>> development
         } else {
           emit(Authunauthenticated());
         }
@@ -177,7 +226,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // Convert the Set to a list if necessary
       List<String> uniquePatientIdsList = uniquePatientIds.toList();
 
-      emit(AuthAuthenticated(
+      emit(AuthAuthenticatedDoctor(
           user: user,
           email: doctor.email,
           userType: doctor.userType,
@@ -218,7 +267,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         'created_At': FieldValue.serverTimestamp(),
       });
 
-      emit(AuthAuthenticated(
+      emit(AuthAuthenticatedDoctor(
           user: user,
           email: patient.email,
           userType: patient.userType,
@@ -273,7 +322,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             // Convert the Set to a list if necessary
             List<String> uniquePatientIdsList = uniquePatientIds.toList();
 
-            yield AuthAuthenticated(
+            yield AuthAuthenticatedDoctor(
                 user: user,
                 email: doctor['email'],
                 userType: usertType!,
@@ -285,7 +334,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           } else if (usertType == 'P') {
             final patient =
                 await _firestore.collection('patients').doc(user.uid).get();
-            yield AuthAuthenticated(
+            yield AuthAuthenticatedDoctor(
                 user: user,
                 email: patient['email'],
                 userType: usertType!,
@@ -348,7 +397,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         // Convert the Set to a list if necessary
         List<String> uniquePatientIdsList = uniquePatientIds.toList();
 
-        yield AuthAuthenticated(
+        yield AuthAuthenticatedDoctor(
             user: user,
             email: doctor.email,
             userType: doctor.userType,
@@ -384,7 +433,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           'created_At': FieldValue.serverTimestamp(),
         });
 
-        yield AuthAuthenticated(
+        yield AuthAuthenticatedDoctor(
             user: user,
             email: patient.email,
             userType: patient.userType,

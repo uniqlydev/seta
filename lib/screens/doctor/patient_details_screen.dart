@@ -14,7 +14,7 @@ class PatientDetailsScreen extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          if (state is AuthAuthenticated) {
+          if (state is AuthAuthenticatedDoctor) {
             // Fetch patient details
             return FutureBuilder<QuerySnapshot>(
               future: FirebaseFirestore.instance
@@ -33,7 +33,7 @@ class PatientDetailsScreen extends StatelessWidget {
                 }
 
                 if (snapshot.data!.docs.isEmpty) {
-                  return Center(child: Text('Patient not found'));
+                  return const Center(child: Text('Patient not found'));
                 }
 
                 // Patient found, assume there's only one matching document
@@ -85,8 +85,13 @@ class PatientDetailsScreen extends StatelessWidget {
                                 MediaQuery.of(context).size.height * 1 / 9, // Decreased height
                             flexibleSpace: FlexibleSpaceBar(
                               title: Text(
+<<<<<<< HEAD
+                                patientName,
+                                style: const TextStyle(
+=======
                                 'Patient Details',
                                 style: TextStyle(
+>>>>>>> development
                                   fontFamily: 'RobotoMono',
                                   fontSize: 15,
                                   fontWeight: FontWeight.w900,
@@ -103,10 +108,15 @@ class PatientDetailsScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+<<<<<<< HEAD
+                            const Padding(
+                              padding: EdgeInsets.all(16.0),
+=======
                             const SizedBox(height: 20), // Added spacing
                             // Patient name
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 16.0),
+>>>>>>> development
                               child: Text(
                                 ' $patientName',
                                 style: const TextStyle(

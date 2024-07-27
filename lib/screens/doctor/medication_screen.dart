@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/models/medication_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,17 +38,10 @@ class _MedicationScreenState extends State<MedicationScreen> {
             medications; // Initialize filtered list with all medications
       });
     } catch (e) {
-      print('Error fetching medications: $e');
+      if (kDebugMode) {
+        print('Error fetching medications: $e');
+      }
     }
-  }
-
-  void _filterMedications(String query) {
-    setState(() {
-      filteredMedications = medications
-          .where((medication) =>
-              medication.drug.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    });
   }
 
   @override
@@ -55,7 +49,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
     return Scaffold(
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          if (state is AuthAuthenticated) {
+          if (state is AuthAuthenticatedDoctor) {
             return NestedScrollView(
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
@@ -80,7 +74,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                     ),
                     actions: <Widget>[
                       IconButton(
-                        icon: Icon(Icons.search),
+                        icon: const Icon(Icons.search),
                         onPressed: () {
                           showSearch(
                             context: context,
@@ -158,7 +152,7 @@ class MedicationSearchDelegate extends SearchDelegate<MedicationModel> {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
         onPressed: () {
           query = '';
         },
@@ -169,7 +163,7 @@ class MedicationSearchDelegate extends SearchDelegate<MedicationModel> {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
       onPressed: () {
         Navigator.pop(context);
       },

@@ -38,10 +38,8 @@ class RegisterPatientScreen extends StatelessWidget {
                 backgroundColor: Colors.red,
               ),
             );
-          }else if (state is AuthAuthenticated) {
-            if (state.userType == 'P') {
-              Navigator.of(context).pushNamedAndRemoveUntil('/dashboard-patient', (Route<dynamic> route) => false);
-            }
+          }else if (state is AuthAuthenticatedPatient) {
+            Navigator.of(context).pushNamedAndRemoveUntil('/dashboard-patient', (Route<dynamic> route) => false);
           }
         },
         builder: (context, state) {

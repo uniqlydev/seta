@@ -13,23 +13,13 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is AuthAuthenticated) {
-            if (state.userType == 'D') {
+          if (state is AuthAuthenticatedDoctor) {
               Navigator.of(context).pushNamedAndRemoveUntil('/dashboard-doctor', (Route<dynamic> route) => false);
-            } else if (state.userType == 'P') {
+          } else if (state is AuthAuthenticatedPatient) {
               Navigator.of(context).pushNamedAndRemoveUntil('/dashboard-patient', (Route<dynamic> route) => false);
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Something went wrong. Please contact the developer.'),
-                ),
-              );
-            }
-          } else if (state is AuthFailure) {
+          }else {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-              ),
+              SnackBar(content: Text('Invalid username or password')),
             );
           }
         },

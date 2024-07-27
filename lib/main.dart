@@ -51,6 +51,14 @@ class MyApp extends StatelessWidget {
           builder: (context, state) {
             if (state is AuthInitial) {
               return LandingPage();
+<<<<<<< HEAD
+            } else if (state is AuthAuthenticatedDoctor) {
+                return DashboardDoctorScreen(); // Replace with right pagess
+            } else if (state is AuthAuthenticatedPatient ) {
+              return DashboardPatientScreen();
+            }else {
+              return const Scaffold( body: Center(child: CircularProgressIndicator()));
+=======
             } else if (state is AuthAuthenticated) {
               if (state.userType == 'D') {
                 return DashboardDoctorScreen();
@@ -64,6 +72,7 @@ class MyApp extends StatelessWidget {
             } else {
               return const Scaffold(
                   body: Center(child: CircularProgressIndicator()));
+>>>>>>> development
             }
           },
         ),

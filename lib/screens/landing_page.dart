@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_animations/simple_animations.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,13 +23,13 @@ class LandingPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 50), // Add space between animation and SETA text
+            const SizedBox(height: 50), // Add space between animation and SETA text
             SizedBox(
               height: 200, // Adjust the height as needed
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  Positioned(
+                  const Positioned(
                     top: 0,
                     child: ExplicitAnimations(),
                   ),
@@ -38,7 +37,7 @@ class LandingPage extends StatelessWidget {
                     bottom: 30,
                     child: Container(
                       // Set the width to match the text's width
-                      child: Text(
+                      child: const Text(
                         'SETA',
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -55,7 +54,7 @@ class LandingPage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -63,7 +62,7 @@ class LandingPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamed(context, '/register-patient');
                   },
-                  child: Text(
+                  child: const Text(
                     'Register as Patient',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -76,12 +75,12 @@ class LandingPage extends StatelessWidget {
                     backgroundColor: Colors.green, // Set background color for patient
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/register-doctor');
                   },
-                  child: Text(
+                  child: const Text(
                     'Register as Physician',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -96,12 +95,12 @@ class LandingPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/login');
               },
-              child: Text(
+              child: const Text(
                 'Login',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,

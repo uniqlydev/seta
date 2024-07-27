@@ -27,7 +27,7 @@ class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
     return Scaffold(
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          if (state is AuthAuthenticated) {
+          if (state is AuthAuthenticatedDoctor) {
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
