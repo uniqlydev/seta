@@ -19,6 +19,7 @@ class _DoctorChatListScreenState extends State<DoctorChatListScreen> {
       _selectedIndex = index;
     });
   }
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   List<String> patientUsernames = [];
 
@@ -53,11 +54,19 @@ class _DoctorChatListScreenState extends State<DoctorChatListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Patients List'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/inbox-doctor');
+          },
+        ),
+      ),
       body: _buildUserList(),
       bottomNavigationBar: NavBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        
       ),
     );
   }
