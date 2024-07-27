@@ -5,6 +5,7 @@ import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -53,6 +54,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         String email = doctor.exists ? doctor['email'] : patient['email'];
 
+        String phoneNumber = doctor.exists ? '' : patient['phone_number'];
+
+        Timestamp birthdayTimestamp =
+            doctor.exists ? Timestamp.now() : patient['birthday'];
+
+        // Convert the Timestamp to a DateTime
+        DateTime birthdayDate = birthdayTimestamp.toDate();
+
+        // Convert DateTime into a Date Format
+        String birthday = DateFormat('yyyy-MM-dd').format(birthdayDate);
+
+        String height = doctor.exists ? '' : patient['height'];
+
+        String weight = doctor.exists ? '' : patient['weight'];
+
+        String bloodType = doctor.exists ? '' : patient['blood_type'];
+
+        String clinicName = doctor.exists ? doctor['clinic_name'] : '';
+
+        String clinicHours = doctor.exists ? doctor['clinic_hours'] : '';
+
         if (userType == 'D') {
           // Retreive subcollection of patients
           final patients = await _firestore
@@ -80,6 +102,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               userType: userType!,
               firstName: userName,
               lastName: lastName,
+              clinicName: clinicName,
+              clinicHours: clinicHours,
               patients: uniquePatientIdsList));
         } else if (userType == 'P') {
           emit(AuthAuthenticated(
@@ -88,6 +112,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               userType: userType!,
               firstName: userName,
               lastName: lastName,
+              phoneNumber: phoneNumber,
+              birthday: birthday,
+              height: height,
+              weight: weight,
+              bloodType: bloodType,
               patients: const []));
         } else {
           emit(Authunauthenticated());
@@ -250,6 +279,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 userType: usertType!,
                 firstName: doctor['first_name'],
                 lastName: doctor['last_name'],
+                clinicName: doctor['clinic_name'],
+                clinicHours: doctor['clinic_hours'],
                 patients: uniquePatientIdsList);
           } else if (usertType == 'P') {
             final patient =
@@ -260,6 +291,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 userType: usertType!,
                 firstName: patient['first_name'],
                 lastName: patient['last_name'],
+                phoneNumber: patient['phone_number'],
+                birthday: patient['birthday'],
+                height: patient['height'],
+                weight: patient['weight'],
+                bloodType: patient['blood_type'],
                 patients: const []);
           }
         } else {

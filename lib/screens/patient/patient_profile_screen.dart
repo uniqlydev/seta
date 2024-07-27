@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codingbryant/screens/patient/patient_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +24,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
   final TextEditingController _birthdayController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _bloodTypeController = TextEditingController();
 
   void _onItemTapped(int index) {
     setState(() {
@@ -36,34 +38,86 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
     });
   }
 
+  void _saveProfile(String vUserid) async {
+    // Collect data from text controllers
+    final phoneNumber = _phoneController.text;
+    final email = _emailController.text;
+    final birthday = _birthdayController.text;
+    final weight = _weightController.text;
+    final height = _heightController.text;
+    final bloodType = _selectedBloodType;
+
+    // Get the current user's ID from the AuthBloc or any other source
+    final userId = vUserid;
+
+    // convert birthday String to DateTime
+    final birthdayDate = DateTime.parse(birthday);
+
+    // Convert birthdayDate to Timestamp
+    final birthdayTimestamp = Timestamp.fromDate(birthdayDate);
+
+    try {
+      // Reference to the user's document in Firestore
+      final userDocRef =
+          FirebaseFirestore.instance.collection('patients').doc(userId);
+
+      // Update the user's document with new data
+      await userDocRef.update({
+        'phone_number': phoneNumber,
+        'email': email,
+        'birthday': birthdayTimestamp,
+        'weight': weight,
+        'height': height,
+        'blood_type': bloodType,
+      });
+
+      // Show a success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Profile updated successfully!')),
+      );
+    } catch (e) {
+      // Show an error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update profile: $e')),
+      );
+    }
+
+    // Toggle editing mode after saving
+    _toggleEditing();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Patient Profile', style: TextStyle(color: Colors.white)),
+        title: const Text('Patient Profile',
+            style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blue,
       ),
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           if (state is AuthAuthenticated) {
             // Initialize controllers with current data
-            // _phoneController.text = state.phoneNumber;
-            // _emailController.text = state.email;
-            // _birthdayController.text = state.birthday;
+            _phoneController.text = state.phoneNumber as String;
+            _emailController.text = state.email;
+            _birthdayController.text = state.birthday as String;
+            _weightController.text = state.weight as String;
+            _heightController.text = state.height.toString();
+            _bloodTypeController.text = state.bloodType as String;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
+                SizedBox(
                   height: MediaQuery.of(context).size.height * 1 / 9,
                   width: double.infinity,
-                  child: Stack(
+                  child: const Stack(
                     alignment: Alignment.center,
                     children: [
                       Align(
                         alignment: Alignment.bottomLeft,
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+                          padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -157,7 +211,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                                   controller: _weightController,
                                   enabled: _isEditing,
                                   decoration: InputDecoration(
-                                    icon: const Icon(Icons.line_weight, color: Colors.blue),
+                                    icon: const Icon(Icons.line_weight,
+                                        color: Colors.blue),
                                     labelText: 'Weight',
                                     border: const OutlineInputBorder(),
                                     suffixIcon: DropdownButton<String>(
@@ -171,7 +226,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                                             }
                                           : null,
                                       items: <String>['KG', 'LBS']
-                                          .map<DropdownMenuItem<String>>((String value) {
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
                                         return DropdownMenuItem<String>(
                                           value: value,
                                           child: Text(value),
@@ -187,7 +243,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                                   controller: _heightController,
                                   enabled: _isEditing,
                                   decoration: InputDecoration(
-                                    icon: const Icon(Icons.height, color: Colors.blue),
+                                    icon: const Icon(Icons.height,
+                                        color: Colors.blue),
                                     labelText: 'Height',
                                     border: const OutlineInputBorder(),
                                     suffixIcon: DropdownButton<String>(
@@ -201,7 +258,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                                             }
                                           : null,
                                       items: <String>['CM', 'FT']
-                                          .map<DropdownMenuItem<String>>((String value) {
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
                                         return DropdownMenuItem<String>(
                                           value: value,
                                           child: Text(value),
@@ -217,7 +275,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                           TextFormField(
                             enabled: _isEditing,
                             decoration: InputDecoration(
-                              icon: const Icon(Icons.bloodtype, color: Colors.blue),
+                              icon: const Icon(Icons.bloodtype,
+                                  color: Colors.blue),
                               labelText: 'Blood Type',
                               border: const OutlineInputBorder(),
                               suffixIcon: DropdownButton<String>(
@@ -251,9 +310,20 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                           const SizedBox(height: 20),
                           Center(
                             child: ElevatedButton(
-                              onPressed: _toggleEditing,
+                              onPressed: () {
+                                if (_isEditing) {
+                                  final userId = (context.read<AuthBloc>().state
+                                          as AuthAuthenticated)
+                                      .user
+                                      .uid;
+                                  _saveProfile(userId);
+                                } else {
+                                  _toggleEditing();
+                                }
+                              },
                               style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.white, backgroundColor: Colors.blue, // Text color
+                                foregroundColor: Colors.white,
+                                backgroundColor: Colors.blue, // Text color
                                 shadowColor: Colors.black,
                                 elevation: 5,
                                 shape: RoundedRectangleBorder(
@@ -264,7 +334,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                                   vertical: 12,
                                 ),
                               ),
-                              child: Text(_isEditing ? 'Save Profile' : 'Edit Profile'),
+                              child: Text(
+                                  _isEditing ? 'Save Profile' : 'Edit Profile'),
                             ),
                           ),
                         ],
