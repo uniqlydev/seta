@@ -15,6 +15,8 @@ class PrescriptionScreen extends StatelessWidget {
 
   final String doctorUID = FirebaseAuth.instance.currentUser!.uid;
 
+  final List<String> time_choices = ['Morning', 'Afternoon', 'Evening', 'Night'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

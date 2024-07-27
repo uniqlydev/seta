@@ -14,7 +14,7 @@ class PatientDetailsScreen extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          if (state is AuthAuthenticated) {
+          if (state is AuthAuthenticatedDoctor) {
             // Fetch patient details
             return FutureBuilder<QuerySnapshot>(
               future: FirebaseFirestore.instance
@@ -33,7 +33,7 @@ class PatientDetailsScreen extends StatelessWidget {
                 }
 
                 if (snapshot.data!.docs.isEmpty) {
-                  return Center(child: Text('Patient not found'));
+                  return const Center(child: Text('Patient not found'));
                 }
 
                 // Patient found, assume there's only one matching document
@@ -81,7 +81,7 @@ class PatientDetailsScreen extends StatelessWidget {
                             flexibleSpace: FlexibleSpaceBar(
                               title: Text(
                                 patientName,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontFamily: 'RobotoMono',
                                   fontSize: 32,
                                   fontWeight: FontWeight.w900,
@@ -97,8 +97,8 @@ class PatientDetailsScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
+                            const Padding(
+                              padding: EdgeInsets.all(16.0),
                               child: Text(
                                 'Patient Details Section',
                                 style: TextStyle(

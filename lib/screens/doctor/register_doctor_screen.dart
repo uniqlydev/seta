@@ -34,10 +34,8 @@ class RegisterDoctorScreen extends StatelessWidget {
                 backgroundColor: Colors.red,
               ),
             );
-          } else if (state is AuthAuthenticated) {
-            if (state.userType == 'D') {
-              Navigator.of(context).pushNamedAndRemoveUntil('/dashboard-doctor', (Route<dynamic> route) => false);
-            }
+          } else if (state is AuthAuthenticatedDoctor) {
+            Navigator.of(context).pushNamedAndRemoveUntil('/dashboard-doctor', (Route<dynamic> route) => false);
           }
         },
         builder: (context, state) {

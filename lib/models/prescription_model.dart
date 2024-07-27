@@ -4,7 +4,7 @@ class PrescriptionModel {
   final String id; 
   final String drugClass;
   final String medication;
-  final Double dosage;
+  final double dosage;
   final String instructions;
 
   PrescriptionModel({

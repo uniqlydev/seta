@@ -9,7 +9,7 @@ abstract class AuthState extends Equatable {
 
 class AuthInitial extends AuthState {}
 
-class AuthAuthenticated extends AuthState {
+class AuthAuthenticatedDoctor extends AuthState {
   final User user;
   final String email;
   final String userType;
@@ -17,7 +17,7 @@ class AuthAuthenticated extends AuthState {
   final String lastName;
   final List<String> patients;
 
-  const AuthAuthenticated(
+  const AuthAuthenticatedDoctor(
       {required this.user,
       required this.email,
       required this.userType,
@@ -27,6 +27,24 @@ class AuthAuthenticated extends AuthState {
 
   @override
   List<Object> get props => [user, userType];
+}
+
+class AuthAuthenticatedPatient extends AuthState {
+  final User user;
+  final String email;
+  final String firstName;
+  final String lastName;
+  final List<PrescriptionModel> prescriptions;
+
+  const AuthAuthenticatedPatient(
+      {required this.user,
+      required this.email,
+      required this.firstName,
+      required this.lastName,
+      required this.prescriptions});
+
+  @override
+  List<Object> get props => [user];
 }
 
 class Authunauthenticated extends AuthState {}

@@ -28,7 +28,7 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
       ),
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          if (state is AuthAuthenticated) {
+          if (state is AuthAuthenticatedDoctor) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

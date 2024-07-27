@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:codingbryant/models/doctor_model.dart';
 import 'package:codingbryant/models/patient_model.dart';
+import 'package:codingbryant/models/prescription_model.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -91,7 +92,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           // Convert the Set to a list if necessary
           List<String> uniquePatientIdsList = first_names.toList();
 
-          emit(AuthAuthenticated(
+          emit(AuthAuthenticatedDoctor(
               user: user,
               email: email,
               userType: userType!,
@@ -99,13 +100,40 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               lastName: lastName,
               patients: uniquePatientIdsList));
         } else if (userType == 'P') {
-          emit(AuthAuthenticated(
+
+          // Retrieve the patient's prescriptions
+
+          final prescriptions = await _firestore
+              .collection('patients')
+              .doc(user.uid)
+              .collection('prescriptions')
+              .get();
+
+          List<PrescriptionModel> prescriptionList = [];
+
+          for (var doc in prescriptions.docs) {
+            prescriptionList.add(PrescriptionModel(
+              id: doc.id,
+              drugClass: doc['drugClass'],
+              medication: doc['medication'],
+              dosage: doc['dosage'],
+              instructions: doc['instructions'],
+            ));
+          }
+
+          // Print all
+          prescriptionList.forEach((element) {
+            print(element.id);
+            print(element.dosage);
+          });
+
+
+          emit(AuthAuthenticatedPatient(
               user: user,
               email: email,
-              userType: userType!,
               firstName: userName,
               lastName: lastName,
-              patients: const []));
+              prescriptions: prescriptionList));
         } else {
           emit(Authunauthenticated());
         }
@@ -165,7 +193,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // Convert the Set to a list if necessary
       List<String> uniquePatientIdsList = uniquePatientIds.toList();
 
-      emit(AuthAuthenticated(
+      emit(AuthAuthenticatedDoctor(
           user: user,
           email: doctor.email,
           userType: doctor.userType,
@@ -206,7 +234,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         'created_At': FieldValue.serverTimestamp(),
       });
 
-      emit(AuthAuthenticated(
+      emit(AuthAuthenticatedDoctor(
           user: user,
           email: patient.email,
           userType: patient.userType,
@@ -261,7 +289,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             // Convert the Set to a list if necessary
             List<String> uniquePatientIdsList = uniquePatientIds.toList();
 
-            yield AuthAuthenticated(
+            yield AuthAuthenticatedDoctor(
                 user: user,
                 email: doctor['email'],
                 userType: usertType!,
@@ -271,7 +299,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           } else if (usertType == 'P') {
             final patient =
                 await _firestore.collection('patients').doc(user.uid).get();
-            yield AuthAuthenticated(
+            yield AuthAuthenticatedDoctor(
                 user: user,
                 email: patient['email'],
                 userType: usertType!,
@@ -329,7 +357,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         // Convert the Set to a list if necessary
         List<String> uniquePatientIdsList = uniquePatientIds.toList();
 
-        yield AuthAuthenticated(
+        yield AuthAuthenticatedDoctor(
             user: user,
             email: doctor.email,
             userType: doctor.userType,
@@ -365,7 +393,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           'created_At': FieldValue.serverTimestamp(),
         });
 
-        yield AuthAuthenticated(
+        yield AuthAuthenticatedDoctor(
             user: user,
             email: patient.email,
             userType: patient.userType,
