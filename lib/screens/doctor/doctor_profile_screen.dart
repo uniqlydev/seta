@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codingbryant/screens/doctor/doctor_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +14,9 @@ class DoctorProfileScreen extends StatefulWidget {
 class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
   int _selectedIndex = 2;
   bool _isEditing = false;
-  final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _clinicNameController = TextEditingController();
+  final TextEditingController _clinicHoursController = TextEditingController();
 
   void _onItemTapped(int index) {
     setState(() {
@@ -21,38 +24,89 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
     });
   }
 
-  void _toggleEdit() {
+  void _toggleEditing() {
     setState(() {
       _isEditing = !_isEditing;
     });
+  }
+
+  void _saveProfile(String userId) async {
+    // Collect data from text controllers
+    final clinicName = _clinicNameController.text;
+    final clinicHours = _clinicHoursController.text;
+
+    try {
+      // Reference to the user's document in Firestore
+      final doctorDocRef =
+          FirebaseFirestore.instance.collection('doctors').doc(userId);
+
+      // Update the user's document with new data
+      await doctorDocRef.update({
+        'clinic_name': clinicName,
+        'clinic_hours': clinicHours,
+      });
+
+      // Show a success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Profile updated successfully!')),
+      );
+    } catch (e) {
+      // Show an error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update profile: $e')),
+      );
+    }
+
+    // Toggle editing mode after saving
+    _toggleEditing();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Profile',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800), // Change this to your desired color
-        ),
+        title:
+            const Text('Doctor Profile', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blue,
       ),
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           if (state is AuthAuthenticated) {
+            // Initialize controllers with current data
+            _clinicNameController.text = '' ?? '';
+            _clinicHoursController.text = '' ?? '';
+
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 25),
-                Center(
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.red,
-                    child: Icon(
-                      Icons.person,
-                      size: 50,
-                      color: Colors.white,
-                    ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 1 / 9,
+                  width: double.infinity,
+                  child: const Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // Circular icon in the middle
+                              CircleAvatar(
+                                radius: 40,
+                                backgroundColor: Colors.red,
+                                child: Icon(
+                                  Icons.person,
+                                  size: 40,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 25),
@@ -60,215 +114,89 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Full Name:',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 15,
                             ),
-                            const SizedBox(height: 10),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 15,
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.person,
-                                    color: Colors.blue,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: _isEditing
-                                        ? TextFormField(
-                                            initialValue: '${state.firstName} ${state.lastName}',
-                                            decoration: const InputDecoration(
-                                              border: InputBorder.none,
-                                            ),
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                            ),
-                                          )
-                                        : Text(
-                                            '${state.firstName} ${state.lastName}',
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                  ),
-                                ],
-                              ),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            const SizedBox(height: 20),
-                            const Text(
-                              'Your Email:',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 15,
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.email,
-                                    color: Colors.blue,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: _isEditing
-                                        ? TextFormField(
-                                            initialValue: state.email,
-                                            decoration: const InputDecoration(
-                                              border: InputBorder.none,
-                                            ),
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                            ),
-                                          )
-                                        : Text(
-                                            state.email,
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            const Text(
-                              'Clinic Name:',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 15,
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.local_hospital,
-                                    color: Colors.blue,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: _isEditing
-                                        ? TextFormField(
-                                            initialValue: '[Add Clinic Name Here]',
-                                            decoration: const InputDecoration(
-                                              border: InputBorder.none,
-                                            ),
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                            ),
-                                          )
-                                        : const Text(
-                                            '[Add Clinic Name Here]',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            const Text(
-                              'Clinic Hours:',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 15,
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.access_time,
-                                    color: Colors.blue,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: _isEditing
-                                        ? TextFormField(
-                                            initialValue: '[Add Clinic Hours Here]',
-                                            decoration: const InputDecoration(
-                                              border: InputBorder.none,
-                                            ),
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                            ),
-                                          )
-                                        : const Text(
-                                            '[Add Clinic Hours Here]',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 25),
-                            Center(
-                              child: ElevatedButton(
-                                onPressed: _toggleEdit,
-                                style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white, backgroundColor: Colors.blue, // Button color
-                                  shadowColor: Colors.black, // Shadow color
-                                  elevation: 5, // Elevation for the shadow
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 12,
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.person,
+                                  color: Colors.blue,
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    '${state.firstName} ${state.lastName}',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                    ),
                                   ),
                                 ),
-                                child: Icon(_isEditing ? Icons.check : Icons.edit),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 20),
+                          TextFormField(
+                            controller: _clinicNameController,
+                            enabled: _isEditing,
+                            decoration: const InputDecoration(
+                              icon: Icon(Icons.local_hospital,
+                                  color: Colors.blue),
+                              labelText: 'Clinic Name',
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          TextFormField(
+                            controller: _clinicHoursController,
+                            enabled: _isEditing,
+                            decoration: const InputDecoration(
+                              icon: Icon(Icons.access_time, color: Colors.blue),
+                              labelText: 'Clinic Hours',
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          Center(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (_isEditing) {
+                                  final userId = (context.read<AuthBloc>().state
+                                          as AuthAuthenticated)
+                                      .user
+                                      .uid;
+                                  _saveProfile(userId);
+                                } else {
+                                  _toggleEditing();
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: Colors.blue, // Text color
+                                shadowColor: Colors.black,
+                                elevation: 5,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 12,
+                                ),
+                              ),
+                              child: Text(
+                                  _isEditing ? 'Save Profile' : 'Edit Profile'),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

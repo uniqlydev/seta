@@ -56,7 +56,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         String phoneNumber = doctor.exists ? '' : patient['phone_number'];
 
-        Timestamp birthdayTimestamp = doctor.exists ? '' : patient['birthday'];
+        Timestamp birthdayTimestamp =
+            doctor.exists ? Timestamp.now() : patient['birthday'];
 
         // Convert the Timestamp to a DateTime
         DateTime birthdayDate = birthdayTimestamp.toDate();
@@ -64,7 +65,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         // Convert DateTime into a Date Format
         String birthday = DateFormat('yyyy-MM-dd').format(birthdayDate);
 
-        String height = doctor.exists ? 0.0 : patient['height'];
+        String height = doctor.exists ? '' : patient['height'];
 
         String weight = doctor.exists ? '' : patient['weight'];
 
@@ -97,11 +98,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               userType: userType!,
               firstName: userName,
               lastName: lastName,
-              phoneNumber: phoneNumber,
-              birthday: birthday,
-              height: height,
-              weight: weight,
-              bloodType: bloodType,
               patients: uniquePatientIdsList));
         } else if (userType == 'P') {
           emit(AuthAuthenticated(
@@ -277,11 +273,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 userType: usertType!,
                 firstName: doctor['first_name'],
                 lastName: doctor['last_name'],
-                phoneNumber: '',
-                birthday: null,
-                height: null,
-                weight: '',
-                bloodType: '',
                 patients: uniquePatientIdsList);
           } else if (usertType == 'P') {
             final patient =
