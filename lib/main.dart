@@ -11,6 +11,7 @@ import 'package:codingbryant/screens/doctor/patient_details_screen.dart';
 import 'package:codingbryant/screens/landing_page.dart';
 import 'package:codingbryant/screens/patient/dashboard_patient_screen.dart';
 import 'package:codingbryant/screens/login_screen.dart';
+import 'package:codingbryant/screens/patient/patient_chat_list_screen.dart';
 import 'package:codingbryant/screens/patient/patient_inbox_screen.dart';
 import 'package:codingbryant/screens/patient/patient_prescription_details.dart';
 import 'package:codingbryant/screens/doctor/prescription_screen.dart';
@@ -82,6 +83,7 @@ class MyApp extends StatelessWidget {
           '/inbox-doctor': (context) => const DoctorInboxScreen(),
           '/list-doctor' : (context) => DoctorChatListScreen(),
           '/inbox-patient': (context) =>  PatientInboxScreen(),
+          '/list-patient': (context) => const PatientChatListScreen(),
         },
       ),
     );

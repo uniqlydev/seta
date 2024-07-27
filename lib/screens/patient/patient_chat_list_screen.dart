@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:codingbryant/screens/doctor/doctor_nav_bar.dart';
 import 'package:codingbryant/screens/patient/patient_chat.dart';
+import 'package:codingbryant/screens/patient/patient_nav_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -21,32 +21,35 @@ class _PatientChatListScreenState extends State<PatientChatListScreen> {
   }
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  List<String> patientUsernames = [];
+  List<String> doctorIds = [];
 
   @override
   void initState() {
     super.initState();
-    _fetchPatientUsernames();
+    _fetchDoctorIds();
   }
 
-  Future<void> _fetchPatientUsernames() async {
+  Future<void> _fetchDoctorIds() async {
     final user = _auth.currentUser;
     if (user != null) {
       try {
         QuerySnapshot snapshot = await FirebaseFirestore.instance
+            .collection('patients')
+            .doc(user.uid)
             .collection('prescriptions')
-            .where('doctorId', isEqualTo: user.uid)
             .get();
 
-        List<String> fetchedPatientUsernames = snapshot.docs
-            .map((doc) => doc['patientId'] as String)
+        List<String> fetchedDoctorIds = snapshot.docs
+            .map((doc) => doc['doctorId'] as String)
             .toList();
 
         setState(() {
-          patientUsernames = fetchedPatientUsernames;
+          doctorIds = fetchedDoctorIds;
         });
+
+        print('Fetched doctor IDs: $doctorIds'); // Debugging line
       } catch (e) {
-        print('Error fetching patient usernames: $e');
+        print('Error fetching doctor IDs: $e');
       }
     }
   }
@@ -55,16 +58,16 @@ class _PatientChatListScreenState extends State<PatientChatListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Patients List'),
+        title: Text('Doctors List'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/inbox-doctor');
+            Navigator.pushReplacementNamed(context, '/inbox-patient');
           },
         ),
       ),
       body: _buildUserList(),
-      bottomNavigationBar: DoctorNavBar(
+      bottomNavigationBar: PatientNavBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
@@ -72,20 +75,23 @@ class _PatientChatListScreenState extends State<PatientChatListScreen> {
   }
 
   Widget _buildUserList() {
-    if (patientUsernames.isEmpty) {
+    if (doctorIds.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('patients').where('username', whereIn: patientUsernames).snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('doctors')
+          .where(FieldPath.documentId, whereIn: doctorIds)
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const Center(child: Text('Error fetching patients.'));
+          return const Center(child: Text('Error fetching doctors.'));
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return const Center(child: Text('No patients found.'));
+          return const Center(child: Text('No doctors found.'));
         }
 
         return ListView(
