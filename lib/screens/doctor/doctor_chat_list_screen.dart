@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:codingbryant/screens/doctor/doctor_nav_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../nav_bar.dart';
 import 'doctor_chat.dart';
 
 class DoctorChatListScreen extends StatefulWidget {
@@ -64,7 +64,7 @@ class _DoctorChatListScreenState extends State<DoctorChatListScreen> {
         ),
       ),
       body: _buildUserList(),
-      bottomNavigationBar: NavBar(
+      bottomNavigationBar: DoctorNavBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
