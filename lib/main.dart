@@ -3,15 +3,9 @@ import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:codingbryant/repositories/prescribe_repository.dart';
 import 'package:codingbryant/screens/doctor/dashboard_doctor_screen.dart';
-<<<<<<< HEAD
-import 'package:codingbryant/screens/doctor/doctor_chat_list_screen.dart';
-import 'package:codingbryant/screens/doctor/medication_screen.dart';
-import 'package:codingbryant/screens/doctor/doctor_inbox_screen.dart'; 
-=======
 import 'package:codingbryant/screens/doctor/doctor_profile_screen.dart';
 import 'package:codingbryant/screens/doctor/medication_screen.dart';
 import 'package:codingbryant/screens/doctor/patient_details_screen.dart';
->>>>>>> 29f26f744c8776cc12b15aa683ac2f546970027a
 import 'package:codingbryant/screens/landing_page.dart';
 import 'package:codingbryant/screens/patient/dashboard_patient_screen.dart';
 import 'package:codingbryant/screens/login_screen.dart';
@@ -84,16 +78,11 @@ class MyApp extends StatelessWidget {
           '/dashboard-patient': (context) => DashboardPatientScreen(),
           '/register-patient': (context) => RegisterPatientScreen(),
           '/medication-screen': (context) => const MedicationScreen(),
-<<<<<<< HEAD
-          '/inbox-doctor': (context) =>  const DoctorInboxScreen(), 
-          '/list-doctor': (context) => const DoctorChatListScreen(),
-=======
           '/patient-details-screen': (context) => PatientDetailsScreen(
                 patientName: '',
               ),
           '/doctor-profile-screen': (context) => DoctorProfileScreen(),
           '/patient-profile-screen': (context) => PatientProfileScreen(),
->>>>>>> 29f26f744c8776cc12b15aa683ac2f546970027a
         },
       ),
     );
