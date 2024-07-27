@@ -102,13 +102,13 @@ class PrescriptionScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 30.0),
                           child: Row(
                             children: [
-                              const Icon(Icons.timer),
+                              const Icon(Icons.numbers),
                               const SizedBox(width: 10),
                               Expanded(
                                 child: TextFormField(
                                   controller: _dosage,
                                   decoration: const InputDecoration(
-                                    labelText: 'Recommended Dosage',
+                                    labelText: 'Dosage',
                                   ),
                                 ),
                               ),
@@ -120,13 +120,13 @@ class PrescriptionScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 30.0),
                           child: Row(
                             children: [
-                              const Icon(Icons.notes),
+                              const Icon(Icons.timer),
                               const SizedBox(width: 10),
                               Expanded(
                                 child: TextFormField(
                                   controller: _instructions,
                                   decoration: const InputDecoration(
-                                    labelText: 'How to take the medicine?',
+                                    labelText: 'Dosage Regimen',
                                   ),
                                 ),
                               ),
