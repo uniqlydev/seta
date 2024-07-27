@@ -21,7 +21,7 @@ class PrescriptionCreate extends PrescriptionEvent {
     required this.medication,
     required this.dosage,
     required this.drugClass,
-    required this.instructions,
+    required this.instructions, required String diagnosis, required String time1, required String time2, required String time3,
   });
 
   @override
