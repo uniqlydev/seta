@@ -9,7 +9,6 @@ class PrescribeRepository {
   Future<void> createPrescription({
     required String doctorId,
     required String patientId,
-    required String prescription,
     required String id,
     required String medication,
     required double dosage,
@@ -20,7 +19,6 @@ class PrescribeRepository {
       await _firestore.collection('prescriptions').doc(id).set({
         'doctorId': doctorId,
         'patientId': patientId,
-        'prescription': prescription,
         'id': id,
         'medication': medication,
         'dosage': dosage,

@@ -73,7 +73,7 @@ class LandingPage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     elevation: 5, // Add elevation
                     shadowColor: Colors.black, // Add shadow color
-                    backgroundColor: Colors.greenAccent, // Set background color for patient
+                    backgroundColor: Colors.green, // Set background color for patient
                   ),
                 ),
                 SizedBox(height: 20),

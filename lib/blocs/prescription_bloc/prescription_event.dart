@@ -1,7 +1,7 @@
 part of 'prescription_bloc.dart';
 
 abstract class PrescriptionEvent extends Equatable {
-
+  const PrescriptionEvent();
 
   @override
   List<Object> get props => [];
@@ -15,7 +15,7 @@ class PrescriptionCreate extends PrescriptionEvent {
   final String drugClass;
   final String instructions;
 
-  PrescriptionCreate({
+  const PrescriptionCreate({
     required this.doctorId,
     required this.patientId,
     required this.medication,
@@ -25,7 +25,5 @@ class PrescriptionCreate extends PrescriptionEvent {
   });
 
   @override
-  List<Object> get props => [patientId, doctorId];
+  List<Object> get props => [doctorId, patientId, medication, dosage, drugClass, instructions];
 }
-
-

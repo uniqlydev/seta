@@ -2,7 +2,7 @@ import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/screens/doctor/patient_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../nav_bar.dart';
+import 'doctor_nav_bar.dart';
 
 class DashboardDoctorScreen extends StatefulWidget {
   const DashboardDoctorScreen({super.key});
@@ -195,7 +195,7 @@ class _DashboardDoctorScreenState extends State<DashboardDoctorScreen> {
           }
         },
       ),
-      bottomNavigationBar: NavBar(
+      bottomNavigationBar: DoctorNavBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         
