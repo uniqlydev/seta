@@ -31,10 +31,12 @@ class _MedicationScreenState extends State<MedicationScreen> {
           .map((doc) => MedicationModel.fromFirestore(doc))
           .toList();
 
+      // Sort the medications alphabetically by the drug name
+      fetchedMedications.sort((a, b) => a.drug.compareTo(b.drug));
+
       setState(() {
         medications = fetchedMedications;
-        filteredMedications =
-            medications; // Initialize filtered list with all medications
+        filteredMedications = medications; // Initialize filtered list with all medications
       });
     } catch (e) {
       print('Error fetching medications: $e');
@@ -65,13 +67,13 @@ class _MedicationScreenState extends State<MedicationScreen> {
                     floating: true,
                     snap: false,
                     backgroundColor: Colors.blue,
-                    expandedHeight: MediaQuery.of(context).size.height * 2 / 9,
+                    expandedHeight: MediaQuery.of(context).size.height * 1 / 15, // Reduced height
                     flexibleSpace: const FlexibleSpaceBar(
                       title: Text(
-                        'Medications',
+                        'MiMS Medication List',
                         style: TextStyle(
                           fontFamily: 'RobotoMono',
-                          fontSize: 32,
+                          fontSize: 15,
                           fontWeight: FontWeight.w900,
                           color: Colors.white,
                         ),
@@ -93,49 +95,67 @@ class _MedicationScreenState extends State<MedicationScreen> {
                   ),
                 ];
               },
-              body: ListView.builder(
-                itemCount: filteredMedications.length,
-                itemBuilder: (context, index) {
-                  MedicationModel medication = filteredMedications[index];
-                  return ListTile(
-                    title: Text(medication.drug),
-                    subtitle: Text(medication.dosage),
-                    onTap: () {
-                      // Pop up to show the remaining details of the medication
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text(medication.drug),
-                            content: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text('Frequency: ${medication.drugClass}'),
-                                Text('Dosage: ${medication.sideEffect}'),
-                              ],
-                            ),
-                            contentPadding:
-                                const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0),
-                            contentTextStyle: const TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.black,
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('Close'),
-                              ),
-                            ],
+              body: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
+                child: ListView.builder(
+                  itemCount: filteredMedications.length,
+                  itemBuilder: (context, index) {
+                    MedicationModel medication = filteredMedications[index];
+                    return Container(
+                      margin: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: ListTile(
+                        title: Text(medication.drug),
+                        subtitle: Text(medication.drugClass),
+                        onTap: () {
+                          // Pop up to show the remaining details of the medication
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text(medication.drug),
+                                content: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text('Dosage: ${medication.dosage}'),
+                                    Text('Side Effect: ${medication.sideEffect}'),
+                                  ],
+                                ),
+                                contentPadding:
+                                    const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0),
+                                contentTextStyle: const TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.black,
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Close'),
+                                  ),
+                                ],
+                              );
+                            },
                           );
                         },
-                      );
-                    },
-                    // Add more details or actions as needed
-                  );
-                },
+                        // Add more details or actions as needed
+                      ),
+                    );
+                  },
+                ),
               ),
             );
           } else if (state is AuthFailure) {
@@ -183,18 +203,36 @@ class MedicationSearchDelegate extends SearchDelegate<MedicationModel> {
             medication.drug.toLowerCase().contains(query.toLowerCase()))
         .toList();
 
-    return ListView.builder(
-      itemCount: results.length,
-      itemBuilder: (context, index) {
-        MedicationModel medication = results[index];
-        return ListTile(
-          title: Text(medication.drug),
-          subtitle: Text(medication.dosage),
-          onTap: () {
-            _showMedicationDetails(context, medication);
-          },
-        );
-      },
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
+      child: ListView.builder(
+        itemCount: results.length,
+        itemBuilder: (context, index) {
+          MedicationModel medication = results[index];
+          return Container(
+            margin: EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: ListTile(
+              title: Text(medication.drug),
+              subtitle: Text(medication.dosage),
+              onTap: () {
+                _showMedicationDetails(context, medication);
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -209,8 +247,8 @@ class MedicationSearchDelegate extends SearchDelegate<MedicationModel> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Frequency: ${medication.drugClass}'),
-              Text('Dosage: ${medication.sideEffect}'),
+              Text('Dosage: ${medication.dosage}'),
+              Text('Side Effect: ${medication.sideEffect}'),
             ],
           ),
           contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0),
@@ -238,18 +276,36 @@ class MedicationSearchDelegate extends SearchDelegate<MedicationModel> {
             medication.drug.toLowerCase().contains(query.toLowerCase()))
         .toList();
 
-    return ListView.builder(
-      itemCount: suggestions.length,
-      itemBuilder: (context, index) {
-        MedicationModel medication = suggestions[index];
-        return ListTile(
-          title: Text(medication.drug),
-          subtitle: Text(medication.dosage),
-          onTap: () {
-            close(context, medication);
-          },
-        );
-      },
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
+      child: ListView.builder(
+        itemCount: suggestions.length,
+        itemBuilder: (context, index) {
+          MedicationModel medication = suggestions[index];
+          return Container(
+            margin: EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: ListTile(
+              title: Text(medication.drug),
+              subtitle: Text(medication.drugClass),
+              onTap: () {
+                close(context, medication);
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }
