@@ -45,6 +45,9 @@ class AuthSignUpRequestPatient extends AuthEvent {
   final String lastName;
   final String phoneNumber;
   final String gender; 
+  final double weight;
+  final double height;
+  final DateTime bday;
 
   AuthSignUpRequestPatient({
     required this.email,
@@ -53,7 +56,10 @@ class AuthSignUpRequestPatient extends AuthEvent {
     required this.firstName,
     required this.lastName,
     required this.phoneNumber,
-    required this.gender
+    required this.gender,
+    required this.weight,
+    required this.height,
+    required this.bday,
   });
 
 }

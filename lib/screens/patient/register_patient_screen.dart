@@ -2,6 +2,7 @@ import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'register_patient_screenpt2.dart';
 
 // ignore: must_be_immutable
 class RegisterPatientScreen extends StatelessWidget {
@@ -38,8 +39,6 @@ class RegisterPatientScreen extends StatelessWidget {
                 backgroundColor: Colors.red,
               ),
             );
-          }else if (state is AuthAuthenticatedPatient) {
-            Navigator.of(context).pushNamedAndRemoveUntil('/dashboard-patient', (Route<dynamic> route) => false);
           }
         },
         builder: (context, state) {
@@ -171,22 +170,26 @@ class RegisterPatientScreen extends StatelessWidget {
                         const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
-                            context.read<AuthBloc>().add(
-                              AuthSignUpRequestPatient(
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                                username: _usernameController.text,
-                                firstName: _firstNameController.text,
-                                lastName: _lastNameController.text,
-                                phoneNumber: _phoneNumberController.text,
-                                gender: _genderController.text,
+                            // Collect data and navigate to the second screen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RegisterPatientScreenpt2(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                  username: _usernameController.text,
+                                  firstName: _firstNameController.text,
+                                  lastName: _lastNameController.text,
+                                  phoneNumber: _phoneNumberController.text,
+                                  gender: _genderController.text,
+                                ),
                               ),
                             );
                           },
                           style: ElevatedButton.styleFrom(
                             textStyle: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                           ),
-                          child: const Text('Sign Up'),
+                          child: const Text('Next'),
                         ),
                         const SizedBox(height: 20),
                         Padding(
@@ -205,7 +208,7 @@ class RegisterPatientScreen extends StatelessWidget {
                                   ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                        Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+                                      Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
                                     },
                                 ),
                               ],

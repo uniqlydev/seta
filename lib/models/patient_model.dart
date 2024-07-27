@@ -1,5 +1,3 @@
-import 'package:codingbryant/models/prescription_model.dart';
-
 class PatientModel {
   final String id; 
   final String email;
@@ -9,7 +7,9 @@ class PatientModel {
   final String phoneNumber;
   final String userType = 'P';
   final String gender;
-  final List<PrescriptionModel> prescriptions = List<PrescriptionModel>.empty(growable: true);
+  final double weight;
+  final double height;
+  final DateTime bday; 
 
   PatientModel({
     required this.id,
@@ -18,10 +18,11 @@ class PatientModel {
     required this.firstName,
     required this.lastName,
     required this.phoneNumber,
-    required this.gender
+    required this.gender,
+    required this.weight,
+    required this.height,
+    required this.bday,
   });
 
-  void addPrescription(PrescriptionModel prescription) {
-    prescriptions.add(prescription);
-  }
+
 }
