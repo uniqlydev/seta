@@ -55,24 +55,41 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         if (userType == 'D') {
           // Retreive subcollection of patients
-          final patients = await _firestore
-              .collection('prescriptions')
-              .where('doctorId', isEqualTo: user.uid)
-              .get();
+          print(user.uid);
+
+          // Print every sub collection under doctors
+          final patientsList = await _firestore
+              .collection('doctors')
+              .doc(user.uid)
+              .collection('patients');
+
+          
           // Initialize a Set to store unique patient IDs
           Set<String> uniquePatientIds = {};
 
-          // Iterate through the query snapshot
-          for (var document in patients.docs) {
-            // Get the patientId from each document
-            String patientId = document.data()['patientId'];
+          final querySnapshot = await patientsList.get();
 
-            // Add patientId to the Set (Sets automatically handle duplicates)
-            uniquePatientIds.add(patientId);
+          // Loop through the documents
+          for (var doc in querySnapshot.docs) {
+            uniquePatientIds.add(doc.id);
+          }
+
+    
+
+          // Iterate through and retrieve the username
+          List<String> first_names = [];
+
+
+
+          for (var id in uniquePatientIds) {
+
+            var pdf = await _firestore.collection('patients').doc(id).get();
+
+            first_names.add(pdf['first_name']);
           }
 
           // Convert the Set to a list if necessary
-          List<String> uniquePatientIdsList = uniquePatientIds.toList();
+          List<String> uniquePatientIdsList = first_names.toList();
 
           emit(AuthAuthenticated(
               user: user,

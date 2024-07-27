@@ -16,30 +16,73 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     on<PrescriptionCreate>(_onPrescriptionCreateRequest);
   }
 
-  Future<void> _onPrescriptionCreateRequest(PrescriptionCreate event, Emitter<PrescriptionState> emit) async {
-    emit(const PrescriptionCreateLoading(message: 'Creating Prescription...'));
+Future<void> _onPrescriptionCreateRequest(PrescriptionCreate event, Emitter<PrescriptionState> emit) async {
+  emit(const PrescriptionCreateLoading(message: 'Creating Prescription...'));
 
-    try {
-      // Get the count of documents in the prescriptions collection
-      QuerySnapshot querySnapshot = await _firestore.collection('prescriptions').get();
-      int count = querySnapshot.size;
+  try {
+    // Retrieve the UID of the patient using the patient username
+    QuerySnapshot patientSnapshot = await _firestore.collection('patients')
+        .where('username', isEqualTo: event.patientId)
+        .limit(1)
+        .get();
 
-      // Generate the next id based on the count
-      String nextId = (count + 1).toString();
-
-      await _firestore.collection('prescriptions').doc(nextId).set({
-        'doctorId': event.doctorId,
-        'patientId': event.patientId,
-        'id': nextId,
-        'medication': event.medication,
-        'dosage': event.dosage,
-        'drugClass': event.drugClass,
-        'instructions': event.instructions,
-      });
-
-      emit(const PrescriptionSuccess(message: 'Prescription Created Successfully'));
-    } catch (e) {
-      emit(const PrescriptionFailure(message: 'Failed to create prescription'));
+    if (patientSnapshot.docs.isEmpty) {
+      throw Exception('Patient not found');
     }
+
+
+
+    QuerySnapshot querySnapshot = await _firestore.collection('patients')
+                                  .where('username', isEqualTo: event.patientId)
+                                  .get();
+
+    int count = querySnapshot.size;
+
+
+
+    String uidOfPatient = patientSnapshot.docs.first.id;
+
+
+    // Create sub-collection then insert
+    await _firestore.collection('patients')
+        .doc(uidOfPatient)
+        .collection('prescriptions')
+        .doc()
+        .set({
+          'doctorId': event.doctorId,
+          'medication': event.medication,
+          'dosage': event.dosage,
+          'drugClass': event.drugClass,
+          'instructions': event.instructions,
+        });
+
+    await _firestore.collection('doctors')
+          .doc(event.doctorId)
+          .collection('patients')
+          .doc(uidOfPatient)
+          .collection('prescriptions')
+          .doc()
+          .set({
+            'doctorId': event.doctorId,
+            'medication': event.medication,
+            'dosage': event.dosage,
+            'drugClass': event.drugClass,
+            'instructions': event.instructions,
+          });
+
+      await _firestore.collection('doctors')
+          .doc(event.doctorId)
+          .collection('patients')
+          .doc(uidOfPatient)
+          .set({
+            'doctorId': event.doctorId,
+            'patientId': uidOfPatient,
+          });
+
+    emit(const PrescriptionSuccess(message: 'Prescription Created Successfully'));
+  } catch (e) {
+    emit(const PrescriptionFailure(message: 'Failed to create prescription'));
   }
+}
+
 }
