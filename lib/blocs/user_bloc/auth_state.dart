@@ -20,6 +20,8 @@ class AuthAuthenticated extends AuthState {
   final String? height;
   final String? weight;
   final String? bloodType;
+  final String? clinicName;
+  final String? clinicHours;
   final List<String> patients;
 
   const AuthAuthenticated(
@@ -33,6 +35,8 @@ class AuthAuthenticated extends AuthState {
       this.height,
       this.weight,
       this.bloodType,
+      this.clinicName,
+      this.clinicHours,
       required this.patients});
 
   @override

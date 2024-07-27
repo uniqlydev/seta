@@ -71,6 +71,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         String bloodType = doctor.exists ? '' : patient['blood_type'];
 
+        String clinicName = doctor.exists ? doctor['clinic_name'] : '';
+
+        String clinicHours = doctor.exists ? doctor['clinic_hours'] : '';
+
         if (userType == 'D') {
           // Retreive subcollection of patients
           final patients = await _firestore
@@ -98,6 +102,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               userType: userType!,
               firstName: userName,
               lastName: lastName,
+              clinicName: clinicName,
+              clinicHours: clinicHours,
               patients: uniquePatientIdsList));
         } else if (userType == 'P') {
           emit(AuthAuthenticated(
@@ -273,6 +279,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 userType: usertType!,
                 firstName: doctor['first_name'],
                 lastName: doctor['last_name'],
+                clinicName: doctor['clinic_name'],
+                clinicHours: doctor['clinic_hours'],
                 patients: uniquePatientIdsList);
           } else if (usertType == 'P') {
             final patient =

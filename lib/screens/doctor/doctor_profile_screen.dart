@@ -73,8 +73,8 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
         builder: (context, state) {
           if (state is AuthAuthenticated) {
             // Initialize controllers with current data
-            _clinicNameController.text = '' ?? '';
-            _clinicHoursController.text = '' ?? '';
+            _clinicNameController.text = state.clinicName ?? '';
+            _clinicHoursController.text = state.clinicHours ?? '';
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,6 +136,34 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
                                 Expanded(
                                   child: Text(
                                     '${state.firstName} ${state.lastName}',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 15,
+                            ),
+                            margin: const EdgeInsets.only(top: 20),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.email,
+                                  color: Colors.blue,
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    state.email,
                                     style: const TextStyle(
                                       fontSize: 16,
                                     ),
