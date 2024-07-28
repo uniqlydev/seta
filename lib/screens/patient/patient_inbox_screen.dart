@@ -1,18 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:codingbryant/screens/doctor/doctor_nav_bar.dart';
+import 'package:codingbryant/screens/patient/patient_chat.dart';
+import 'package:codingbryant/screens/patient/patient_nav_bar.dart';
 import 'package:codingbryant/services/chat_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'doctor_chat.dart';
 
-class DoctorInboxScreen extends StatefulWidget {
-  const DoctorInboxScreen({super.key});
+class PatientInboxScreen extends StatefulWidget {
+  const PatientInboxScreen({super.key});
 
   @override
-  _DoctorInboxScreenState createState() => _DoctorInboxScreenState();
+  _PatientInboxScreenState createState() => _PatientInboxScreenState();
 }
 
-class _DoctorInboxScreenState extends State<DoctorInboxScreen> {
+class _PatientInboxScreenState extends State<PatientInboxScreen> {
   int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
@@ -36,13 +36,13 @@ class _DoctorInboxScreenState extends State<DoctorInboxScreen> {
     if (user != null) {
       try {
         QuerySnapshot snapshot = await FirebaseFirestore.instance
-            .collection('doctors')
-            .doc(user.uid)
             .collection('patients')
+            .doc(user.uid)
+            .collection('prescriptions')
             .get();
 
         List<String> fetchedPatientUsernames = snapshot.docs
-            .map((doc) => doc.id)
+            .map((doc) => doc['doctorId'] as String)
             .toList();
 
         setState(() {
@@ -61,7 +61,7 @@ class _DoctorInboxScreenState extends State<DoctorInboxScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/dashboard-doctor');
+            Navigator.pushReplacementNamed(context, '/dashboard-patient');
           },
         ),
        title: Center(
@@ -76,13 +76,13 @@ class _DoctorInboxScreenState extends State<DoctorInboxScreen> {
             icon: Icon(Icons.create, color: Colors.white),
             onPressed: () {
               // Add create action here
-              Navigator.pushNamed(context, '/list-doctor');
+              Navigator.pushNamed(context, '/list-patient');
             },
           ),
         ],
       ),
       body: _buildUserList(),
-      bottomNavigationBar: DoctorNavBar(
+      bottomNavigationBar: PatientNavBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
@@ -95,7 +95,7 @@ class _DoctorInboxScreenState extends State<DoctorInboxScreen> {
     }
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
-          .collection('patients')
+          .collection('doctors')
           .where('uid', whereIn: patientUsernames)
           .snapshots(),
       builder: (context, snapshot) {
@@ -156,7 +156,7 @@ class _DoctorInboxScreenState extends State<DoctorInboxScreen> {
     }
 
     return ListTile(
-       leading: CircleAvatar(
+      leading: CircleAvatar(
         backgroundColor: Colors.grey,
         child: Icon(Icons.person, color: Colors.white),
       ),
@@ -165,7 +165,7 @@ class _DoctorInboxScreenState extends State<DoctorInboxScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DoctorChat(
+            builder: (context) => PatientChat(
               receiverUserEmail: data['email'],
               receiverUserID: data['uid'],
             ),
