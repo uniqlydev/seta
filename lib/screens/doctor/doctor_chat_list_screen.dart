@@ -13,15 +13,14 @@ class DoctorChatListScreen extends StatefulWidget {
 
 class _DoctorChatListScreenState extends State<DoctorChatListScreen> {
   int _selectedIndex = 1;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  List<String> patientUsernames = [];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  List<String> patientUsernames = [];
 
   @override
   void initState() {
@@ -39,9 +38,7 @@ class _DoctorChatListScreenState extends State<DoctorChatListScreen> {
             .collection('patients')
             .get();
 
-        List<String> fetchedPatientUsernames = snapshot.docs
-            .map((doc) => doc.id)
-            .toList();
+        List<String> fetchedPatientUsernames = snapshot.docs.map((doc) => doc.id).toList();
 
         setState(() {
           patientUsernames = fetchedPatientUsernames;
@@ -56,13 +53,19 @@ class _DoctorChatListScreenState extends State<DoctorChatListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Patients List'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
             Navigator.pushReplacementNamed(context, '/inbox-doctor');
           },
         ),
+        title: Center(
+          child: Text(
+            'Patients List',
+            style: TextStyle(fontFamily: 'RobotoMono', color: Colors.white),
+          ),
+        ),
+        backgroundColor: Colors.blue,
       ),
       body: _buildUserList(),
       bottomNavigationBar: DoctorNavBar(
@@ -76,13 +79,18 @@ class _DoctorChatListScreenState extends State<DoctorChatListScreen> {
     if (patientUsernames.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
+
+    // Limit the number of document IDs to 10 due to Firestore constraints
+    List<String> limitedPatientUsernames = patientUsernames.take(10).toList();
+
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
-      .collection('patients')
-      .where(FieldPath.documentId, whereIn: patientUsernames)
-      .snapshots(),
+          .collection('patients')
+          .where(FieldPath.documentId, whereIn: limitedPatientUsernames)
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
+          print('Error fetching patients: ${snapshot.error}');
           return const Center(child: Text('Error fetching patients.'));
         }
         if (snapshot.connectionState == ConnectionState.waiting) {

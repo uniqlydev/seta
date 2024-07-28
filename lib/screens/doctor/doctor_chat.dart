@@ -34,13 +34,19 @@ class _DoctorChatState extends State<DoctorChat> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.receiverUserEmail),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+       leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
             Navigator.pushReplacementNamed(context, '/inbox-doctor');
           },
         ),
+       title: Center(
+          child: Text(
+            widget.receiverUserEmail,
+            style: TextStyle(fontFamily: 'RobotoMono', color: Colors.white),
+          ),
+        ),
+        backgroundColor: Colors.blue,
       ),
       body: Column(
         children: [

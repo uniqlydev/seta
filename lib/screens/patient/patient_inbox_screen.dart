@@ -58,11 +58,24 @@ class _PatientInboxScreenState extends State<PatientInboxScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Patient Inbox'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/dashboard-patient');
+          },
+        ),
+       title: Center(
+          child: Text(
+            'Inbox',
+            style: TextStyle(fontFamily: 'RobotoMono', color: Colors.white),
+          ),
+        ),
+        backgroundColor: Colors.blue,
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: Icon(Icons.create, color: Colors.white),
             onPressed: () {
+              // Add create action here
               Navigator.pushNamed(context, '/list-patient');
             },
           ),
@@ -143,6 +156,10 @@ class _PatientInboxScreenState extends State<PatientInboxScreen> {
     }
 
     return ListTile(
+      leading: CircleAvatar(
+        backgroundColor: Colors.grey,
+        child: Icon(Icons.person, color: Colors.white),
+      ),
       title: Text(data['email']),
       onTap: () {
         Navigator.push(

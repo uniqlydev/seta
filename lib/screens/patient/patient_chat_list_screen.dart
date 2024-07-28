@@ -58,13 +58,19 @@ class _PatientChatListScreenState extends State<PatientChatListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Doctors List'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
             Navigator.pushReplacementNamed(context, '/inbox-patient');
           },
         ),
+       title: Center(
+          child: Text(
+            'Doctors List',
+            style: TextStyle(fontFamily: 'RobotoMono', color: Colors.white),
+          ),
+        ),
+        backgroundColor: Colors.blue,
       ),
       body: _buildUserList(),
       bottomNavigationBar: PatientNavBar(
@@ -111,6 +117,10 @@ class _PatientChatListScreenState extends State<PatientChatListScreen> {
     }
 
     return ListTile(
+      leading: CircleAvatar(
+        backgroundColor: Colors.grey,
+        child: Icon(Icons.person, color: Colors.white),
+      ),
       title: Text(data['email']),
       onTap: () {
         Navigator.push(
