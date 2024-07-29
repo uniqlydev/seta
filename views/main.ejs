@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<head>
+    <title>Main Page</title>
+</head>
+<body>
+    <h1>Hello, <%= username %>!</h1>
+    <form action="/greet" method="post">
+        <label for="username">Enter your name:</label>
+        <input type="text" id="username" name="username" required>
+        <button type="submit">Greet</button>
+    </form>
+</body>
+</html>
