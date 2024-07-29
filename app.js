@@ -20,14 +20,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
+// Landing Page
 app.get('/', (req, res) => {
     res.render('main.ejs');
 });
 
+// Login Page
 app.get('/login', (req, res) => {
     res.render('login.ejs');
 });
 
+// Login Functionality
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
     if (username === 'admin' && password === 'admin') {
@@ -38,6 +41,7 @@ app.post('/login', (req, res) => {
     }
 });
 
+// Patients Page (Home cuz its kind of like the main page talaga I think)
 app.get('/home', async (req, res) => {
     try {   
         const patientsCollection = db.collection('patients');
@@ -50,10 +54,7 @@ app.get('/home', async (req, res) => {
     }
 });
 
-app.get('/patients', (req, res) => {
-    res.render('patients.ejs');
-});
-
+// List of Prescriptions per Patient
 app.get('/prescriptions', async (req, res) => {
     try {
         const urlParams = new URLSearchParams(req.query);
@@ -75,6 +76,7 @@ app.get('/prescriptions', async (req, res) => {
     }
 });
 
+// Update Prescription Status Functionality
 app.post('/update-status', async (req, res) => {
     try {
         const { prescriptionId, claimed } = req.body;
@@ -88,6 +90,7 @@ app.post('/update-status', async (req, res) => {
     }
 });
 
+// Port Listener
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 });
