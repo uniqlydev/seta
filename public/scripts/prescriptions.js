@@ -11,11 +11,17 @@
  * claimed.
  */
 async function updatePrescriptionClaimedStatus(prescriptionId, claimed) {
+    // Get the date and time today to send to the server
+    const today = new Date();
+    const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+    const claimDate = date + ' ' + time;
+
     try {
         const response = await fetch('/update-status', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prescriptionId, claimed }),
+            body: JSON.stringify({ prescriptionId, claimed, claimDate }),
         });
 
         const data = await response.json();

@@ -79,10 +79,13 @@ app.get('/prescriptions', async (req, res) => {
 // Update Prescription Status Functionality
 app.post('/update-status', async (req, res) => {
     try {
-        const { prescriptionId, claimed } = req.body;
+        const { prescriptionId, claimed, claimDate } = req.body;
         const prescriptionCollection = db.collection('prescriptions');
 
-        await prescriptionCollection.doc(prescriptionId).update({ claimed });
+        await prescriptionCollection.doc(prescriptionId).update({
+            claimed,
+            claimDate
+        });
 
         res.json({ message: "Status has been updated." });
     } catch (error) {

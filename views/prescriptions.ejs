@@ -43,6 +43,7 @@
                 <th>Instructions</th>
                 <th>Medication</th>
                 <th>Claimed?</th>
+                <th>Claim Date</th>
             </tr>
         </thead>
         <tbody>
@@ -59,6 +60,7 @@
                                <%= prescription.claimed ? 'checked disabled' : '' %>
                                onchange="<%= prescription.claimed ? '' : 'updatePrescriptionClaimedStatus(\'' + prescription.id + '\', this.checked)' %>">
                     </td>
+                    <td><%= prescription.claimed ? prescription.claimDate : 'N/A' %></td>
                 </tr>
             <% }) %>
         </tbody>
