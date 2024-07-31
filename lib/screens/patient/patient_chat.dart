@@ -4,21 +4,21 @@ import 'package:codingbryant/services/chat_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class DoctorChat extends StatefulWidget {
+class PatientChat extends StatefulWidget {
   final String receiverUserEmail;
   final String receiverUserID;
 
-  const DoctorChat({
+  const PatientChat({
     super.key,
     required this.receiverUserEmail,
     required this.receiverUserID,
   });
 
   @override
-  State<DoctorChat> createState() => _DoctorChatState();
+  State<PatientChat> createState() => _PatientChatState();
 }
 
-class _DoctorChatState extends State<DoctorChat> {
+class _PatientChatState extends State<PatientChat> {
   final TextEditingController _messageController = TextEditingController();
   final ChatService _chatService = ChatService();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -34,10 +34,10 @@ class _DoctorChatState extends State<DoctorChat> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-       leading: IconButton(
+        leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/inbox-doctor');
+            Navigator.pushReplacementNamed(context, '/inbox-patient');
           },
         ),
        title: Center(
@@ -47,6 +47,13 @@ class _DoctorChatState extends State<DoctorChat> {
           ),
         ),
         backgroundColor: Colors.blue,
+        // title: Text(widget.receiverUserEmail),
+        // leading: IconButton(
+        //   icon: Icon(Icons.arrow_back),
+        //   onPressed: () {
+        //     Navigator.pushReplacementNamed(context, '/inbox-patient');
+        //   },
+        // ),
       ),
       body: Column(
         children: [
