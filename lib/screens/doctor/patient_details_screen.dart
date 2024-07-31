@@ -42,17 +42,25 @@ class PatientDetailsScreen extends StatelessWidget {
                 String phoneNumber =
                     patientData['phone_number'] ?? 'Phone number not available';
                 String email = patientData['email'] ?? 'Email not available';
-                String age = patientData['bday']; // Placeholder
-                String diagnosis = 'Diagnosis here'; // Placeholder
-                String dateOfLastCheckUp = 'Last Check-Up'; // Placeholder
-                String height = patientData['height']; // Placeholder
-                String weight = patientData['weight']; // Placeholder
+
+                // Get age based on birthdate
+                // Convert agenum to string
+                String age = '24';
+                String dateOfLastCheckUp =
+                    patientData['lastCheckup']; // Placeholder
+                String height = patientData['height'].toString(); // Placeholder
+                String weight = patientData['weight'].toString(); // Placeholder
+
+                String patientUid = snapshot.data!.docs.first.id;
+
+                print('Patient UID: $patientUid');
 
                 // Fetch prescriptions for the patient
                 return FutureBuilder<QuerySnapshot>(
                   future: FirebaseFirestore.instance
+                      .collection('patients')
+                      .doc(patientUid)
                       .collection('prescriptions')
-                      .where('patientId', isEqualTo: patientName)
                       .get(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> prescriptionsSnapshot) {
@@ -81,8 +89,9 @@ class PatientDetailsScreen extends StatelessWidget {
                             floating: true,
                             snap: false,
                             backgroundColor: Colors.blue,
-                            expandedHeight:
-                                MediaQuery.of(context).size.height * 1 / 9, // Decreased height
+                            expandedHeight: MediaQuery.of(context).size.height *
+                                1 /
+                                9, // Decreased height
                             flexibleSpace: const FlexibleSpaceBar(
                               title: Text(
                                 'Patient Details',
@@ -99,14 +108,16 @@ class PatientDetailsScreen extends StatelessWidget {
                         ];
                       },
                       body: SingleChildScrollView(
-                        padding: const EdgeInsets.all(16.0), // Padding around the entire content
+                        padding: const EdgeInsets.all(
+                            16.0), // Padding around the entire content
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(height: 20), // Added spacing
                             // Patient name
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
                               child: Text(
                                 ' $patientName',
                                 style: const TextStyle(
@@ -116,31 +127,24 @@ class PatientDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 10), // Spacing between name and diagnosis
-                            // Diagnosis
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: Text(
-                                'Diagnosis: $diagnosis',
-                                style: const TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 20), // Spacing between diagnosis and details
+                            const SizedBox(
+                                height:
+                                    20), // Spacing between diagnosis and details
                             // Display patient details in two columns
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
                               child: Row(
                                 children: [
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           children: [
-                                            const Icon(Icons.calendar_today, color: Colors.red),
+                                            const Icon(Icons.calendar_today,
+                                                color: Colors.red),
                                             const SizedBox(width: 10),
                                             Expanded(
                                               child: Text(
@@ -156,7 +160,8 @@ class PatientDetailsScreen extends StatelessWidget {
                                         const SizedBox(height: 10),
                                         Row(
                                           children: [
-                                            const Icon(Icons.height, color: Colors.red),
+                                            const Icon(Icons.height,
+                                                color: Colors.red),
                                             const SizedBox(width: 10),
                                             Expanded(
                                               child: Text(
@@ -172,7 +177,8 @@ class PatientDetailsScreen extends StatelessWidget {
                                         const SizedBox(height: 10),
                                         Row(
                                           children: [
-                                            const Icon(Icons.monitor_weight, color: Colors.red),
+                                            const Icon(Icons.monitor_weight,
+                                                color: Colors.red),
                                             const SizedBox(width: 10),
                                             Expanded(
                                               child: Text(
@@ -188,14 +194,17 @@ class PatientDetailsScreen extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20), // Spacing between columns
+                                  const SizedBox(
+                                      width: 20), // Spacing between columns
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           children: [
-                                            const Icon(Icons.phone, color: Colors.red),
+                                            const Icon(Icons.phone,
+                                                color: Colors.red),
                                             const SizedBox(width: 10),
                                             Expanded(
                                               child: Text(
@@ -211,7 +220,8 @@ class PatientDetailsScreen extends StatelessWidget {
                                         const SizedBox(height: 10),
                                         Row(
                                           children: [
-                                            const Icon(Icons.email, color: Colors.red),
+                                            const Icon(Icons.email,
+                                                color: Colors.red),
                                             const SizedBox(width: 10),
                                             Expanded(
                                               child: Text(
@@ -227,7 +237,8 @@ class PatientDetailsScreen extends StatelessWidget {
                                         const SizedBox(height: 10),
                                         Row(
                                           children: [
-                                            const Icon(Icons.cake, color: Colors.red),
+                                            const Icon(Icons.cake,
+                                                color: Colors.red),
                                             const SizedBox(width: 10),
                                             Expanded(
                                               child: Text(
@@ -246,20 +257,23 @@ class PatientDetailsScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 20), // Spacing between patient details and prescriptions
+                            const SizedBox(
+                                height:
+                                    20), // Spacing between patient details and prescriptions
                             // Display prescriptions
                             const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16.0),
                               child: Text(
                                 'Prescriptions',
                                 style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black54
-                                ),
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black54),
                               ),
                             ),
-                            const SizedBox(height: 5), // Increased spacing above prescriptions
+                            const SizedBox(
+                                height:
+                                    5), // Increased spacing above prescriptions
                             // Display each prescription in a centered container
                             ListView.builder(
                               shrinkWrap: true,
@@ -275,12 +289,15 @@ class PatientDetailsScreen extends StatelessWidget {
                                     prescriptionDosage.toStringAsFixed(
                                         2); // Format dosage to 2 decimal places
                                 String prescriptionDiagnosis =
-                                    prescription['diagnosis'] ?? 'Diagnosis not available';
+                                    prescription['diagnosis'] ??
+                                        'Diagnosis not available';
                                 return Center(
                                   child: Container(
-                                    margin: const EdgeInsets.symmetric(vertical: 8),
+                                    margin:
+                                        const EdgeInsets.symmetric(vertical: 8),
                                     padding: const EdgeInsets.all(16),
-                                    width: MediaQuery.of(context).size.width * 0.9, // Adjust width as needed
+                                    width: MediaQuery.of(context).size.width *
+                                        0.9, // Adjust width as needed
                                     decoration: BoxDecoration(
                                       color: Colors.blue,
                                       borderRadius: BorderRadius.circular(20),
@@ -294,7 +311,8 @@ class PatientDetailsScreen extends StatelessWidget {
                                       ],
                                     ),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Medication: ${prescription['medication']}',
@@ -339,7 +357,8 @@ class PatientDetailsScreen extends StatelessWidget {
           } else {
             // Handle unauthenticated or other states
             return Padding(
-              padding: const EdgeInsets.all(16.0), // Padding for the entire screen
+              padding:
+                  const EdgeInsets.all(16.0), // Padding for the entire screen
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -54,6 +54,10 @@ Future<void> _onPrescriptionCreateRequest(PrescriptionCreate event, Emitter<Pres
           'dosage': event.dosage,
           'drugClass': event.drugClass,
           'instructions': event.instructions,
+          'diagnosis': event.diagnosis,
+          'time1': event.time1,
+          'time2': event.time2,
+          'time3': event.time3,
         });
 
     await _firestore.collection('doctors')
@@ -68,6 +72,10 @@ Future<void> _onPrescriptionCreateRequest(PrescriptionCreate event, Emitter<Pres
             'dosage': event.dosage,
             'drugClass': event.drugClass,
             'instructions': event.instructions,
+            'diagnosis': event.diagnosis,
+            'time1': event.time1,
+            'time2': event.time2,
+            'time3': event.time3,
           });
 
       await _firestore.collection('doctors')
@@ -77,6 +85,13 @@ Future<void> _onPrescriptionCreateRequest(PrescriptionCreate event, Emitter<Pres
           .set({
             'doctorId': event.doctorId,
             'patientId': uidOfPatient,
+          });
+      
+      // set the last checkupdate 
+      await _firestore.collection('patients')
+          .doc(uidOfPatient)
+          .update({
+            'lastCheckup': '${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}',
           });
 
     emit(const PrescriptionSuccess(message: 'Prescription Created Successfully'));
