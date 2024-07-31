@@ -60,34 +60,57 @@ app.get('/prescriptions', async (req, res) => {
         const urlParams = new URLSearchParams(req.query);
         const uid = urlParams.get('uid');
 
-        const patientsCollection = db.collection('patients');
-        const prescriptionsCollections = db.collection('prescriptions');
+        // Ensure 'uid' is provided
+        if (!uid) {
+            return res.status(400).send('Patient ID (uid) is required.');
+        }
 
-        const patient = await patientsCollection.doc(uid).get();
-        const patientData = patient.data();
-        const username = patientData.username;
+        // Reference to the specific patient's document
+        const patientDocRef = db.collection('patients').doc(uid);
 
-        const snapshot = await prescriptionsCollections.where('patientId', '==', username).get();
-        const prescriptions = snapshot.docs.map(doc => doc.data());
+        // Get the patient data
+        const patientSnapshot = await patientDocRef.get();
+        if (!patientSnapshot.exists) {
+            return res.status(404).send('Patient not found.');
+        }
+        const patientData = patientSnapshot.data();
 
+        // Reference to the prescriptions subcollection of the patient
+        const prescriptionsCollection = patientDocRef.collection('prescriptions');
+
+        // Get the prescriptions data
+        const prescriptionsSnapshot = await prescriptionsCollection.get();
+        const prescriptions = prescriptionsSnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+
+        // Render the prescriptions view with both patient and prescriptions data
         res.render('prescriptions.ejs', { prescriptions, patient: patientData });
     } catch (error) {
-        res.send('Error');
+        console.error('Error retrieving data:', error);
+        res.status(500).send('Error retrieving data.');
     }
 });
+
 
 // Update Prescription Status Functionality
 app.post('/update-status', async (req, res) => {
     try {
-        const { prescriptionId, claimed, claimDate } = req.body;
-        const prescriptionCollection = db.collection('prescriptions');
+        const { patientUid, prescriptionId, claimed, claimDate } = req.body;
+        
+        const patientDocRef = db.collection('patients').doc(patientUid);
 
-        await prescriptionCollection.doc(prescriptionId).update({
+        // Reference to the specific prescription document
+        const prescriptionDocRef = patientDocRef.collection('prescriptions').doc(prescriptionId);
+
+        // Update the prescription status
+        await prescriptionDocRef.update({
             claimed,
             claimDate
         });
 
-        res.json({ message: "Status has been updated." });
+        res.json({ message: 'Status updated successfully.' });
     } catch (error) {
         res.status(500).json({ message: "Error updating status." });
     }

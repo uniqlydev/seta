@@ -10,7 +10,7 @@
  * function, you would pass `true` if the prescription has been claimed and `false` if it has not been
  * claimed.
  */
-async function updatePrescriptionClaimedStatus(prescriptionId, claimed) {
+async function updatePrescriptionClaimedStatus(patientUid, prescriptionId, claimed) {
     // Get the date and time today to send to the server
     const today = new Date();
     const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -21,7 +21,7 @@ async function updatePrescriptionClaimedStatus(prescriptionId, claimed) {
         const response = await fetch('/update-status', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prescriptionId, claimed, claimDate }),
+            body: JSON.stringify({ patientUid, prescriptionId, claimed, claimDate }),
         });
 
         const data = await response.json();

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Prescriptions</title>
-    <script src="/scripts/prescriptions.js"></script>
+    <script src="/scripts/prescriptions.js" defer></script>
 </head>
 <body>
     <h1>Patient Information</h1>
@@ -58,7 +59,7 @@
                         <input type="checkbox"
                                id="claimed-<%= prescription.id %>"
                                <%= prescription.claimed ? 'checked disabled' : '' %>
-                               onchange="<%= prescription.claimed ? '' : 'updatePrescriptionClaimedStatus(\'' + prescription.id + '\', this.checked)' %>">
+                               onchange="<%= prescription.claimed ? '' : 'updatePrescriptionClaimedStatus(\'' + patient.uid + '\', \'' + prescription.id + '\', this.checked)' %>">
                     </td>
                     <td><%= prescription.claimed ? prescription.claimDate : 'N/A' %></td>
                 </tr>
