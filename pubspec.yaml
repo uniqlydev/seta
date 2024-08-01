@@ -43,6 +43,7 @@ dependencies:
   intl: ^0.19.0
   simple_animations: ^5.0.2
   qr_flutter: ^4.1.0
+  loading_animation_widget: ^1.2.1
 
 dev_dependencies:
   flutter_test:

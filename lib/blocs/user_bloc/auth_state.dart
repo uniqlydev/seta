@@ -9,6 +9,8 @@ abstract class AuthState extends Equatable {
 
 class AuthInitial extends AuthState {}
 
+class AuthLoading extends AuthState {}
+
 class AuthAuthenticatedDoctor extends AuthState {
   final User user;
   final String email;

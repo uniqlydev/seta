@@ -17,7 +17,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   }
 
 Future<void> _onPrescriptionCreateRequest(PrescriptionCreate event, Emitter<PrescriptionState> emit) async {
-  emit(const PrescriptionCreateLoading(message: 'Creating Prescription...'));
+  emit(PrescriptionCreateLoading());
 
   try {
     // Retrieve the UID of the patient using the patient username
