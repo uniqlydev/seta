@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codingbryant/blocs/prescription_bloc/prescription_bloc.dart';
-import 'package:codingbryant/screens/misc/initial.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,11 +14,8 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
   final TextEditingController _medicationClass = TextEditingController();
   final TextEditingController _dosage = TextEditingController();
   final TextEditingController _doctorRemarksClass = TextEditingController();
+  final TextEditingController _patientId = TextEditingController();
   final TextEditingController _diagnosis = TextEditingController();
-  final TextEditingController _time1 = TextEditingController();
-  final TextEditingController _time2 = TextEditingController();
-  final TextEditingController _time3 = TextEditingController();
-  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   final String doctorUID = FirebaseAuth.instance.currentUser!.uid;
 
@@ -42,32 +37,14 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
   String selectedRegimen = 'OD';
 
   final List<TimeOfDay?> _selectedTimes = [null, null, null];
-  String? selectedPatient;
-
-  List<String> patientUsernames = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _getPatientUsernames();
-  }
-
-  Future<void> _getPatientUsernames() async {
-    final snapshot = await _firebaseFirestore.collection('patients').get();
-    setState(() {
-      patientUsernames = snapshot.docs.map((doc) => doc['username'] as String).toList();
-    });
-  }
 
   @override
   void dispose() {
     _medicationClass.dispose();
     _dosage.dispose();
     _doctorRemarksClass.dispose();
+    _patientId.dispose();
     _diagnosis.dispose();
-    _time1.dispose();
-    _time2.dispose();
-    _time3.dispose();
     super.dispose();
   }
 
@@ -102,7 +79,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
         child: Row(
           children: [
-            const Icon(Icons.timer, color: Colors.blue),
+            const Icon(Icons.timer, color: Colors.blue), // Changed to red
             const SizedBox(width: 10),
             Expanded(
               child: GestureDetector(
@@ -129,7 +106,11 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
     return Scaffold(
       body: BlocConsumer<PrescriptionBloc, PrescriptionState>(
         listener: (context, state) {
-          if (state is PrescriptionSuccess) {
+          if (state is PrescriptionCreateLoading) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
+          } else if (state is PrescriptionSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.message)),
             );
@@ -147,15 +128,6 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
           }
         },
         builder: (context, state) {
-          if (state is PrescriptionCreateLoading) {
-            return const Initial();
-          }
-
-          // Set the text of the time fields based on selected times
-          _time1.text = _selectedTimes[0]?.format(context) ?? '';
-          _time2.text = _selectedTimes[1]?.format(context) ?? '';
-          _time3.text = _selectedTimes[2]?.format(context) ?? '';
-
           return CustomScrollView(
             slivers: [
               SliverAppBar(
@@ -188,7 +160,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
                               children: [
-                                const Icon(Icons.local_hospital, color: Colors.blue),
+                                const Icon(Icons.local_hospital, color: Colors.blue), // Changed to red
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: TextFormField(
@@ -206,7 +178,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
                               children: [
-                                const Icon(Icons.medical_services, color: Colors.blue),
+                                const Icon(Icons.medical_services, color: Colors.blue), // Changed to red
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: DropdownButtonFormField<String>(
@@ -235,7 +207,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
                               children: [
-                                const Icon(Icons.medical_services_outlined, color: Colors.blue),
+                                const Icon(Icons.medical_services_outlined, color: Colors.blue), // Changed to red
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: TextFormField(
@@ -253,7 +225,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
                               children: [
-                                const Icon(Icons.numbers, color: Colors.blue),
+                                const Icon(Icons.numbers, color: Colors.blue), // Changed to red
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: TextFormField(
@@ -272,7 +244,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
                               children: [
-                                const Icon(Icons.schedule, color: Colors.blue),
+                                const Icon(Icons.schedule, color: Colors.blue), // Changed to red
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: DropdownButtonFormField<String>(
@@ -302,13 +274,13 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
                               children: [
-                                const Icon(Icons.note, color: Colors.blue),
+                                const Icon(Icons.note, color: Colors.blue), // Changed to red
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: TextFormField(
                                     controller: _doctorRemarksClass,
                                     decoration: const InputDecoration(
-                                      labelText: 'Until when?',
+                                      labelText: 'Remarks (Optional)',
                                     ),
                                   ),
                                 ),
@@ -320,22 +292,11 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
                               children: [
-                                const Icon(Icons.person, color: Colors.blue),
+                                const Icon(Icons.person, color: Colors.blue), // Changed to red
                                 const SizedBox(width: 10),
                                 Expanded(
-                                  child: DropdownButtonFormField<String>(
-                                    value: selectedPatient,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedPatient = value!;
-                                      });
-                                    },
-                                    items: patientUsernames.map((String patient) {
-                                      return DropdownMenuItem<String>(
-                                        value: patient,
-                                        child: Text(patient),
-                                      );
-                                    }).toList(),
+                                  child: TextFormField(
+                                    controller: _patientId,
                                     decoration: const InputDecoration(
                                       labelText: 'For who?',
                                     ),
@@ -357,7 +318,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                                   style: ElevatedButton.styleFrom(
                                     foregroundColor: Colors.white,
                                     backgroundColor: Colors.red,
-                                    minimumSize: const Size(130, 45),
+                                    minimumSize: const Size(150, 45),
                                   ),
                                   child: const Text('Cancel'),
                                 ),
@@ -366,22 +327,21 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                                     context.read<PrescriptionBloc>().add(
                                           PrescriptionCreate(
                                             doctorId: doctorUID,
-                                            patientId: selectedPatient ?? '',
+                                            patientId: _patientId.text,
                                             medication: _medicationClass.text,
                                             dosage: double.parse(_dosage.text),
                                             drugClass: selectedDrugClass,
-                                            instructions: '$selectedRegimen at ${_selectedTimes.where((time) => time != null).map((time) => time!.format(context)).join(', ')}',
+                                            instructions:
+                                                '$selectedRegimen at ${_selectedTimes.where((time) => time != null).map((time) => time!.format(context)).join(', ')}',
                                             diagnosis: _diagnosis.text,
-                                            time1: _time1.text, 
-                                            time2: _time2.text, 
-                                            time3: _time3.text,
+                                            time1: '', time2: '', time3: '',
                                           ),
                                         );
                                   },
                                   style: ElevatedButton.styleFrom(
                                     foregroundColor: Colors.white,
                                     backgroundColor: Colors.blue,
-                                    minimumSize: const Size(130, 45),
+                                    minimumSize: const Size(150, 45),
                                   ),
                                   child: const Text('Create'),
                                 ),
