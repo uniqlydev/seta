@@ -1,0 +1,76 @@
+/* Ensure the whole page has a blue background */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #2196F3; /* Blue background */
+    font-family: 'Roboto', sans-serif; /* Use Roboto font */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Full viewport height */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    max-width: 1200px; /* Limit maximum width */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); /* Enhanced drop shadow */
+    background-color: #ffffff; /* White background for the container */
+    margin-top: 20px; /* Adjust top margin to move the content lower */
+    width: 100%;
+}
+
+.patient-info-container, .prescriptions-container {
+    background-color: #ffffff; /* White background for containers */
+    color: #333333; /* Darker text color for better readability */
+    padding: 20px;
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); /* Enhanced drop shadow */
+    width: 100%;
+    margin-bottom: 20px; /* Space between containers */
+}
+
+h1 {
+    font-size: 28px; /* Larger font size */
+    margin-bottom: 20px;
+    text-align: center; /* Center align heading */
+    color: #333333; /* Darker text color */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    text-align: left;
+    font-size: 16px; /* Larger font size */
+}
+
+th {
+    background-color: #f4f4f4; /* Light gray background for headers */
+    color: #333333; /* Darker text color for headers */
+    font-weight: bold; /* Bold text for headers */
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternating row colors */
+}
+
+tr:hover {
+    background-color: #e0e0e0; /* Light gray on hover */
+    cursor: pointer;
+}
+
+.claimed-checkbox input {
+    cursor: pointer;
+}
+
+td {
+    word-wrap: break-word; /* Break long words to avoid overflow */
+}
