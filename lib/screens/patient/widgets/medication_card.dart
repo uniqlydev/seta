@@ -6,11 +6,11 @@ class MedicationCard extends StatefulWidget {
   final bool isTaken;
 
   const MedicationCard({
-    Key? key,
+    super.key,
     required this.medicationName,
     required this.time,
     required this.isTaken,
-  }) : super(key: key);
+  });
 
   @override
   _MedicationCardState createState() => _MedicationCardState();
@@ -60,17 +60,19 @@ class _MedicationCardState extends State<MedicationCard> {
                   widget.time,
                   style: TextStyle(
                     color: Colors.white,
-                  )
+                  ),
                 ),
               ],
             ),
             Spacer(),
             GestureDetector(
-              onTap: () {
-                setState(() {
-                  _isTaken = !_isTaken;
-                });
-              },
+              onTap: _isTaken
+                  ? null
+                  : () {
+                      setState(() {
+                        _isTaken = true;
+                      });
+                    },
               child: Icon(
                 _isTaken ? Icons.check_circle : Icons.check_circle_outline,
                 color: _isTaken ? Color(0xFFBEE3BA) : Colors.white,
@@ -83,4 +85,3 @@ class _MedicationCardState extends State<MedicationCard> {
     );
   }
 }
-

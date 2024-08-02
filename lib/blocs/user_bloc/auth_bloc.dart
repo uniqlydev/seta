@@ -120,6 +120,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               medication: doc['medication'],
               dosage: doc['dosage'],
               instructions: doc['instructions'],
+              time1: doc['time1'],
+              time2: doc['time2'],
+              time3: doc['time3'],
             ));
           }
 
