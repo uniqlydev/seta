@@ -58,6 +58,9 @@ Future<void> _onPrescriptionCreateRequest(PrescriptionCreate event, Emitter<Pres
           'time1': event.time1,
           'time2': event.time2,
           'time3': event.time3,
+          'Time1Taken': false,
+          'Time2Taken': false,
+          'Time3Taken': false,
         });
 
     await _firestore.collection('doctors')
@@ -76,6 +79,9 @@ Future<void> _onPrescriptionCreateRequest(PrescriptionCreate event, Emitter<Pres
             'time1': event.time1,
             'time2': event.time2,
             'time3': event.time3,
+            'Time1Taken': false,
+            'Time2Taken': false,
+            'Time3Taken': false,
           });
 
       await _firestore.collection('doctors')
