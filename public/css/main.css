@@ -1,0 +1,80 @@
+/* Ensure the whole page has a blue background */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #2196F3; /* Blue background */
+    font-family: 'Roboto', sans-serif; /* Use Roboto font */
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Full viewport height */
+    padding: 20px;
+}
+
+.patients-table-container {
+    background-color: #ffffff; /* White background for table container */
+    color: #333333; /* Darker text color for better readability */
+    padding: 20px;
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); /* Enhanced drop shadow */
+    width: 100%;
+    max-width: 1200px; /* Limit maximum width */
+    border: 1px solid #e0e0e0; /* Subtle border */
+}
+
+/* Style each patient row as a container */
+.patient-row {
+    background-color: #ffffff; /* White background for patient container */
+    color: #333333; /* Darker text color for readability */
+    padding: 12px;
+    margin-bottom: 10px; /* Space between rows */
+    border-radius: 8px; /* Rounded corners for patient containers */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+/* Hover effect for patient row */
+.patient-row:hover {
+    background-color: #e0e0e0; /* Light gray background on hover */
+}
+
+h1 {
+    font-size: 28px; /* Larger font size */
+    margin-bottom: 20px;
+    text-align: center; /* Center align heading */
+    color: #333333; /* Darker text color */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    text-align: left;
+    font-size: 16px; /* Larger font size */
+}
+
+th {
+    background-color: #f4f4f4; /* Light gray background for headers */
+    color: #333333; /* Darker text color for headers */
+    font-weight: bold; /* Bold text for headers */
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternating row colors */
+}
+
+tr:hover {
+    background-color: #e0e0e0; /* Light gray on hover */
+}
+
+td {
+    word-wrap: break-word; /* Break long words to avoid overflow */
+}
