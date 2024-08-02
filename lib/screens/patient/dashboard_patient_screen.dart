@@ -55,6 +55,42 @@ class _DashboardPatientScreenContent extends StatelessWidget {
         builder: (context, state) {
           if (state is AuthAuthenticatedPatient) {
             final medications = state.prescriptions;
+            List<Map<String, String>> medicationTimes = [];
+
+            // Collect all medication times into a single list
+            medications.forEach((medication) {
+              if (medication.time1 != null && medication.time1.isNotEmpty) {
+                medicationTimes.add({
+                  'medication': medication.medication ?? 'Unknown Medication',
+                  'time': medication.time1 ?? '',
+                  'dosage': medication.dosage.toString()
+                });
+              }
+              if (medication.time2 != null && medication.time2.isNotEmpty) {
+                medicationTimes.add({
+                  'medication': medication.medication ?? 'Unknown Medication',
+                  'time': medication.time2 ?? '',
+                  'dosage': medication.dosage.toString()
+                });
+              }
+              if (medication.time3 != null && medication.time3.isNotEmpty) {
+                medicationTimes.add({
+                  'medication': medication.medication ?? 'Unknown Medication',
+                  'time': medication.time3 ?? '',
+                  'dosage': medication.dosage.toString()
+                });
+              }
+            });
+
+            // Sort the list of medications by time
+            medicationTimes.sort((a, b) {
+              final timeA = a['time'];
+              final timeB = b['time'];
+              if (timeA == null) return -1;
+              if (timeB == null) return 1;
+              return timeA.compareTo(timeB);
+            });
+
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,7 +163,7 @@ class _DashboardPatientScreenContent extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        medications.isEmpty
+                        medicationTimes.isEmpty
                             ? const Center(
                                 child: Text(
                                   "No Medication To Take",
@@ -141,9 +177,9 @@ class _DashboardPatientScreenContent extends StatelessWidget {
                                 height: MediaQuery.of(context).size.height * 0.5,
                                 child: ListView.builder(
                                   shrinkWrap: true,
-                                  itemCount: medications.length,
+                                  itemCount: medicationTimes.length,
                                   itemBuilder: (context, index) {
-                                    final medication = medications[index];
+                                    final medication = medicationTimes[index];
                                     return GestureDetector(
                                       onTap: () {
                                         Navigator.push(
@@ -154,8 +190,8 @@ class _DashboardPatientScreenContent extends StatelessWidget {
                                         );
                                       },
                                       child: MedicationCard(
-                                        medicationName: medication.medication,
-                                        time: '${medication.instructions} | ${medication.dosage} CAPSULES',
+                                        medicationName: medication['medication'] ?? 'Unknown Medication',
+                                        time: '${medication['time']} | ${medication['dosage']} CAPSULES',
                                         isTaken: false,
                                       ),
                                     );
