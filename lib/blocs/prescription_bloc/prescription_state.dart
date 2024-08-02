@@ -9,7 +9,14 @@ abstract class PrescriptionState extends Equatable {
 
 class PrescriptionInitial extends PrescriptionState {}
 
-class PrescriptionCreateLoading extends PrescriptionState {}
+class PrescriptionCreateLoading extends PrescriptionState {
+  final String message;
+
+  const PrescriptionCreateLoading({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
 
 class PrescriptionSuccess extends PrescriptionState {
   final String message;

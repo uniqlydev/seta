@@ -1,4 +1,3 @@
-import 'package:codingbryant/screens/misc/initial.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/user_bloc/auth_bloc.dart';
@@ -15,24 +14,16 @@ class LoginScreen extends StatelessWidget {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthAuthenticatedDoctor) {
-            Navigator.of(context).pushNamedAndRemoveUntil('/dashboard-doctor', (Route<dynamic> route) => false);
+              Navigator.of(context).pushNamedAndRemoveUntil('/dashboard-doctor', (Route<dynamic> route) => false);
           } else if (state is AuthAuthenticatedPatient) {
-            Navigator.of(context).pushNamedAndRemoveUntil('/dashboard-patient', (Route<dynamic> route) => false);
-          } else if (state is AuthFailure) {
+              Navigator.of(context).pushNamedAndRemoveUntil('/dashboard-patient', (Route<dynamic> route) => false);
+          }else {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
-          } else if (state is Authunauthenticated) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Invalid username or password')),
+              SnackBar(content: Text('Invalid username or password')),
             );
           }
         },
         builder: (context, state) {
-          if (state is AuthLoading) {
-            return const Initial();
-          }
-
           return Center(
             child: SingleChildScrollView(
               child: Column(
@@ -52,7 +43,7 @@ class LoginScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                          padding: const EdgeInsets.symmetric(horizontal:30.0),
                           child: Row(
                             children: [
                               const Icon(Icons.person),
@@ -102,6 +93,7 @@ class LoginScreen extends StatelessWidget {
                         const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
+                            // Go to screen register_screen.dart
                             Navigator.pushNamed(context, '/landing-page');
                           },
                           style: ElevatedButton.styleFrom(

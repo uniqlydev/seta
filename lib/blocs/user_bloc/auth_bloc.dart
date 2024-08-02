@@ -24,8 +24,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthSignOutRequested>(_onSignOutRequested);
   }
 
-  Future<void> _onSignInRequested(AuthSignInRequested event, Emitter<AuthState> emit) async {
-    emit(AuthLoading());
+  Future<void> _onSignInRequested(
+      AuthSignInRequested event, Emitter<AuthState> emit) async {
     try {
       final User? user = await _authRepository.signInWithUsernameAndPassword(
           username: event.username, password: event.password);
@@ -126,6 +126,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             ));
           }
 
+          // Print all
+          prescriptionList.forEach((element) {
+            print(element.id);
+            print(element.dosage);
+          });
+
 
           emit(AuthAuthenticatedPatient(
               user: user,
@@ -146,7 +152,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onSignUpRequestedDoctor(
       AuthSignUpRequestedDoctor event, Emitter<AuthState> emit) async {
-        emit(AuthLoading());
     try {
       final User? user = await _authRepository.signUpWithEmailandPassword(
         email: event.email,
@@ -206,8 +211,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onSignUpRequestedPatient(
       AuthSignUpRequestPatient event, Emitter<AuthState> emit) async {
-
-  emit(AuthLoading());
+ 
     try {
       final User? user = await _authRepository.signUpWithEmailandPassword(
         email: event.email,
