@@ -61,6 +61,13 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
     _toggleEditing();
   }
 
+  void _logout() {
+    // Placeholder for logout functionality
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Logout button pressed')),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,6 +75,12 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
         title:
             const Text('Doctor Profile', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blue,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout, color: Colors.redAccent),
+            onPressed: _logout,
+          ),
+        ],
       ),
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {

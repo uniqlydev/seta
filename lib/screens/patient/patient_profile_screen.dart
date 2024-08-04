@@ -38,7 +38,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
     });
   }
 
-  void _saveProfile(String vUserid) async {
+  void _saveProfile(String userId) async {
     // Collect data from text controllers
     final phoneNumber = _phoneController.text;
     final email = _emailController.text;
@@ -47,10 +47,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
     final height = _heightController.text;
     final bloodType = _selectedBloodType;
 
-    // Get the current user's ID from the AuthBloc or any other source
-    final userId = vUserid;
-
-    // convert birthday String to DateTime
+    // Convert birthday String to DateTime
     final birthdayDate = DateTime.parse(birthday);
 
     // Convert birthdayDate to Timestamp
@@ -86,6 +83,13 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
     _toggleEditing();
   }
 
+  void _logout() {
+    // Placeholder for logout functionality
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Logout button pressed')),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,6 +97,12 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
         title: const Text('Patient Profile',
             style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blue,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout, color: Colors.redAccent),
+            onPressed: _logout,
+          ),
+        ],
       ),
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
