@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codingbryant/screens/patient/patient_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart'; // Ensure this import matches your project structure
+import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
+import 'package:intl/intl.dart'; // Ensure this import matches your project structure
 
 class PatientProfileScreen extends StatefulWidget {
   const PatientProfileScreen({super.key});
@@ -38,6 +39,18 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
     });
   }
 
+  // Function to format DateTime to string
+  String formatDate(DateTime? dateTime) {
+    if (dateTime == null) return 'Birthday';
+    return DateFormat('yyyy-MM-dd')
+        .format(dateTime); // Adjust the format as needed
+  }
+
+  String formatDouble(double? value) {
+    if (value == null) return 'Value'; // Fallback text if the value is null
+    return NumberFormat('#,##0.00').format(value); // Adjust format as needed
+  }
+
   void _saveProfile(String userId) async {
     // Collect data from text controllers
     final phoneNumber = _phoneController.text;
@@ -62,7 +75,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
       await userDocRef.update({
         'phone_number': phoneNumber,
         'email': email,
-        'birthday': birthdayTimestamp,
+        'bday': birthdayTimestamp,
         'weight': weight,
         'height': height,
         'blood_type': bloodType,
@@ -84,10 +97,15 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
   }
 
   void _logout() {
-    // Placeholder for logout functionality
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Logout button pressed')),
-    );
+    // ! This is temporary because wow I still cannot figure out how to solve the bug.
+    // ? If you have a better solution, for the love of God, please tell me how.
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/landing-page',
+        (route) => false,
+      );
+    });
   }
 
   @override
@@ -190,10 +208,10 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                           TextFormField(
                             controller: _emailController,
                             enabled: _isEditing,
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.email, color: Colors.blue),
-                              labelText: 'Email',
-                              border: OutlineInputBorder(),
+                            decoration: InputDecoration(
+                              icon: const Icon(Icons.email, color: Colors.blue),
+                              labelText: state.email,
+                              border: const OutlineInputBorder(),
                             ),
                           ),
                           const SizedBox(height: 20),

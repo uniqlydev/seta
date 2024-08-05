@@ -62,10 +62,15 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
   }
 
   void _logout() {
-    // Placeholder for logout functionality
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Logout button pressed')),
-    );
+    // ! This is temporary because wow I still cannot figure out how to solve the bug.
+    // ? If you have a better solution, for the love of God, please tell me how.
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/landing-page',
+        (route) => false,
+      );
+    });
   }
 
   @override
@@ -185,21 +190,26 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
                           TextFormField(
                             controller: _clinicNameController,
                             enabled: _isEditing,
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.local_hospital,
+                            decoration: InputDecoration(
+                              icon: const Icon(Icons.local_hospital,
                                   color: Colors.blue),
-                              labelText: 'Clinic Name',
-                              border: OutlineInputBorder(),
+                              labelText: state.clinicName?.isNotEmpty == true
+                                  ? state.clinicName
+                                  : 'Clinic Name',
+                              border: const OutlineInputBorder(),
                             ),
                           ),
                           const SizedBox(height: 20),
                           TextFormField(
                             controller: _clinicHoursController,
                             enabled: _isEditing,
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.access_time, color: Colors.blue),
-                              labelText: 'Clinic Hours',
-                              border: OutlineInputBorder(),
+                            decoration: InputDecoration(
+                              icon: const Icon(Icons.access_time,
+                                  color: Colors.blue),
+                              labelText: state.clinicHours?.isNotEmpty == true
+                                  ? state.clinicHours
+                                  : 'Clinic Name',
+                              border: const OutlineInputBorder(),
                             ),
                           ),
                           const SizedBox(height: 20),
