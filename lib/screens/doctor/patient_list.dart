@@ -66,12 +66,12 @@ class PatientListView extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const Text(
-                          'Diagnosis: Placeholder text',
-                          style: TextStyle(
-                            color: Colors.black54,
-                          ),
-                        ),
+                        // const Text(
+                        //   'Diagnosis: Placeholder text',
+                        //   style: TextStyle(
+                        //     color: Colors.black54,
+                        //   ),
+                        // ),
                       ],
                     ),
                   ],
