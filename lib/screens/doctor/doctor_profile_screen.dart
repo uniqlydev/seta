@@ -61,6 +61,18 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
     _toggleEditing();
   }
 
+  void _logout() {
+    // ! This is temporary because wow I still cannot figure out how to solve the bug.
+    // ? If you have a better solution, for the love of God, please tell me how.
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/landing-page',
+        (route) => false,
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,6 +80,12 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
         title:
             const Text('Doctor Profile', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blue,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout, color: Colors.redAccent),
+            onPressed: _logout,
+          ),
+        ],
       ),
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
@@ -172,21 +190,26 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
                           TextFormField(
                             controller: _clinicNameController,
                             enabled: _isEditing,
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.local_hospital,
+                            decoration: InputDecoration(
+                              icon: const Icon(Icons.local_hospital,
                                   color: Colors.blue),
-                              labelText: 'Clinic Name',
-                              border: OutlineInputBorder(),
+                              labelText: state.clinicName?.isNotEmpty == true
+                                  ? state.clinicName
+                                  : 'Clinic Name',
+                              border: const OutlineInputBorder(),
                             ),
                           ),
                           const SizedBox(height: 20),
                           TextFormField(
                             controller: _clinicHoursController,
                             enabled: _isEditing,
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.access_time, color: Colors.blue),
-                              labelText: 'Clinic Hours',
-                              border: OutlineInputBorder(),
+                            decoration: InputDecoration(
+                              icon: const Icon(Icons.access_time,
+                                  color: Colors.blue),
+                              labelText: state.clinicHours?.isNotEmpty == true
+                                  ? state.clinicHours
+                                  : 'Clinic Name',
+                              border: const OutlineInputBorder(),
                             ),
                           ),
                           const SizedBox(height: 20),

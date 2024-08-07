@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codingbryant/screens/patient/patient_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart'; // Ensure this import matches your project structure
+import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
+import 'package:intl/intl.dart'; // Ensure this import matches your project structure
 
 class PatientProfileScreen extends StatefulWidget {
   const PatientProfileScreen({super.key});
@@ -38,7 +39,19 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
     });
   }
 
-  void _saveProfile(String vUserid) async {
+  // Function to format DateTime to string
+  String formatDate(DateTime? dateTime) {
+    if (dateTime == null) return 'Birthday';
+    return DateFormat('yyyy-MM-dd')
+        .format(dateTime); // Adjust the format as needed
+  }
+
+  String formatDouble(double? value) {
+    if (value == null) return 'Value'; // Fallback text if the value is null
+    return NumberFormat('#,##0.00').format(value); // Adjust format as needed
+  }
+
+  void _saveProfile(String userId) async {
     // Collect data from text controllers
     final phoneNumber = _phoneController.text;
     final email = _emailController.text;
@@ -47,10 +60,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
     final height = _heightController.text;
     final bloodType = _selectedBloodType;
 
-    // Get the current user's ID from the AuthBloc or any other source
-    final userId = vUserid;
-
-    // convert birthday String to DateTime
+    // Convert birthday String to DateTime
     final birthdayDate = DateTime.parse(birthday);
 
     // Convert birthdayDate to Timestamp
@@ -65,7 +75,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
       await userDocRef.update({
         'phone_number': phoneNumber,
         'email': email,
-        'birthday': birthdayTimestamp,
+        'bday': birthdayTimestamp,
         'weight': weight,
         'height': height,
         'blood_type': bloodType,
@@ -86,6 +96,18 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
     _toggleEditing();
   }
 
+  void _logout() {
+    // ! This is temporary because wow I still cannot figure out how to solve the bug.
+    // ? If you have a better solution, for the love of God, please tell me how.
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/landing-page',
+        (route) => false,
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,6 +115,12 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
         title: const Text('Patient Profile',
             style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blue,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout, color: Colors.redAccent),
+            onPressed: _logout,
+          ),
+        ],
       ),
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
@@ -180,10 +208,10 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                           TextFormField(
                             controller: _emailController,
                             enabled: _isEditing,
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.email, color: Colors.blue),
-                              labelText: 'Email',
-                              border: OutlineInputBorder(),
+                            decoration: InputDecoration(
+                              icon: const Icon(Icons.email, color: Colors.blue),
+                              labelText: state.email,
+                              border: const OutlineInputBorder(),
                             ),
                           ),
                           const SizedBox(height: 20),

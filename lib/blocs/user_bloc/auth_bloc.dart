@@ -6,8 +6,6 @@ import 'package:codingbryant/repositories/auth_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
-
 part 'auth_event.dart';
 part 'auth_state.dart';
 
@@ -55,7 +53,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         String email = doctor.exists ? doctor['email'] : patient['email'];
 
-
         if (userType == 'D') {
           // Retreive subcollection of patients
           print(user.uid);
@@ -66,7 +63,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               .doc(user.uid)
               .collection('patients');
 
-          
           // Initialize a Set to store unique patient IDs
           Set<String> uniquePatientIds = {};
 
@@ -77,15 +73,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             uniquePatientIds.add(doc.id);
           }
 
-    
-
           // Iterate through and retrieve the username
           List<String> first_names = [];
 
-
-
           for (var id in uniquePatientIds) {
-
             var pdf = await _firestore.collection('patients').doc(id).get();
 
             first_names.add(pdf['first_name']);
@@ -94,15 +85,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           // Convert the Set to a list if necessary
           List<String> uniquePatientIdsList = first_names.toList();
 
+          final clinicHours = doctor['clinic_hours'];
+          final clinicName = doctor['clinic_name'];
+
           emit(AuthAuthenticatedDoctor(
               user: user,
               email: email,
               userType: userType!,
               firstName: userName,
               lastName: lastName,
-              patients: uniquePatientIdsList));
+              patients: uniquePatientIdsList,
+              clinicHours: clinicHours,
+              clinicName: clinicName));
         } else if (userType == 'P') {
-
           // Retrieve the patient's prescriptions
 
           final prescriptions = await _firestore
@@ -134,7 +129,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             print(element.id);
             print(element.dosage);
           });
-
 
           emit(AuthAuthenticatedPatient(
               user: user,
@@ -214,7 +208,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onSignUpRequestedPatient(
       AuthSignUpRequestPatient event, Emitter<AuthState> emit) async {
- 
     try {
       final User? user = await _authRepository.signUpWithEmailandPassword(
         email: event.email,
@@ -231,8 +224,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           gender: event.gender,
           weight: event.weight,
           height: event.height,
-          bday: event.bday
-          );
+          bday: event.bday);
 
       // send to firestore
       await _firestore.collection('patients').doc(user.uid).set({
@@ -247,7 +239,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         'height': patient.height,
         'created_At': FieldValue.serverTimestamp(),
       });
-
 
       emit(AuthAuthenticatedPatient(
           user: user,
