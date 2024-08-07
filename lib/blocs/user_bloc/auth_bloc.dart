@@ -171,6 +171,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         'first_name': doctor.firstName,
         'last_name': doctor.lastName,
         'created_At': FieldValue.serverTimestamp(),
+        'clinic_hours': '',
+        'clinic_name': '',
       });
 
       // Get subcollection
