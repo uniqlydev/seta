@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class DashboardPatientScreen extends StatefulWidget {
+
   @override
   _DashboardPatientScreenState createState() => _DashboardPatientScreenState();
 }
@@ -48,6 +49,7 @@ class _DashboardPatientScreenState extends State<DashboardPatientScreen> {
   }
 }
 
+
 class _DashboardPatientScreenContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,7 @@ class _DashboardPatientScreenContent extends StatelessWidget {
             List<Map<String, dynamic>> medicationTimes = [];
 
             // Collect all medication times into a single list
-            medications.forEach((medication) {
+            for (var medication in medications) {
               if (medication.time1 != null && medication.time1.isNotEmpty) {
                 medicationTimes.add({
                   'medicationId': medication.id,
@@ -90,7 +92,7 @@ class _DashboardPatientScreenContent extends StatelessWidget {
                   'field': 'Time3Taken',
                 });
               }
-            });
+            }
 
             // Sort the list of medications by time
             medicationTimes.sort((a, b) {
