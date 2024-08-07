@@ -10,6 +10,8 @@ class PrescriptionModel {
   final bool time1Taken;
   final bool time2Taken;
   final bool time3Taken;
+  final bool claimed;
+  final DateTime? claimDate; // Make claimDate nullable by adding ?
 
   PrescriptionModel({
     required this.id,
@@ -23,5 +25,7 @@ class PrescriptionModel {
     this.time1Taken = false,
     this.time2Taken = false,
     this.time3Taken = false,
+    this.claimed = false,
+    this.claimDate, // No need to assign null explicitly
   });
 }

@@ -1,3 +1,4 @@
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codingbryant/repositories/prescribe_repository.dart';
@@ -61,6 +62,8 @@ Future<void> _onPrescriptionCreateRequest(PrescriptionCreate event, Emitter<Pres
           'Time1Taken': false,
           'Time2Taken': false,
           'Time3Taken': false,
+          'claimed': false,
+          'claimDate' : null,
         });
 
     await _firestore.collection('doctors')
@@ -107,3 +110,4 @@ Future<void> _onPrescriptionCreateRequest(PrescriptionCreate event, Emitter<Pres
 }
 
 }
+
