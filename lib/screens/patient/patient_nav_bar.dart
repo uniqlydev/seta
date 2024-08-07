@@ -32,13 +32,10 @@ class PatientNavBar extends StatelessWidget {
       onTap: (index) {
         if (index == 1) {
           Navigator.pushReplacementNamed(context, '/inbox-patient');
-          Colors.blue;
         } else if (index == 0) {
           Navigator.pushReplacementNamed(context, '/dashboard-patient');
-          Colors.blue;
         } else if (index == 2) {
           Navigator.pushReplacementNamed(context, '/patient-profile-screen');
-          Colors.blue;
         } else {
           onTap(index);
         }

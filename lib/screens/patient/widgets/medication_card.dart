@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-
 class MedicationCard extends StatefulWidget {
+  final String medicationId;
   final String medicationName;
   final String time;
   final bool isTaken;
+  final VoidCallback onIconPressed;
 
   const MedicationCard({
     super.key,
+    required this.medicationId,
     required this.medicationName,
     required this.time,
     required this.isTaken,
+    required this.onIconPressed,
   });
 
   @override
@@ -17,7 +20,7 @@ class MedicationCard extends StatefulWidget {
 }
 
 class _MedicationCardState extends State<MedicationCard> {
-  bool _isTaken = false;
+  late bool _isTaken;
 
   @override
   void initState() {
@@ -69,8 +72,9 @@ class _MedicationCardState extends State<MedicationCard> {
               onTap: _isTaken
                   ? null
                   : () {
+                      widget.onIconPressed(); // Call the callback
                       setState(() {
-                        _isTaken = true;
+                        _isTaken = true; // Update local state
                       });
                     },
               child: Icon(

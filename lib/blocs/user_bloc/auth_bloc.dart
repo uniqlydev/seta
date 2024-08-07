@@ -123,6 +123,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               time1: doc['time1'],
               time2: doc['time2'],
               time3: doc['time3'],
+              time1Taken: doc['Time1Taken'],
+              time2Taken: doc['Time2Taken'],
+              time3Taken: doc['Time3Taken'],
             ));
           }
 

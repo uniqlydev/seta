@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart'; // Add this line
 import 'package:codingbryant/blocs/user_bloc/auth_bloc.dart';
 import 'package:codingbryant/screens/chat_screen.dart';
 import 'package:codingbryant/screens/patient/patient_nav_bar.dart';
@@ -55,29 +56,38 @@ class _DashboardPatientScreenContent extends StatelessWidget {
         builder: (context, state) {
           if (state is AuthAuthenticatedPatient) {
             final medications = state.prescriptions;
-            List<Map<String, String>> medicationTimes = [];
+            List<Map<String, dynamic>> medicationTimes = [];
 
             // Collect all medication times into a single list
             medications.forEach((medication) {
               if (medication.time1 != null && medication.time1.isNotEmpty) {
                 medicationTimes.add({
+                  'medicationId': medication.id,
                   'medication': medication.medication ?? 'Unknown Medication',
                   'time': medication.time1 ?? '',
-                  'dosage': medication.dosage.toString()
+                  'dosage': medication.dosage.toString(),
+                  'taken': medication.time1Taken,
+                  'field': 'Time1Taken',
                 });
               }
               if (medication.time2 != null && medication.time2.isNotEmpty) {
                 medicationTimes.add({
+                  'medicationId': medication.id,
                   'medication': medication.medication ?? 'Unknown Medication',
                   'time': medication.time2 ?? '',
-                  'dosage': medication.dosage.toString()
+                  'dosage': medication.dosage.toString(),
+                  'taken': medication.time2Taken,
+                  'field': 'Time2Taken',
                 });
               }
               if (medication.time3 != null && medication.time3.isNotEmpty) {
                 medicationTimes.add({
+                  'medicationId': medication.id,
                   'medication': medication.medication ?? 'Unknown Medication',
                   'time': medication.time3 ?? '',
-                  'dosage': medication.dosage.toString()
+                  'dosage': medication.dosage.toString(),
+                  'taken': medication.time3Taken,
+                  'field': 'Time3Taken',
                 });
               }
             });
@@ -190,9 +200,21 @@ class _DashboardPatientScreenContent extends StatelessWidget {
                                         );
                                       },
                                       child: MedicationCard(
+                                        medicationId: medication['medicationId'],
                                         medicationName: medication['medication'] ?? 'Unknown Medication',
                                         time: '${medication['time']} | ${medication['dosage']} CAPSULES',
-                                        isTaken: false,
+                                        isTaken: medication['taken'],
+                                        onIconPressed: () {
+                                          final userId = state.user.uid;
+                                          final prescriptionId = medication['medicationId'];
+                                          final field = medication['field'];
+                                          FirebaseFirestore.instance
+                                              .collection('patients')
+                                              .doc(userId)
+                                              .collection('prescriptions')
+                                              .doc(prescriptionId)
+                                              .update({field: true});
+                                        },
                                       ),
                                     );
                                   },
